@@ -1,15 +1,18 @@
 package com.hq.modules.operate.controller;
 
+import com.hq.common.utils.DateUtils;
 import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.CategoryEntity;
-import com.hq.modules.operate.service.CfCategoryService;
+import com.hq.modules.operate.service.CategoryService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -23,18 +26,18 @@ import java.util.Map;
  * @date 2018-12-17 09:25:46
  */
 @RestController
-@RequestMapping("sys/cfcategory")
+@RequestMapping("/category")
 public class CategoryController {
     @Autowired
-    private CfCategoryService cfCategoryService;
+    private CategoryService categoryService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:cfcategory:list")
+    @RequiresPermissions("operate:category:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = cfCategoryService.queryPage(params);
+        PageUtils page = categoryService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -44,9 +47,9 @@ public class CategoryController {
      * 信息
      */
     @RequestMapping("/info/{categoryId}")
-    @RequiresPermissions("sys:cfcategory:info")
+    @RequiresPermissions("operate:category:info")
     public R info(@PathVariable("categoryId") String categoryId){
-        CategoryEntity cfCategory = cfCategoryService.selectById(categoryId);
+        CategoryEntity cfCategory = categoryService.selectById(categoryId);
 
         return R.ok().put("cfCategory", cfCategory);
     }
@@ -55,10 +58,12 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:cfcategory:save")
+    @RequiresPermissions("operate:category:save")
     public R save(@RequestBody CategoryEntity cfCategory){
-        cfCategoryService.insert(cfCategory);
-
+        Calendar calendar = Calendar.getInstance();
+        cfCategory.setTypeId(cfCategory.getTypePid()+DateUtils.getHHmmssTime());
+        cfCategory.setGmtCreate(new Date());
+        categoryService.insert(cfCategory);
         return R.ok();
     }
 
@@ -66,10 +71,10 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:cfcategory:update")
+    @RequiresPermissions("operate:category:update")
     public R update(@RequestBody CategoryEntity cfCategory){
         ValidatorUtils.validateEntity(cfCategory);
-        cfCategoryService.updateAllColumnById(cfCategory);//全部更新
+        categoryService.updateAllColumnById(cfCategory);//全部更新
         
         return R.ok();
     }
@@ -78,9 +83,9 @@ public class CategoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:cfcategory:delete")
+    @RequiresPermissions("operate:category:delete")
     public R delete(@RequestBody String[] categoryIds){
-        cfCategoryService.deleteBatchIds(Arrays.asList(categoryIds));
+        categoryService.deleteBatchIds(Arrays.asList(categoryIds));
 
         return R.ok();
     }

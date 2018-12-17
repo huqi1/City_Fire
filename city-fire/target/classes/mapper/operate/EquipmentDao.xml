@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.operate.dao.EquipmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hq.modules.operate.entity.EquipmentEntity" id="cfEquipmentMap">
+        <result property="equipmentId" column="equipment_id"/>
+        <result property="equipmentName" column="equipment_name"/>
+        <result property="belongTypeid" column="belong_typeid"/>
+        <result property="belongTypename" column="belong_typename"/>
+        <result property="equipmentPrice" column="equipment_price"/>
+        <result property="equipmentNum" column="equipment_num"/>
+        <result property="localtionId" column="localtion_id"/>
+        <result property="locationName" column="location_name"/>
+        <result property="equipmentStatus" column="equipment_status"/>
+        <result property="locationStatus" column="location_status"/>
+        <result property="gmtCreate" column="gmt_create"/>
+    </resultMap>
+
+
+</mapper>

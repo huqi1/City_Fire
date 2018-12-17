@@ -4,7 +4,7 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.WarningrecordEntity;
-import com.hq.modules.operate.service.CfWarningrecordService;
+import com.hq.modules.operate.service.WarningrecordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,10 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("sys/cfwarningrecord")
+@RequestMapping("sys/warningrecord")
 public class WarningrecordController {
     @Autowired
-    private CfWarningrecordService cfWarningrecordService;
+    private WarningrecordService warningrecordService;
 
     /**
      * 列表
@@ -29,7 +29,7 @@ public class WarningrecordController {
     @RequestMapping("/list")
     @RequiresPermissions("sys:cfwarningrecord:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = cfWarningrecordService.queryPage(params);
+        PageUtils page = warningrecordService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -41,7 +41,7 @@ public class WarningrecordController {
     @RequestMapping("/info/{recordId}")
     @RequiresPermissions("sys:cfwarningrecord:info")
     public R info(@PathVariable("recordId") String recordId){
-        WarningrecordEntity cfWarningrecord = cfWarningrecordService.selectById(recordId);
+        WarningrecordEntity cfWarningrecord = warningrecordService.selectById(recordId);
 
         return R.ok().put("cfWarningrecord", cfWarningrecord);
     }
@@ -52,7 +52,7 @@ public class WarningrecordController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:cfwarningrecord:save")
     public R save(@RequestBody WarningrecordEntity cfWarningrecord){
-        cfWarningrecordService.insert(cfWarningrecord);
+        warningrecordService.insert(cfWarningrecord);
 
         return R.ok();
     }
@@ -64,7 +64,7 @@ public class WarningrecordController {
     @RequiresPermissions("sys:cfwarningrecord:update")
     public R update(@RequestBody WarningrecordEntity cfWarningrecord){
         ValidatorUtils.validateEntity(cfWarningrecord);
-        cfWarningrecordService.updateAllColumnById(cfWarningrecord);//全部更新
+        warningrecordService.updateAllColumnById(cfWarningrecord);//全部更新
         
         return R.ok();
     }
@@ -75,7 +75,7 @@ public class WarningrecordController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:cfwarningrecord:delete")
     public R delete(@RequestBody String[] recordIds){
-        cfWarningrecordService.deleteBatchIds(Arrays.asList(recordIds));
+        warningrecordService.deleteBatchIds(Arrays.asList(recordIds));
 
         return R.ok();
     }

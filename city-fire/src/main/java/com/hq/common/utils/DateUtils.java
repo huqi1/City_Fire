@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,6 +21,23 @@ public class DateUtils {
 	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
 	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
+    /**
+     * @return  返回HHmmss格式日期
+     */
+    public static String getHHmmssTime() {
+        SimpleDateFormat format = new SimpleDateFormat("HHmmss");
+        Calendar calendar = Calendar.getInstance();
+        return format.format(calendar.getTime());
+    }
+    /**
+     * @return  返回yyyy-MM-dd HH:mm:ss格式日期
+     */
+    public static String getNowTime() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        System.out.println(format.format(calendar.getTime()));
+        return calendar.getTime().toString();
+    }
     /**
      * 日期格式化 日期格式为：yyyy-MM-dd
      * @param date  日期

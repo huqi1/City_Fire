@@ -7,15 +7,15 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.Query;
 import com.hq.modules.operate.dao.TransferrecordDao;
 import com.hq.modules.operate.entity.TransferrecordEntity;
-import com.hq.modules.operate.service.CfTransferrecordService;
+import com.hq.modules.operate.service.TransferrecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
 
-@Service("cfTransferrecordService")
-public class CfTransferrecordServiceImpl extends ServiceImpl<TransferrecordDao, TransferrecordEntity> implements CfTransferrecordService {
+@Service("TransferrecordService")
+public class TransferrecordServiceImpl extends ServiceImpl<TransferrecordDao, TransferrecordEntity> implements TransferrecordService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

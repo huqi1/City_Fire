@@ -4,7 +4,7 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.LocationEntity;
-import com.hq.modules.operate.service.CfLocationService;
+import com.hq.modules.operate.service.LocationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +22,10 @@ import java.util.Map;
  * @date 2018-12-17 09:25:46
  */
 @RestController
-@RequestMapping("sys/cflocation")
+@RequestMapping("sys/location")
 public class LocationController {
     @Autowired
-    private CfLocationService cfLocationService;
+    private LocationService locationService;
 
     /**
      * 列表
@@ -33,7 +33,7 @@ public class LocationController {
     @RequestMapping("/list")
     @RequiresPermissions("sys:cflocation:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = cfLocationService.queryPage(params);
+        PageUtils page = locationService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -45,7 +45,7 @@ public class LocationController {
     @RequestMapping("/info/{locationId}")
     @RequiresPermissions("sys:cflocation:info")
     public R info(@PathVariable("locationId") String locationId){
-        LocationEntity cfLocation = cfLocationService.selectById(locationId);
+        LocationEntity cfLocation = locationService.selectById(locationId);
 
         return R.ok().put("cfLocation", cfLocation);
     }
@@ -56,7 +56,7 @@ public class LocationController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:cflocation:save")
     public R save(@RequestBody LocationEntity cfLocation){
-        cfLocationService.insert(cfLocation);
+        locationService.insert(cfLocation);
 
         return R.ok();
     }
@@ -68,7 +68,7 @@ public class LocationController {
     @RequiresPermissions("sys:cflocation:update")
     public R update(@RequestBody LocationEntity cfLocation){
         ValidatorUtils.validateEntity(cfLocation);
-        cfLocationService.updateAllColumnById(cfLocation);//全部更新
+        locationService.updateAllColumnById(cfLocation);//全部更新
         
         return R.ok();
     }
@@ -79,7 +79,7 @@ public class LocationController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:cflocation:delete")
     public R delete(@RequestBody String[] locationIds){
-        cfLocationService.deleteBatchIds(Arrays.asList(locationIds));
+        locationService.deleteBatchIds(Arrays.asList(locationIds));
 
         return R.ok();
     }

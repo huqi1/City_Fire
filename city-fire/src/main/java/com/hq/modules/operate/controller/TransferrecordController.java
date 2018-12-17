@@ -4,7 +4,7 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.TransferrecordEntity;
-import com.hq.modules.operate.service.CfTransferrecordService;
+import com.hq.modules.operate.service.TransferrecordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +21,10 @@ import java.util.Map;
  * @date 2018-12-17 09:25:46
  */
 @RestController
-@RequestMapping("sys/cftransferrecord")
+@RequestMapping("sys/transferrecord")
 public class TransferrecordController {
     @Autowired
-    private CfTransferrecordService cfTransferrecordService;
+    private TransferrecordService transferrecordService;
 
     /**
      * 列表
@@ -32,7 +32,7 @@ public class TransferrecordController {
     @RequestMapping("/list")
     @RequiresPermissions("sys:cftransferrecord:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = cfTransferrecordService.queryPage(params);
+        PageUtils page = transferrecordService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -44,7 +44,7 @@ public class TransferrecordController {
     @RequestMapping("/info/{recordId}")
     @RequiresPermissions("sys:cftransferrecord:info")
     public R info(@PathVariable("recordId") String recordId){
-        TransferrecordEntity cfTransferrecord = cfTransferrecordService.selectById(recordId);
+        TransferrecordEntity cfTransferrecord = transferrecordService.selectById(recordId);
 
         return R.ok().put("cfTransferrecord", cfTransferrecord);
     }
@@ -55,7 +55,7 @@ public class TransferrecordController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:cftransferrecord:save")
     public R save(@RequestBody TransferrecordEntity cfTransferrecord){
-        cfTransferrecordService.insert(cfTransferrecord);
+        transferrecordService.insert(cfTransferrecord);
 
         return R.ok();
     }
@@ -67,7 +67,7 @@ public class TransferrecordController {
     @RequiresPermissions("sys:cftransferrecord:update")
     public R update(@RequestBody TransferrecordEntity cfTransferrecord){
         ValidatorUtils.validateEntity(cfTransferrecord);
-        cfTransferrecordService.updateAllColumnById(cfTransferrecord);//全部更新
+        transferrecordService.updateAllColumnById(cfTransferrecord);//全部更新
         
         return R.ok();
     }
@@ -78,7 +78,7 @@ public class TransferrecordController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:cftransferrecord:delete")
     public R delete(@RequestBody String[] recordIds){
-        cfTransferrecordService.deleteBatchIds(Arrays.asList(recordIds));
+        transferrecordService.deleteBatchIds(Arrays.asList(recordIds));
 
         return R.ok();
     }

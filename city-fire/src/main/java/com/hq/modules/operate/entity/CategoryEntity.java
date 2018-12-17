@@ -20,7 +20,7 @@ public class CategoryEntity implements Serializable {
 	 * 
 	 */
 	@TableId
-	private String categoryId;
+	private Long categoryId;
 	/**
 	 * 分类名
 	 */
@@ -33,6 +33,11 @@ public class CategoryEntity implements Serializable {
 	 * 父级分类ID
 	 */
 	private String typePid;
+	/**
+
+	 * 父级分类ID
+	 */
+	private String typePname;
 	/**
 	 * 层级
 	 */
@@ -49,13 +54,13 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 	/**
 	 * 获取：
 	 */
-	public String getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 	/**
@@ -129,5 +134,13 @@ public class CategoryEntity implements Serializable {
 	 */
 	public Date getGmtCreate() {
 		return gmtCreate;
+	}
+
+	public String getTypePname() {
+		return typePname;
+	}
+
+	public void setTypePname(String typePname) {
+		this.typePname = typePname;
 	}
 }

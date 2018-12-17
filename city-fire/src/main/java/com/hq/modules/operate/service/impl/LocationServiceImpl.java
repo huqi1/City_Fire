@@ -7,15 +7,15 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.Query;
 import com.hq.modules.operate.dao.LocationDao;
 import com.hq.modules.operate.entity.LocationEntity;
-import com.hq.modules.operate.service.CfLocationService;
+import com.hq.modules.operate.service.LocationService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
 
-@Service("cfLocationService")
-public class CfLocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity> implements CfLocationService {
+@Service("LocationService")
+public class LocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity> implements LocationService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

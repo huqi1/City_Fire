@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.operate.dao.TransferrecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hq.modules.operate.entity.TransferrecordEntity" id="cfTransferrecordMap">
+        <result property="recordId" column="record_id"/>
+        <result property="equipmentId" column="equipment_id"/>
+        <result property="equipmentName" column="equipment_name"/>
+        <result property="transferName" column="transfer_name"/>
+        <result property="originalAddress" column="original_address"/>
+        <result property="destAddress" column="dest_address"/>
+        <result property="operator" column="operator"/>
+        <result property="operatTime" column="operat_time"/>
+        <result property="operatReason" column="operat_reason"/>
+    </resultMap>
+
+
+</mapper>

@@ -7,15 +7,15 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.Query;
 import com.hq.modules.operate.dao.WarningrecordDao;
 import com.hq.modules.operate.entity.WarningrecordEntity;
-import com.hq.modules.operate.service.CfWarningrecordService;
+import com.hq.modules.operate.service.WarningrecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
 
-@Service("cfWarningrecordService")
-public class CfWarningrecordServiceImpl extends ServiceImpl<WarningrecordDao, WarningrecordEntity> implements CfWarningrecordService {
+@Service("WarningrecordService")
+public class WarningrecordServiceImpl extends ServiceImpl<WarningrecordDao, WarningrecordEntity> implements WarningrecordService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

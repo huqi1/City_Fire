@@ -4,7 +4,7 @@ import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.EquipmentEntity;
-import com.hq.modules.operate.service.CfEquipmentService;
+import com.hq.modules.operate.service.EquipmentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,10 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("sys/cfequipment")
+@RequestMapping("sys/equipment")
 public class EquipmentController {
     @Autowired
-    private CfEquipmentService cfEquipmentService;
+    private EquipmentService equipmentService;
 
     /**
      * 列表
@@ -29,7 +29,7 @@ public class EquipmentController {
     @RequestMapping("/list")
     @RequiresPermissions("sys:cfequipment:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = cfEquipmentService.queryPage(params);
+        PageUtils page = equipmentService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -41,7 +41,7 @@ public class EquipmentController {
     @RequestMapping("/info/{equipmentId}")
     @RequiresPermissions("sys:cfequipment:info")
     public R info(@PathVariable("equipmentId") String equipmentId){
-        EquipmentEntity cfEquipment = cfEquipmentService.selectById(equipmentId);
+        EquipmentEntity cfEquipment = equipmentService.selectById(equipmentId);
 
         return R.ok().put("cfEquipment", cfEquipment);
     }
@@ -52,7 +52,7 @@ public class EquipmentController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:cfequipment:save")
     public R save(@RequestBody EquipmentEntity cfEquipment){
-        cfEquipmentService.insert(cfEquipment);
+        equipmentService.insert(cfEquipment);
 
         return R.ok();
     }
@@ -64,7 +64,7 @@ public class EquipmentController {
     @RequiresPermissions("sys:cfequipment:update")
     public R update(@RequestBody EquipmentEntity cfEquipment){
         ValidatorUtils.validateEntity(cfEquipment);
-        cfEquipmentService.updateAllColumnById(cfEquipment);//全部更新
+        equipmentService.updateAllColumnById(cfEquipment);//全部更新
         
         return R.ok();
     }
@@ -75,7 +75,7 @@ public class EquipmentController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:cfequipment:delete")
     public R delete(@RequestBody String[] equipmentIds){
-        cfEquipmentService.deleteBatchIds(Arrays.asList(equipmentIds));
+        equipmentService.deleteBatchIds(Arrays.asList(equipmentIds));
 
         return R.ok();
     }
