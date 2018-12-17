@@ -1,0 +1,40 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.hq.modules.app.utils.JwtUtils",
+      "name": "cityfire.jwt",
+      "type": "com.hq.modules.app.utils.JwtUtils"
+    },
+    {
+      "sourceType": "com.hq.datasources.DynamicDataSourceConfig",
+      "name": "spring.datasource.druid.first",
+      "sourceMethod": "firstDataSource()",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.hq.datasources.DynamicDataSourceConfig",
+      "name": "spring.datasource.druid.second",
+      "sourceMethod": "secondDataSource()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.hq.modules.app.utils.JwtUtils",
+      "defaultValue": 0,
+      "name": "cityfire.jwt.expire",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.hq.modules.app.utils.JwtUtils",
+      "name": "cityfire.jwt.header",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hq.modules.app.utils.JwtUtils",
+      "name": "cityfire.jwt.secret",
+      "type": "java.lang.String"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hq.modules.operate.dao.WarningrecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hq.modules.operate.entity.WarningrecordEntity" id="cfWarningrecordMap">
+        <result property="recordId" column="record_id"/>
+        <result property="equipmentId" column="equipment_id"/>
+        <result property="equipmentName" column="equipment_name"/>
+        <result property="warningOperator" column="warning_operator"/>
+        <result property="warningTime" column="warning_time"/>
+        <result property="warningReason" column="warning_reason"/>
+        <result property="dealOperator" column="deal_operator"/>
+        <result property="dealTime" column="deal_time"/>
+        <result property="dealPlan" column="deal_plan"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>
