@@ -27,4 +27,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return new PageUtils(page);
     }
 
+    @Override
+    public void changPnameBypid(String Pid, String Pname) {
+        baseMapper.changPnameBypid(Pid,Pname);
+    }
+
 }

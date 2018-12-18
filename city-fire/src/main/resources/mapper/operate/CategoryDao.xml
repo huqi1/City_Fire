@@ -15,5 +15,10 @@
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
-
+    <!-- 通过pid修改对应子菜单的pname -->
+    <update id="changPnameBypid" >
+		update cf_category
+		  set type_pname = #{Pname}
+		where type_pid = #{Pid}
+	</update>
 </mapper>

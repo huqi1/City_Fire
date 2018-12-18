@@ -4,10 +4,10 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-      <el-form-item label="分类名称" prop="typeName">
-        <el-input v-model="dataForm.typeName" :placeholder=" 分类名称 "></el-input>
+      <el-form-item label="分类名称">
+        <el-input v-model="dataForm.typeName" placeholder="分类名称 "></el-input>
       </el-form-item>
-      <el-form-item label="上级分类" prop="typePname">
+      <el-form-item label="上级分类">
         <el-popover
           ref="menuListPopover"
           placement="bottom-start"
@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
+      <el-button @click="dataFormCancel()">取消</el-button>
       <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     </span>
   </el-dialog>
@@ -51,7 +51,8 @@
           categoryId: '',
           typeName: '',
           typePid: '',
-          typePname: ''
+          typePname: '',
+          typeId: ''
         },
         dataRule: {
           typeName: [
@@ -91,26 +92,29 @@
           } else {
             // 修改
             this.$http({
-              url: this.$http.adornUrl(`/sys/o/${this.dataForm.id}`),
+              url: this.$http.adornUrl(`/category/info/${this.dataForm.categoryId}`),
               method: 'get',
               params: this.$http.adornParams()
             }).then(({data}) => {
-              this.dataForm.categoryId = data.menu.categoryId
-              this.dataForm.type = data.menu.type
-              this.dataForm.typeName = data.menu.typeName
-              this.dataForm.typePid = data.menu.typePid
-              this.typeListTreeSetCurrentNode()
+              this.dataForm.categoryId = data.cfCategory.categoryId
+              this.dataForm.typeName = data.cfCategory.typeName
+              this.dataForm.typePname = data.cfCategory.typePname
+              this.dataForm.typePid = data.cfCategory.typePid
+              this.dataForm.typeId = data.cfCategory.typeId
+              console.log("当前操作的是:"+this.dataForm.typeId)
+              this.menuListTreeSetCurrentNode()
             })
           }
         })
       },
       // 菜单树选中
       menuListTreeCurrentChangeHandle (data, node) {
-        //console.log(data)
+        console.log(data)
+        console.log("data.typeId:"+data.typeId)
         this.dataForm.typePid = data.typeId
         this.dataForm.typePname = data.typeName
-/*        console.log("this.dataForm.typePid"+this.dataForm.typePid)
-        console.log("this.dataForm.typePid"+data.typeName)*/
+       console.log("this.dataForm.typePid"+this.dataForm.typePid)
+        console.log("this.dataForm.typePid"+data.typeName)
       },
       // 菜单树设置当前选中节点 主要用在修改
       menuListTreeSetCurrentNode () {
@@ -127,6 +131,8 @@
               url: this.$http.adornUrl(`/category/${this.saveflag ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
+                'categoryId': this.dataForm.categoryId,
+                'typeId':  this.dataForm.typeId,
                 'typeName': this.dataForm.typeName,
                 'typePid': this.dataForm.typePid,
                 'typePname': this.dataForm.typePname
@@ -139,6 +145,8 @@
                   duration: 1500,
                   onClose: () => {
                     this.visible = false
+                    this.dataFormCancel()
+                    this.saveflag = true
                     this.$emit('refreshDataList')
                   }
                 })
@@ -148,6 +156,18 @@
             })
           }
         })
+      },
+      dataFormClear () {
+        this.dataForm.typeName = ''
+        this.dataForm.typePid = ''
+        this.dataForm.typePname = ''
+        this.dataForm.typeId = ''
+      },
+      dataFormCancel () {
+        this.dataFormClear()
+        this.saveflag = true
+        this.visible = false
+        this.$emit('refreshDataList')
       }
     }
   }

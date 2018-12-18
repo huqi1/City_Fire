@@ -10,7 +10,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -37,6 +36,9 @@ public class CategoryController {
     @RequestMapping("/list")
     @RequiresPermissions("operate:category:list")
     public R list(@RequestParam Map<String, Object> params){
+        //分类列表不参与分页
+        params.put("page","1");
+        params.put("limit","1000");
         PageUtils page = categoryService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -74,8 +76,13 @@ public class CategoryController {
     @RequiresPermissions("operate:category:update")
     public R update(@RequestBody CategoryEntity cfCategory){
         ValidatorUtils.validateEntity(cfCategory);
+        cfCategory.setStatus(0);
+        cfCategory.setGmtCreate(new Date());
         categoryService.updateAllColumnById(cfCategory);//全部更新
-        
+        // if 名称不为null，级联更新子菜单的Pname
+        if (cfCategory.getTypeName() != "" && !cfCategory.getTypeName().equals("")) {
+            categoryService.changPnameBypid(cfCategory.getTypeId(), cfCategory.getTypeName());
+        }
         return R.ok();
     }
 
@@ -84,9 +91,9 @@ public class CategoryController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("operate:category:delete")
-    public R delete(@RequestBody String[] categoryIds){
-        categoryService.deleteBatchIds(Arrays.asList(categoryIds));
-
+    public R delete(@RequestParam Map<String, Object> params){
+        Long categoryId = Long.valueOf(params.get("categoryId").toString());
+        categoryService.deleteById(categoryId);
         return R.ok();
     }
 

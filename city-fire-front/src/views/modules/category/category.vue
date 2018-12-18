@@ -31,7 +31,7 @@
         weight="30%"
         label="上级目录">
       </el-table-column>
-      <el-table-column
+     <!-- <el-table-column
         prop="typeLevel"
         weight="8%"
         header-align="center"
@@ -44,7 +44,7 @@
           <el-tag v-else-if="scope.row.typeLevel == 3" size="small" type="danger">四级</el-tag>
           <el-tag v-else="" size="danger" type="danger">五级</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column
         prop="gmtCreate"
         header-align="center"
@@ -59,8 +59,8 @@
         weight="10%"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('operate:category:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.categoryId)">修改</el-button>
-          <el-button v-if="isAuth('operate:category:delete')" type="text" size="small" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">删除</el-button>
+          <el-button v-if="isAuth('operate:category:update')" type="primary" size="medium" @click="addOrUpdateHandle(scope.row.categoryId)">修改</el-button>
+          <el-button v-if="isAuth('operate:category:delete')" type="danger" size="medium" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,9 +117,12 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/category/delete/${id}`),
+            url: this.$http.adornUrl(`/category/delete`),
             method: 'post',
-            data: this.$http.adornData()
+            params: this.$http.adornParams({
+              categoryId: id
+            })
+
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
