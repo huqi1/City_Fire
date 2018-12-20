@@ -1,19 +1,23 @@
 <template>
-  <div class="mod-menu">
-    <el-form :inline="true" :model="dataForm">
-      <el-form-item>
-        <el-button v-if="isAuth('operate:map:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-      </el-form-item>
-    </el-form>
-    <div class="amap-wrapper">
-      <el-amap class="amap-box" vid="map"
-               :zoom="zoom"
-               :center="center">
-      </el-amap>
+
+    <div class="mod-menu">
+      <el-form :inline="true" :model="dataForm">
+        <el-form-item>
+          <el-button v-if="isAuth('operate:map:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        </el-form-item>
+      </el-form>
+      <div class="amap-wrapper">
+        <el-amap vid="amap" :plugin="plugin"  :center="center">
+        </el-amap>
+        <div class="toolbar">
+        <span v-if="loaded">
+          location: lng = {{ lng }} lat = {{ lat }}
+        </span>
+          <span v-else>正在定位</span>
+        </div>
+      </div>
     </div>
-    <!-- 弹窗, 新增 / 修改 -->
- <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-  </div>
+
 </template>
 
 <script>
@@ -23,13 +27,29 @@
 
   export default {
     data () {
+      let self = this;
       return {
-        zoom: 16,
-        center: [121.406051,31.179695],
-        dataForm: {},
-        dataList: [],
-        dataListLoading: false,
-        addOrUpdateVisible: false
+        center: [121.59996, 31.197646],
+        lng: 0,
+        lat: 0,
+        loaded: false,
+        plugin: [{
+          pName: 'Geolocation',
+          events: {
+            init (o) {
+              // o 是高德地图定位插件实例
+              o.getCurrentPosition((status, result) => {
+                if (result && result.position) {
+                  self.lng = result.position.lng;
+                  self.lat = result.position.lat;
+                  self.center = [self.lng, self.lat];
+                  self.loaded = true;
+                  self.$nextTick();
+                }
+              });
+            }
+          }
+        }]
       }
     },
     components: {
@@ -91,4 +111,12 @@
       }
     }
   }
+
 </script>
+<style>
+  .amap-wrapper {
+    width: 100%;
+    height: 750px;
+    padding-bottom: 10px;
+  }
+</style>
