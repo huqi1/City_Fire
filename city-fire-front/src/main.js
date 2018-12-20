@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from '@/App'
+import VueAMap from 'vue-amap'
 import router from '@/router'                 // api: https://github.com/vuejs/vue-router
 import store from '@/store'                   // api: https://github.com/vuejs/vuex
 import VueCookie from 'vue-cookie'            // api: https://github.com/alfhen/vue-cookie
@@ -12,6 +13,7 @@ import { isAuth } from '@/utils'
 import cloneDeep from 'lodash/cloneDeep'
 
 Vue.use(VueCookie)
+Vue.use(VueAMap)
 Vue.config.productionTip = false
 
 // 非生产环境, 适配mockjs模拟数据                 // api: https://github.com/nuysoft/Mock
@@ -25,7 +27,21 @@ Vue.prototype.isAuth = isAuth     // 权限方法
 
 // 保存整站vuex本地储存初始状态
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
-
+VueAMap.initAMapApiLoader({
+  key: '6abe3467bb4176e606578aadd80f281f',
+  plugin: [
+    "AMap.Autocomplete", //输入提示插件
+    "AMap.PlaceSearch", //POI搜索插件
+    "AMap.Scale", //右下角缩略图插件 比例尺
+    "AMap.OverView", //地图鹰眼插件
+    "AMap.ToolBar", //地图工具条
+    "AMap.MapType", //类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
+    "AMap.PolyEditor", //编辑 折线多，边形
+    "AMap.CircleEditor", //圆形编辑器插件
+    "AMap.Geolocation" //定位控件，用来获取和展示用户主机所在的经纬度位置
+  ],
+  v: '1.4.4'
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

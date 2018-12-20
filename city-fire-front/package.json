@@ -28,6 +28,7 @@
     "sass-loader": "6.0.6",
     "svg-sprite-loader": "3.7.3",
     "vue": "2.5.2",
+    "vue-amap": "^0.5.8",
     "vue-cookie": "1.1.4",
     "vue-router": "3.0.1",
     "vuex": "3.0.1"
