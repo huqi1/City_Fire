@@ -28,7 +28,7 @@ Vue.prototype.isAuth = isAuth     // 权限方法
 // 保存整站vuex本地储存初始状态
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 VueAMap.initAMapApiLoader({
-  key: '6abe3467bb4176e606578aadd80f281f',
+  key: '485b10bb92fe21c2750391e35774c18b',
   plugin: [
     "AMap.Autocomplete", //输入提示插件
     "AMap.PlaceSearch", //POI搜索插件

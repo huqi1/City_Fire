@@ -13,7 +13,7 @@
         <el-submenu index="demo">
           <template slot="title">
             <icon-svg name="shoucang" class="site-sidebar__menu-icon"></icon-svg>
-            <span>demo</span>
+            <span>测试</span>
           </template>
           <el-menu-item index="demo-echarts" @click="$router.push({ name: 'demo-echarts' })">
             <icon-svg name="tubiao" class="site-sidebar__menu-icon"></icon-svg>
