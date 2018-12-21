@@ -12,14 +12,14 @@
                             :search-option="searchOption"
                             :on-search-result="onSearchResult">
         </el-amap-search-box>
-        <el-amap vid="amap" :plugin="plugin"  :center="center">
+        <el-amap vid="amap" :plugin="plugin"  :center="center" :zoom ="zoom">
           <div v-if=" markersflag == true ">
-              <el-amap-marker  v-for="marker in markers" :position="marker" ></el-amap-marker>
+              <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker" ></el-amap-marker>
           </div>
         </el-amap>
         <div class="toolbar">
         <span v-if="loaded">
-          位置: 纬度 = {{ lng }} 经度 = {{ lat }}
+          位置:  {{ locationinfor }}
         </span>
           <span v-else>正在定位</span>
         </div>
@@ -33,37 +33,66 @@
   import { treeDataTranslate } from '@/utils'
 
   export default {
+
     data () {
       let self = this;
       return {
-        dataForm: {},
+        dataForm: {
+          citycode:'',
+          adcode:'',
+          businessAreas:[{
+            name:'',
+            id:'',
+            location:{
+              P:'',
+              O:'',
+              lng:'',
+              lat:''
+            }
+          }],
+          neighborhoodType:'',
+          neighborhood:'',
+          building:'',
+          buildingType:'',
+          township:'',
+          province:'',
+          city:'',
+          district:'',
+          street:'',
+        },
         dataList: [],
         dataListLoading: false,
         addOrUpdateVisible: false,
         //地图
+        locationinfor:'',
         center: [103.98291, 30.57531],
+        zoom:15, // 放大比列
         lng: 0,
         lat: 0,
         loaded: false,
         plugin: [{
           pName: 'Geolocation',
           events: {
-
-            init (o) {
+           init (o) {
               // o 是高德地图定位插件实例
+             self.clearmarkers()
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
+                  console.log("当前地址:"+result.formattedAddress)
+                  self.locationinfor = result.formattedAddress;
+                  self.dataForm = JSON.stringify(result.addressComponent, null, 4)
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
                   self.center = [self.lng, self.lat];
                   self.markers = [[self.lng, self.lat]];
                   self.markersflag = true;
-                  console.log("当前位置：纬度："+self.lng,"经度"+self.lat);
                   self.loaded = true;
                   self.$nextTick();
                 }
               });
-            }
+            },
+
+
           }
         }],
         // 地图搜索
@@ -72,8 +101,7 @@
           citylimit: true
         },
         markersflag: false,
-        markers: [
-        ],
+        markers: [ ],
       }
     },
     components: {
@@ -86,8 +114,10 @@
     methods: {
       //地图搜索
       onSearchResult (pois) {
+        this.clearmarkers()
         let latSum = 0;
         let lngSum = 0;
+
         if (pois.length > 0) {
           pois.forEach(poi => {
             let {lng, lat} = poi;
@@ -99,8 +129,32 @@
             lng: lngSum / pois.length,
             lat: latSum / pois.length
           };
+          console.log("sum:"+lngSum,+latSum)
+          console.log("length:"+pois.length)
+          console.log("center:"+center.lng,+center.lat)
         this.center = [center.lng, center.lat];
+        this.markersflag = true;
+
+          var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+          });
+          geocoder.getAddress([center.lng ,center.lat], function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+              if (result && result.regeocode) {
+                console.log("当前搜索地址:"+result.regeocode.formattedAddress)
+                self.locationinfor = result.regeocode.formattedAddress;
+                console.log("当前搜索详情:"+ JSON.stringify(result.regeocode.addressComponent, null, 4))
+                self.dataForm = JSON.stringify(result.addressComponent, null, 4)
+               // self.$nextTick();
+              }
+            }
+          });
         }
+      },
+      clearmarkers (){
+        this.markersflag = false
+        this.markers = [];
       },
       // 获取数据列表
       getDataList () {
