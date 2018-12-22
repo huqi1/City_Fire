@@ -14,12 +14,13 @@
         </el-amap-search-box>
         <el-amap vid="amap" :plugin="plugin"  :center="center" :zoom ="zoom">
           <div v-if=" markersflag == true ">
-              <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker" ></el-amap-marker>
+              <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker" :events="marker.events"></el-amap-marker>
+            <el-amap-info-window v-if="windowitem" :position="windowitem.position" :visible="windowitem.visible" :content="windowitem.content"></el-amap-info-window>
           </div>
         </el-amap>
         <div class="toolbar">
         <span v-if="loaded">
-          位置:  {{ locationinfor }}
+          当前所在位置:  {{ locationinfor }}
         </span>
           <span v-else>正在定位</span>
         </div>
@@ -84,7 +85,11 @@
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
                   self.center = [self.lng, self.lat];
-                  self.markers = [[self.lng, self.lat]];
+                  let marker = [self.lng, self.lat];
+                  self.markers = [{
+                    marker: marker
+                  }
+                  ];
                   self.markersflag = true;
                   self.loaded = true;
                   self.$nextTick();
@@ -101,7 +106,10 @@
           citylimit: true
         },
         markersflag: false,
-        markers: [ ],
+        markers: [],
+        //地图窗口
+        windows: [],
+        windowitem: ''
       }
     },
     components: {
@@ -117,44 +125,97 @@
         this.clearmarkers()
         let latSum = 0;
         let lngSum = 0;
-
+        let markerNum = 2;
+        let windows = [];
         if (pois.length > 0) {
-          pois.forEach(poi => {
+          if (pois.length < markerNum) {
+            markerNum = pois.length
+          }
+          for (let i = 0;i<markerNum;i++){
+            let poi = pois[i]
+            console.log("[poi.lng:" + poi.lng)
+            console.log("[poi.lat:" + poi.lat)
             let {lng, lat} = poi;
             lngSum += lng;
             latSum += lat;
-            this.markers.push([poi.lng, poi.lat]);
-          });
-          let center = {
-            lng: lngSum / pois.length,
-            lat: latSum / pois.length
-          };
-          console.log("sum:"+lngSum,+latSum)
-          console.log("length:"+pois.length)
-          console.log("center:"+center.lng,+center.lat)
-        this.center = [center.lng, center.lat];
-        this.markersflag = true;
+            this.markers.push({
+              marker : [poi.lng, poi.lat],
+              events: {
+                click () {
+                  /*self.windows.forEach(window => {
+                    window.visible = false;
+                  });
+                  self.window = self.windows[i];
+                  self.$nextTick(() => {
+                    self.window.visible = true;
+                  });*/
+                  console.log(self.windows[0])
+                 /* let windowItem = self.windows[0];
+                  self.windowitem = windowItem;*/
 
-          var geocoder = new AMap.Geocoder({
-            radius: 1000,
-            extensions: "all"
-          });
-          geocoder.getAddress([center.lng ,center.lat], function(status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-              if (result && result.regeocode) {
-                console.log("当前搜索地址:"+result.regeocode.formattedAddress)
-                self.locationinfor = result.regeocode.formattedAddress;
-                console.log("当前搜索详情:"+ JSON.stringify(result.regeocode.addressComponent, null, 4))
-                self.dataForm = JSON.stringify(result.addressComponent, null, 4)
-               // self.$nextTick();
+                }
               }
-            }
-          });
+            });
+          }
+          let center = {
+            lng: lngSum /markerNum ,
+            lat: latSum /markerNum
+          };
+          this.center = [center.lng, center.lat];
+          this.markersflag = true;
+          this.setdataForm(center.lng, center.lat);
         }
       },
       clearmarkers (){
         this.markersflag = false
         this.markers = [];
+      },
+      // 新增 / 修改
+      addOrUpdateHandle () {
+        this.dataForm = JSON.parse(self.dataForm)
+        this.windows.push({
+          position:  this.center,
+          content: `<div class="prompt">
+                              <p>省: ${this.dataForm.province}</p>
+                              <p>市: ${this.dataForm.city}</p>
+                              <p>区: ${this.dataForm.district}</p>
+                              <p>街道: ${this.dataForm.street}</p>
+                            </div>`,
+          visible: true
+        });
+        this.windowitem = this.windows[0];
+        /*let windowItem = this.windows[0];
+        console.log("this.windowitem:"+this.windows[0])
+        this.windowitem = windowItem;
+        console.log("this.windowitem:"+this.windowitem)
+        this.windowitem.visible = true*/
+       /* console.log("this.center:"+this.center)
+        this.windows.push({
+          position:  this.center,
+          content: `<div class="prompt">
+                              <p>省</p>
+                            </div>`,
+          visible: true
+        });
+        this.windowitem = windows[0];*/
+      },
+
+      setdataForm(lng,lat){
+        var geocoder = new AMap.Geocoder({
+          radius: 1000,
+          extensions: "all"
+        });
+        geocoder.getAddress([lng ,lat], (status, result) =>{
+          if (status === 'complete' && result.info === 'OK') {
+            if (result && result.regeocode) {
+              console.log("当前搜索地址:" + result.regeocode.formattedAddress)
+              console.log("当前搜索详情:" + JSON.stringify(result.regeocode.addressComponent, null, 4))
+              self.locationinfor =result.regeocode.formattedAddress
+              self.dataForm = JSON.stringify(result.regeocode.addressComponent, null, 4)
+              console.log("data1000011111:"+self.dataForm)
+            }
+          }
+        });
       },
       // 获取数据列表
       getDataList () {
@@ -166,13 +227,6 @@
         }).then(({data}) => {
           this.dataList = treeDataTranslate(data.page.list, 'typeId', 'typePid')
           this.dataListLoading = false
-        })
-      },
-      // 新增 / 修改
-      addOrUpdateHandle (id) {
-        this.addOrUpdateVisible = true
-        this.$nextTick(() => {
-          this.$refs.addOrUpdate.init(id)
         })
       },
       // 删除
@@ -221,5 +275,11 @@
   }
   .search-box {
     position:absolute;
+  }
+  .prompt {
+    background: white;
+    width: 200px;
+    height: 150px;
+    text-align: center;
   }
 </style>
