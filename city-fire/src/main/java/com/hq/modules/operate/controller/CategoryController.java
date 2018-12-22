@@ -36,6 +36,7 @@ public class CategoryController {
     @RequestMapping("/list")
     @RequiresPermissions("operate:category:list")
     public R list(@RequestParam Map<String, Object> params){
+
         //分类列表不参与分页
         params.put("page","1");
         params.put("limit","1000");

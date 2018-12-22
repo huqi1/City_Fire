@@ -170,12 +170,14 @@
         this.markersflag = false
         this.markers = [];
       },
-      // 新增 / 修改
-      addOrUpdateHandle () {
+      //展示窗口
+      showWindows () {
+        this.windows = []
         this.dataForm = JSON.parse(self.dataForm)
         this.windows.push({
           position:  this.center,
           content: `<div class="prompt">
+                              <h3 style="text-align: center">所选位置信息</h3>
                               <p>省: ${this.dataForm.province}</p>
                               <p>市: ${this.dataForm.city}</p>
                               <p>区: ${this.dataForm.district}</p>
@@ -184,23 +186,27 @@
           visible: true
         });
         this.windowitem = this.windows[0];
-        /*let windowItem = this.windows[0];
-        console.log("this.windowitem:"+this.windows[0])
-        this.windowitem = windowItem;
-        console.log("this.windowitem:"+this.windowitem)
-        this.windowitem.visible = true*/
-       /* console.log("this.center:"+this.center)
+      },
+      // 新增 / 修改
+      addOrUpdateHandle () {
+        this.windows = []
+        this.dataForm = JSON.parse(self.dataForm)
         this.windows.push({
           position:  this.center,
           content: `<div class="prompt">
-                              <p>省</p>
+                              <h3 style="text-align: center">所选位置信息</h3>
+                              <p>省: ${this.dataForm.province}</p>
+                              <p>市: ${this.dataForm.city}</p>
+                              <p>区: ${this.dataForm.district}</p>
+                              <p>街道: ${this.dataForm.street}</p>
                             </div>`,
           visible: true
         });
-        this.windowitem = windows[0];*/
+        this.windowitem = this.windows[0];
       },
 
       setdataForm(lng,lat){
+        let tself = this;
         var geocoder = new AMap.Geocoder({
           radius: 1000,
           extensions: "all"
@@ -212,7 +218,7 @@
               console.log("当前搜索详情:" + JSON.stringify(result.regeocode.addressComponent, null, 4))
               self.locationinfor =result.regeocode.formattedAddress
               self.dataForm = JSON.stringify(result.regeocode.addressComponent, null, 4)
-              console.log("data1000011111:"+self.dataForm)
+              tself.showWindows()
             }
           }
         });
@@ -278,8 +284,9 @@
   }
   .prompt {
     background: white;
-    width: 200px;
-    height: 150px;
-    text-align: center;
+    width: 160px;
+    height: 120px;
+    text-align: left;
+    line-height:10px;
   }
 </style>
