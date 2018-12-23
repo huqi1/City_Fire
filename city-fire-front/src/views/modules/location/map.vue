@@ -62,6 +62,7 @@
           city:'',
           district:'',
           street:'',
+          streetNumber:''
         },
         addLocationVisible: false,
         //地图
