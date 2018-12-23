@@ -5,19 +5,19 @@
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="100px">
       <el-form-item label="省：">
-        <el-input v-model="dataForm.typeName" placeholder="省 "></el-input>
+        <el-input v-model="dataForm.province" placeholder="省 "></el-input>
       </el-form-item>
       <el-form-item label="市：">
-        <el-input v-model="dataForm.typeName" placeholder="市 "></el-input>
+        <el-input v-model="dataForm.city" placeholder="市 "></el-input>
       </el-form-item>
       <el-form-item label="区：">
-        <el-input v-model="dataForm.typeName" placeholder="区 "></el-input>
+        <el-input v-model="dataForm.district" placeholder="区 "></el-input>
       </el-form-item>
       <el-form-item label="街道：">
-        <el-input v-model="dataForm.typeName" placeholder="街道 "></el-input>
+        <el-input v-model="dataForm.street" placeholder="街道 "></el-input>
       </el-form-item>
       <el-form-item label="详细信息：">
-        <el-input v-model="dataForm.typeName" placeholder="详细信息"></el-input>
+        <el-input v-model="choesLocation" placeholder="详细信息"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-  import { treeDataTranslate } from '@/utils'
   export default {
     data () {
       var validateUrl = (rule, value, callback) => {
@@ -40,13 +39,29 @@
       }
       return {
         visible: false,
-        saveflag: true, // 判断是新增还是更新
+        choesLocation:'',
         dataForm: {
-          categoryId: '',
-          typeName: '',
-          typePid: '',
-          typePname: '',
-          typeId: ''
+          citycode:'',
+          adcode:'',
+          businessAreas:[{
+            name:'',
+            id:'',
+            location:{
+              P:'',
+              O:'',
+              lng:'',
+              lat:''
+            }
+          }],
+          neighborhoodType:'',
+          neighborhood:'',
+          building:'',
+          buildingType:'',
+          township:'',
+          province:'',
+          city:'',
+          district:'',
+          street:'',
         },
         dataRule: {
           typeName: [
@@ -55,101 +70,14 @@
           typePname: [
             { required: true, message: '上级分类不能为空', trigger: 'change' }
           ]
-        },
-        menuList: [],
-        menuListTreeProps: {
-          label: 'typeName',
-          children: 'children'
         }
       }
     },
     methods: {
-      init (id) {
-        if(id != undefined && id !=''){
-          this.saveflag = false //修改
-          this.dataForm.categoryId = id
-        }
-        this.$http({
-          url: this.$http.adornUrl('/category/list'),
-          method: 'get',
-          params: this.$http.adornParams()
-        }).then(({data}) => {
-          this.menuList = treeDataTranslate(data.page.list, 'typeId' ,'typePid')
-          console.log(this.menuList)
-        }).then(() => {
-          this.visible = true
-          this.$nextTick(() => {
-            this.$refs['dataForm'].resetFields()
-          })
-        }).then(() => {
-          if (this.saveflag) {
-          } else {
-            // 修改
-            this.$http({
-              url: this.$http.adornUrl(`/category/info/${this.dataForm.categoryId}`),
-              method: 'get',
-              params: this.$http.adornParams()
-            }).then(({data}) => {
-              this.dataForm.categoryId = data.cfCategory.categoryId
-              this.dataForm.typeName = data.cfCategory.typeName
-              this.dataForm.typePname = data.cfCategory.typePname
-              this.dataForm.typePid = data.cfCategory.typePid
-              this.dataForm.typeId = data.cfCategory.typeId
-              console.log("当前操作的是:"+this.dataForm.typeId)
-              this.menuListTreeSetCurrentNode()
-            })
-          }
-        })
-      },
-      // 菜单树选中
-      menuListTreeCurrentChangeHandle (data, node) {
-        console.log(data)
-        console.log("data.typeId:"+data.typeId)
-        this.dataForm.typePid = data.typeId
-        this.dataForm.typePname = data.typeName
-        console.log("this.dataForm.typePid"+this.dataForm.typePid)
-        console.log("this.dataForm.typePid"+data.typeName)
-      },
-      // 菜单树设置当前选中节点 主要用在修改
-      menuListTreeSetCurrentNode () {
-        this.$refs.menuListTree.setCurrentKey(this.dataForm.typePid)
-      },
-      // 表单提交
-      dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          console.log("this.dataForm："+this.dataForm.typeName)
-          console.log("this.dataForm："+this.dataForm.typePid)
-          console.log("this.dataForm："+this.dataForm.typePname)
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl(`/category/${this.saveflag ? 'save' : 'update'}`),
-              method: 'post',
-              data: this.$http.adornData({
-                'categoryId': this.dataForm.categoryId,
-                'typeId':  this.dataForm.typeId,
-                'typeName': this.dataForm.typeName,
-                'typePid': this.dataForm.typePid,
-                'typePname': this.dataForm.typePname
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.visible = false
-                    this.dataFormCancel()
-                    this.saveflag = true
-                    this.$emit('refreshDataList')
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
+      init (dataForm,choseLocation) {
+        this.dataForm = dataForm
+        this.choesLocation = choseLocation
+        this.visible = true
       },
       dataFormClear () {
         this.dataForm.typeName = ''
@@ -159,9 +87,7 @@
       },
       dataFormCancel () {
         this.dataFormClear()
-        this.saveflag = true
         this.visible = false
-        this.$emit('refreshDataList')
       }
     }
   }

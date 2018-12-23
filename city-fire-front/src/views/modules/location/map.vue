@@ -81,7 +81,8 @@
                 if (result && result.position) {
                   console.log("当前地址:"+result.formattedAddress)
                   self.locationinfor = result.formattedAddress;
-                  self.dataForm = JSON.stringify(result.addressComponent, null, 4)
+                  self.choesLocation = result.formattedAddress;
+                  self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4))
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
                   self.center = [self.lng, self.lat];
@@ -189,10 +190,10 @@
         this.windowitem = this.windows[0];
       },
       // 新增 / 修改
-      AddLocation (id) {
+      AddLocation () {
         this.addLocationVisible = true
         this.$nextTick(() => {
-          this.$refs.AddLocation.init(id)
+          this.$refs.AddLocation.init(this.dataForm,this.choesLocation)
         })
       },
 
