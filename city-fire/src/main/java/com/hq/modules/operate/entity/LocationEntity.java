@@ -2,6 +2,7 @@ package com.hq.modules.operate.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,20 +20,49 @@ public class LocationEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
+	@TableId(value = "location_id",type = IdType.INPUT)
 	private String locationId;
 	/**
 	 * 位置全称名
 	 */
 	private String locationName;
 	/**
-	 * 归宿地id
+	 * 省
 	 */
-	private String belongAreaid;
+	private String province;
 	/**
-	 * 归属地名称
+	 * 市
 	 */
-	private String belongAreaname;
+	private String city;
+	/**
+	 * 市级编码
+	 */
+	private String citycode;
+	/**
+	 * 区
+	 */
+	private String district;
+	/**
+	 * 区级编码
+	 */
+	private String adcode;
+	/**
+	 * 街道
+	 */
+	private String street;
+	/**
+	 * 街道编号
+	 */
+	private String streetNumber;
+	/**
+	 * 经度
+	 */
+	private Double lat;
+	/**
+	 * 纬度
+	 */
+	private Double lng;
+
 	/**
 	 * 设备状态: 0:正常 1：删除 2：禁用
 	 */
@@ -66,30 +96,79 @@ public class LocationEntity implements Serializable {
 	public String getLocationName() {
 		return locationName;
 	}
-	/**
-	 * 设置：归宿地id
-	 */
-	public void setBelongAreaid(String belongAreaid) {
-		this.belongAreaid = belongAreaid;
+
+	public String getProvince() {
+		return province;
 	}
-	/**
-	 * 获取：归宿地id
-	 */
-	public String getBelongAreaid() {
-		return belongAreaid;
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
-	/**
-	 * 设置：归属地名称
-	 */
-	public void setBelongAreaname(String belongAreaname) {
-		this.belongAreaname = belongAreaname;
+
+	public String getCity() {
+		return city;
 	}
-	/**
-	 * 获取：归属地名称
-	 */
-	public String getBelongAreaname() {
-		return belongAreaname;
+
+	public void setCity(String city) {
+		this.city = city;
 	}
+
+	public String getCitycode() {
+		return citycode;
+	}
+
+	public void setCitycode(String citycode) {
+		this.citycode = citycode;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getAdcode() {
+		return adcode;
+	}
+
+	public void setAdcode(String adcode) {
+		this.adcode = adcode;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
 	/**
 	 * 设置：设备状态: 0:正常 1：删除 2：禁用
 	 */

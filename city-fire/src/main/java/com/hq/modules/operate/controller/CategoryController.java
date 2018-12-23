@@ -10,7 +10,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -63,7 +62,6 @@ public class CategoryController {
     @RequestMapping("/save")
     @RequiresPermissions("operate:category:save")
     public R save(@RequestBody CategoryEntity cfCategory){
-        Calendar calendar = Calendar.getInstance();
         cfCategory.setTypeId(cfCategory.getTypePid()+DateUtils.getHHmmssTime());
         cfCategory.setGmtCreate(new Date());
         categoryService.insert(cfCategory);

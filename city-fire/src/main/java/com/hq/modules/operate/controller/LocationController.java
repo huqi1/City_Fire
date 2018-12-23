@@ -1,5 +1,6 @@
 package com.hq.modules.operate.controller;
 
+import com.hq.common.utils.DateUtils;
 import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -22,7 +24,7 @@ import java.util.Map;
  * @date 2018-12-17 09:25:46
  */
 @RestController
-@RequestMapping("sys/location")
+@RequestMapping("location")
 public class LocationController {
     @Autowired
     private LocationService locationService;
@@ -31,7 +33,7 @@ public class LocationController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:cflocation:list")
+    @RequiresPermissions("operate:location:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = locationService.queryPage(params);
 
@@ -43,7 +45,7 @@ public class LocationController {
      * 信息
      */
     @RequestMapping("/info/{locationId}")
-    @RequiresPermissions("sys:cflocation:info")
+    @RequiresPermissions("operate:location:info")
     public R info(@PathVariable("locationId") String locationId){
         LocationEntity cfLocation = locationService.selectById(locationId);
 
@@ -54,10 +56,14 @@ public class LocationController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:cflocation:save")
+    @RequiresPermissions("operate:location:save")
     public R save(@RequestBody LocationEntity cfLocation){
-        locationService.insert(cfLocation);
-
+        int lat = cfLocation.getLat().intValue();
+        int lng = cfLocation.getLng().intValue();
+        cfLocation.setLocationId(cfLocation.getCitycode()+cfLocation.getAdcode()+lat+""+lng+DateUtils.getHHmmssTime());
+        cfLocation.setStatus(0);
+        cfLocation.setGmtCreate(new Date());
+        locationService.insertAllColumn(cfLocation);
         return R.ok();
     }
 

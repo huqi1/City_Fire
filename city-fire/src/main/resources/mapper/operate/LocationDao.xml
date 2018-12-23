@@ -7,8 +7,15 @@
     <resultMap type="com.hq.modules.operate.entity.LocationEntity" id="cfLocationMap">
         <result property="locationId" column="location_id"/>
         <result property="locationName" column="location_name"/>
-        <result property="belongAreaid" column="belong_areaid"/>
-        <result property="belongAreaname" column="belong_areaname"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="citycode" column="citycode"/>
+        <result property="district" column="district"/>
+        <result property="adcode" column="adcode"/>
+        <result property="street" column="street"/>
+        <result property="streetNumber" column="street_number"/>
+        <result property="lat" column="lat"/>
+        <result property="lng" column="lng"/>
         <result property="status" column="status"/>
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
