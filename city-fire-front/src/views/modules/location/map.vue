@@ -3,7 +3,7 @@
     <div>
       <el-form :inline="true">
         <el-form-item>
-          <el-button v-if="isAuth('operate:map:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+          <el-button v-if="isAuth('operate:map:save')" type="primary" @click="AddLocation()">新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -25,19 +25,21 @@
           <span v-else>正在定位</span>
         </div>
       </div>
-   </div>
+    <!-- 弹窗, 新增Map -->
+    <add-location v-if="addLocationVisible" ref="AddLocation" ></add-location>
+
+  </div>
 </template>
 
 <script>
-  import TableTreeColumn from '@/components/table-tree-column'
-  import AddOrUpdate from './location-add-or-update'
-  import { treeDataTranslate } from '@/utils'
+ import AddLocation from './map-add'
 
   export default {
 
     data () {
       let self = this;
       return {
+        choesLocation:'',
         dataForm: {
           citycode:'',
           adcode:'',
@@ -61,9 +63,7 @@
           district:'',
           street:'',
         },
-        dataList: [],
-        dataListLoading: false,
-        addOrUpdateVisible: false,
+        addLocationVisible: false,
         //地图
         locationinfor:'',
         center: [103.98291, 30.57531],
@@ -113,8 +113,7 @@
       }
     },
     components: {
-      TableTreeColumn,
-      AddOrUpdate
+      AddLocation
     },
     activated () {
       //this.getDataList()
@@ -174,6 +173,7 @@
       showWindows () {
         this.windows = []
         this.dataForm = JSON.parse(self.dataForm)
+        this.choesLocation = self.choesLocation
         this.windows.push({
           position:  this.center,
           content: `<div class="prompt">
@@ -182,27 +182,18 @@
                               <p>市: ${this.dataForm.city}</p>
                               <p>区: ${this.dataForm.district}</p>
                               <p>街道: ${this.dataForm.street}</p>
+                              <p>详情: ${this.choesLocation}</p>
                             </div>`,
           visible: true
         });
         this.windowitem = this.windows[0];
       },
       // 新增 / 修改
-      addOrUpdateHandle () {
-        this.windows = []
-        this.dataForm = JSON.parse(self.dataForm)
-        this.windows.push({
-          position:  this.center,
-          content: `<div class="prompt">
-                              <h3 style="text-align: center">所选位置信息</h3>
-                              <p>省: ${this.dataForm.province}</p>
-                              <p>市: ${this.dataForm.city}</p>
-                              <p>区: ${this.dataForm.district}</p>
-                              <p>街道: ${this.dataForm.street}</p>
-                            </div>`,
-          visible: true
-        });
-        this.windowitem = this.windows[0];
+      AddLocation (id) {
+        this.addLocationVisible = true
+        this.$nextTick(() => {
+          this.$refs.AddLocation.init(id)
+        })
       },
 
       setdataForm(lng,lat){
@@ -217,6 +208,7 @@
               console.log("当前搜索地址:" + result.regeocode.formattedAddress)
               console.log("当前搜索详情:" + JSON.stringify(result.regeocode.addressComponent, null, 4))
               self.locationinfor =result.regeocode.formattedAddress
+              self.choesLocation = result.regeocode.formattedAddress
               self.dataForm = JSON.stringify(result.regeocode.addressComponent, null, 4)
               tself.showWindows()
             }
@@ -284,9 +276,9 @@
   }
   .prompt {
     background: white;
-    width: 160px;
-    height: 120px;
+    width: 180px;
+    height: 170px;
     text-align: left;
-    line-height:10px;
+    line-height:14px;
   }
 </style>
