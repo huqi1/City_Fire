@@ -83,7 +83,8 @@
                   console.log("当前地址:"+result.formattedAddress)
                   self.locationinfor = result.formattedAddress;
                   self.choesLocation = result.formattedAddress;
-                  self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4))
+                  self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4));
+                  //businessAreas可能为null
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
                   self.center = [self.lng, self.lat];
@@ -174,7 +175,7 @@
       //展示窗口
       showWindows () {
         this.windows = []
-        this.dataForm = JSON.parse(self.dataForm)
+        this.dataForm = self.dataForm
         this.choesLocation = self.choesLocation
         this.windows.push({
           position:  this.center,
@@ -211,53 +212,12 @@
               console.log("当前搜索详情:" + JSON.stringify(result.regeocode.addressComponent, null, 4))
               self.locationinfor =result.regeocode.formattedAddress
               self.choesLocation = result.regeocode.formattedAddress
-              self.dataForm = JSON.stringify(result.regeocode.addressComponent, null, 4)
+              self.dataForm = JSON.parse(JSON.stringify(result.regeocode.addressComponent, null, 4));
+
               tself.showWindows()
             }
           }
         });
-      },
-      // 获取数据列表
-      getDataList () {
-        this.dataListLoading = true
-        this.$http({
-          url: this.$http.adornUrl('/category/list'),
-          method: 'get',
-          params: this.$http.adornParams()
-        }).then(({data}) => {
-          this.dataList = treeDataTranslate(data.page.list, 'typeId', 'typePid')
-          this.dataListLoading = false
-        })
-      },
-      // 删除
-      deleteHandle (id, name) {
-        this.$confirm(`确定对名称为【${name}】进行【删除】操作?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$http({
-            url: this.$http.adornUrl(`/category/delete`),
-            method: 'post',
-            params: this.$http.adornParams({
-              categoryId: id
-            })
-
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
-        }).catch(() => {})
       }
     }
   }

@@ -9,20 +9,33 @@
       :data="dataList"
       border
       style="width: 100%;">
-      <table-tree-column
-        prop="typeName"
-        header-align="center"
-        treeKey="typeId"
-        parentKey="typePid"
-        weight="30%"
-        label="名称">
-      </table-tree-column>
       <el-table-column
-        prop="typePname"
+        prop="locationName"
         header-align="center"
         align="center"
         weight="30%"
-        label="上级目录">
+        label="位置全称">
+      </el-table-column>
+      <el-table-column
+        prop="city"
+        header-align="center"
+        align="center"
+        weight="12%"
+        label="所属地市">
+      </el-table-column>
+      <el-table-column
+        prop="district"
+        header-align="center"
+        align="center"
+        weight="12%"
+        label="所属区县">
+      </el-table-column>
+      <el-table-column
+        prop="status"
+        header-align="center"
+        align="center"
+        weight="12%"
+        label="状态">
       </el-table-column>
       <el-table-column
         prop="gmtCreate"
@@ -49,20 +62,34 @@
 </template>
 
 <script>
-  import TableTreeColumn from '@/components/table-tree-column'
   import AddOrUpdate from './location-add-or-update'
-  import { treeDataTranslate } from '@/utils'
   export default {
     data () {
       return {
-        dataForm: {},
-        dataList: [],
+        dataForm: {
+        },
+        dataList: [
+          {
+            locationId:'',
+            locationName:'',
+            province: '',
+            city: '',
+            citycode: '',
+            district: '',
+            adcode: '',
+            street: '',
+            streetNumber: '',
+            lat:'',
+            lng:'',
+            status:'',
+            gmtCreate:''
+          }
+        ],
         dataListLoading: false,
         addOrUpdateVisible: false
       }
     },
     components: {
-      TableTreeColumn,
       AddOrUpdate
     },
     activated () {
@@ -73,11 +100,11 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/category/list'),
+          url: this.$http.adornUrl('/location/list'),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          this.dataList = treeDataTranslate(data.page.list, 'typeId', 'typePid')
+          this.dataList = data.page.list
           this.dataListLoading = false
         })
       },
