@@ -7,10 +7,13 @@
       border
       style="width: 100%;">
       <el-table-column
-        prop="locationName"
         header-align="center"
         align="center"
+        min-width="120%"
         label="位置全称">
+        <template slot-scope="scope">
+          <el-button type="text" size="medium" @click="showinfor(scope.row.locationId)">{{scope.row.locationName}}</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="city"
@@ -29,6 +32,10 @@
         header-align="center"
         align="center"
         label="状态">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status == 0" size="medium" type="success">正常</el-tag>
+          <el-tag v-if="scope.row.status == 1" size="medium" type="danger">禁用</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="gmtCreate"
@@ -49,15 +56,30 @@
     </el-table>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo"></ShowLocationInfo>
   </div>
 </template>
 
 <script>
   import AddOrUpdate from './location-add-or-update'
+  import ShowLocationInfo from  './location-info'
   export default {
     data () {
       return {
         dataForm: {
+          locationId:'',
+          locationName:'',
+          province: '',
+          city: '',
+          citycode: '',
+          district: '',
+          adcode: '',
+          street: '',
+          streetNumber: '',
+          lat:'',
+          lng:'',
+          status:'',
+          gmtCreate:''
         },
         dataList: [
           {
@@ -77,11 +99,13 @@
           }
         ],
         dataListLoading: false,
-        addOrUpdateVisible: false
+        addOrUpdateVisible: false,
+        showLocationInfo:false
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      ShowLocationInfo
     },
     activated () {
       this.getDataList()
@@ -97,6 +121,21 @@
         }).then(({data}) => {
           this.dataList = data.page.list
           this.dataListLoading = false
+        })
+      },
+      showinfor(locationId){
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl(`/location/info/${locationId}`),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          this.dataForm = data.cfLocation
+          this.dataListLoading = false
+          this.showLocationInfo =true
+          this.$nextTick(() => {
+            this.$refs.showLocationInfo.init(this.dataForm)
+          })
         })
       },
       // 新增 / 修改
