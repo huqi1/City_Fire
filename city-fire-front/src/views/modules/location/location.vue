@@ -10,42 +10,36 @@
         prop="locationName"
         header-align="center"
         align="center"
-        weight="30%"
         label="位置全称">
       </el-table-column>
       <el-table-column
         prop="city"
         header-align="center"
         align="center"
-        weight="12%"
         label="所属地市">
       </el-table-column>
       <el-table-column
         prop="district"
         header-align="center"
         align="center"
-        weight="12%"
         label="所属区县">
       </el-table-column>
       <el-table-column
         prop="status"
         header-align="center"
         align="center"
-        weight="12%"
         label="状态">
       </el-table-column>
       <el-table-column
         prop="gmtCreate"
         header-align="center"
         align="center"
-        weight="12%"
         label="创建时间">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
-        weight="10%"
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="isAuth('operate:category:update')" type="primary" size="medium" @click="addOrUpdateHandle(scope.row.categoryId)">修改</el-button>
