@@ -1,9 +1,6 @@
 <template>
   <div class="mod-menu">
     <el-form :inline="true" :model="dataForm">
-      <el-form-item>
-        <el-button v-if="isAuth('operate:category:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-      </el-form-item>
     </el-form>
     <el-table
       :data="dataList"
