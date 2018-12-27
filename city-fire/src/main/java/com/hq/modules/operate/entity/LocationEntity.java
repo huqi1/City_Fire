@@ -67,6 +67,11 @@ public class LocationEntity implements Serializable {
 	 * 设备状态: 0:正常 1：删除 2：禁用
 	 */
 	private Integer status;
+
+	/**
+	 * 备注
+	 */
+	private Integer remark;
 	/**
 	 * 创建时间
 	 */
@@ -192,5 +197,13 @@ public class LocationEntity implements Serializable {
 	 */
 	public Date getGmtCreate() {
 		return gmtCreate;
+	}
+
+	public Integer getRemark() {
+		return remark;
+	}
+
+	public void setRemark(Integer remark) {
+		this.remark = remark;
 	}
 }
