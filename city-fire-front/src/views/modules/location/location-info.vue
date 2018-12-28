@@ -94,7 +94,7 @@
         this.$http({
           url:this.$http.adornUrl(`/location/updateRemark`),
           method: 'post',
-          params:this.$http.adornData({
+          params:this.$http.adornParams({
             locationid:self.dataForm.locationId,
             remark:self.dataForm.remark
           })

@@ -25,7 +25,7 @@
           </template>
         </el-menu-item>
         <el-menu-item index="2">
-          <el-badge value="空">
+         <el-badge value="">
             <a href="https://gitee.com/ahqcode/City_Fire" target="_blank">代码库</a>
           </el-badge>
         </el-menu-item>

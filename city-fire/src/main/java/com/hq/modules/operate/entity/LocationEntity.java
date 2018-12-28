@@ -71,7 +71,7 @@ public class LocationEntity implements Serializable {
 	/**
 	 * 备注
 	 */
-	private Integer remark;
+	private String remark;
 	/**
 	 * 创建时间
 	 */
@@ -199,11 +199,11 @@ public class LocationEntity implements Serializable {
 		return gmtCreate;
 	}
 
-	public Integer getRemark() {
+	public String getRemark() {
 		return remark;
 	}
 
-	public void setRemark(Integer remark) {
+	public void setRemark(String remark) {
 		this.remark = remark;
 	}
 }

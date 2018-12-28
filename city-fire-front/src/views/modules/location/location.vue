@@ -54,8 +54,8 @@
         label="操作">
         <template slot-scope="scope">
           <el-button round v-if="isAuth('operate:category:update')" type="primary" size="mini" @click="showinfor(scope.row.locationId)">备注</el-button>
-          <el-button round v-if="isAuth('operate:category:delete')" type="warning" size="mini" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">禁用</el-button>
-          <el-button round v-if="isAuth('operate:category:delete')" type="danger" size="mini" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">删除</el-button>
+          <el-button round v-if="isAuth('operate:category:delete')" type="warning" size="mini" @click="stopUse(scope.row.locationId,1)">禁用</el-button>
+          <el-button round v-if="isAuth('operate:category:delete')" type="danger" size="mini" @click="deleteHandle(scope.row.locationId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -144,20 +144,45 @@
       addOrUpdateHandle (id) {
         this.addOrUpdateVisible = true
       },
+      //禁用
+      stopUse(id,status){
+        let self = this
+        self.$http({
+          url:this.$http.adornUrl(`/location/updateStatus`),
+          method:'post',
+          params:this.$http.adornParams({
+            locationid:id,
+            status:status
+          })
+        }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          }
+        )
+      },
       // 删除
-      deleteHandle (id, name) {
-        this.$confirm(`确定对名称为【${name}】进行【删除】操作?`, '提示', {
+      deleteHandle (id) {
+        var ids = new Array()
+        ids[0] = id
+        this.$confirm(`确定对其进行【删除】操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/category/delete`),
+            url: this.$http.adornUrl(`/location/delete`),
             method: 'post',
-            params: this.$http.adornParams({
-              categoryId: id
-            })
-
+            data: this.$http.adornData(ids,false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
