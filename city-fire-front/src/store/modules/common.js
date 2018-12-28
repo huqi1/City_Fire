@@ -4,9 +4,9 @@ export default {
     // 页面文档可视高度(随窗口改变大小)
     documentClientHeight: 0,
     // 导航条, 布局风格, defalut(默认) / inverse(反向)
-    navbarLayoutType: 'default',
+    navbarLayoutType: 'inverse',
     // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
-    sidebarLayoutSkin: 'dark',
+    sidebarLayoutSkin: 'light',
     // 侧边栏, 折叠状态
     sidebarFold: false,
     // 侧边栏, 菜单
