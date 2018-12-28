@@ -3,7 +3,6 @@ package com.hq.modules.operate.controller;
 import com.hq.common.utils.DateUtils;
 import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
-import com.hq.common.validator.ValidatorUtils;
 import com.hq.modules.operate.entity.LocationEntity;
 import com.hq.modules.operate.service.LocationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -68,14 +67,28 @@ public class LocationController {
     }
 
     /**
-     * 修改
+     * 修改备注
      */
-    @RequestMapping("/update")
-    @RequiresPermissions("sys:cflocation:update")
-    public R update(@RequestBody LocationEntity cfLocation){
-        ValidatorUtils.validateEntity(cfLocation);
-        locationService.updateAllColumnById(cfLocation);//全部更新
-        
+    @RequestMapping("/updateRemark")
+    @RequiresPermissions("operate:location:updateRemark")
+    public R updateRemark(@RequestParam Map<String,Object> params){
+        String locationid = params.get("locationid").toString();
+        String remark = " ";
+        if(params.get("remark") == null || params.get("remark").equals("")){
+        }else remark = params.get("remark").toString();
+        locationService.updateRemarkByid(locationid,remark);
+        return R.ok();
+    }
+
+    /**
+     * 修改状态
+     */
+    @RequestMapping("/updateStatus")
+    @RequiresPermissions("operate:location:updateStatus")
+    public R updateStatus(@RequestParam Map<String,Object> params){
+        String locationid = params.get("locationid").toString();
+        String status = params.get("status").toString();
+        locationService.updateStatusByid(locationid,status);
         return R.ok();
     }
 
@@ -83,10 +96,9 @@ public class LocationController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:cflocation:delete")
+    @RequiresPermissions("operate:location:delete")
     public R delete(@RequestBody String[] locationIds){
         locationService.deleteBatchIds(Arrays.asList(locationIds));
-
         return R.ok();
     }
 

@@ -15,5 +15,9 @@ import java.util.Map;
 public interface LocationService extends IService<LocationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    public void updateRemarkByid(String locationid, String remark);
+
+    public void updateStatusByid(String locationid, String status);
 }
 

@@ -37,9 +37,18 @@
         <el-input v-model="dataForm.locationName" readonly="readonly"></el-input>
       </el-form-item>
     </el-form>
+    <el-form label-width="100px">
+      <el-form-item label="备注信息：">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="dataForm.remark" ></el-input>
+      </el-form-item>
+    </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dataFormCancel()">取消</el-button>
-      <el-button type="primary" @click="dataFormCancel()">确定</el-button>
+      <el-button type="primary" @click="updateRemark()">确定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -63,7 +72,8 @@
           lat:'',
           lng:'',
           status:'',
-          gmtCreate:''
+          gmtCreate:'',
+          remark:''
         }
       }
     },
@@ -78,6 +88,33 @@
       dataFormCancel () {
         this.dataFormClear()
         this.visible = false
+      },
+      updateRemark(){
+        let self = this
+        this.$http({
+          url:this.$http.adornUrl(`/location/updateRemark`),
+          method: 'post',
+          params:this.$http.adornData({
+            locationid:self.dataForm.locationId,
+            remark:self.dataForm.remark
+          })
+        }).then( ({data}) => {
+          if (data && data.code === 0) {
+            self.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                self.visible = false
+                self.dataFormCancel()
+                self.$emit('refreshDataList')
+              }
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
+
+        })
       }
     }
   }

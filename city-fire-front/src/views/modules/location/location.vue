@@ -19,18 +19,21 @@
         prop="city"
         header-align="center"
         align="center"
+        min-width="40%"
         label="所属地市">
       </el-table-column>
       <el-table-column
         prop="district"
         header-align="center"
         align="center"
+        min-width="40%"
         label="所属区县">
       </el-table-column>
       <el-table-column
         prop="status"
         header-align="center"
         align="center"
+        min-width="40%"
         label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status == 0" size="medium" type="success">正常</el-tag>
@@ -41,6 +44,7 @@
         prop="gmtCreate"
         header-align="center"
         align="center"
+        min-width="70%"
         label="创建时间">
       </el-table-column>
       <el-table-column
@@ -49,19 +53,18 @@
         align="center"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('operate:category:update')" type="primary" size="medium" @click="addOrUpdateHandle(scope.row.categoryId)">修改</el-button>
-          <el-button v-if="isAuth('operate:category:delete')" type="danger" size="medium" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">删除</el-button>
+          <el-button round v-if="isAuth('operate:category:update')" type="primary" size="mini" @click="showinfor(scope.row.locationId)">备注</el-button>
+          <el-button round v-if="isAuth('operate:category:delete')" type="warning" size="mini" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">禁用</el-button>
+          <el-button round v-if="isAuth('operate:category:delete')" type="danger" size="mini" @click="deleteHandle(scope.row.categoryId,scope.row.typeName)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo"></ShowLocationInfo>
+    <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo" @refreshDataList="getDataList"></ShowLocationInfo>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './location-add-or-update'
   import ShowLocationInfo from  './location-info'
   export default {
     data () {
@@ -104,7 +107,6 @@
       }
     },
     components: {
-      AddOrUpdate,
       ShowLocationInfo
     },
     activated () {
@@ -141,9 +143,6 @@
       // 新增 / 修改
       addOrUpdateHandle (id) {
         this.addOrUpdateVisible = true
-        this.$nextTick(() => {
-          this.$refs.addOrUpdate.init(id)
-        })
       },
       // 删除
       deleteHandle (id, name) {

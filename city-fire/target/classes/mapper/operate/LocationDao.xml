@@ -17,8 +17,19 @@
         <result property="lat" column="lat"/>
         <result property="lng" column="lng"/>
         <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
+    <update id="updateRemarkByid">
+        update cf_Location
+		  set remark = #{remark}
+		where location_id = #{locationid}
+    </update>
 
+    <update id="updateStatusByid">
+        update cf_Location
+		  set status = #{status}
+		where location_id = #{locationid}
+    </update>
 </mapper>

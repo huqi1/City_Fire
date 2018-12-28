@@ -27,4 +27,15 @@ public class LocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity
         return new PageUtils(page);
     }
 
+    @Override
+    public void updateRemarkByid(String locationid, String remark) {
+        baseMapper.updateRemarkByid(locationid,remark);
+    }
+
+    @Override
+    public void updateStatusByid(String locationid, String status) {
+        baseMapper.updateStatusByid(locationid,status);
+    }
+
+
 }
