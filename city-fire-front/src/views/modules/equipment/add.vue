@@ -27,7 +27,10 @@
         <el-input v-model="dataForm.citycode" placeholder="输入设备数量"></el-input>
       </el-form-item>
     </el-form>
-    <el-form label-width="150px">
+    <el-form :inline="true" label-width="150px">
+      <el-form-item label="所在区：">
+        <el-input v-model="dataForm.locationName" readonly="readonly"  style="width:185px"></el-input>
+      </el-form-item>
       <el-form-item label="选择设备位置：">
         <el-input v-model="dataForm.locationName" readonly="readonly"  style="width:535px"></el-input>
       </el-form-item>
