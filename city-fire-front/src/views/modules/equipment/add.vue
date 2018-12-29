@@ -5,7 +5,22 @@
         <el-input v-model="dataForm.province" placeholder="输入设备名称" ></el-input>
       </el-form-item>
       <el-form-item label="选择分类：">
-        <el-input v-model="dataForm.city" readonly="readonly">
+        <el-popover
+          ref="menuListPopover"
+          placement="bottom-start"
+          trigger="click">
+          <el-tree
+            :data="menuList"
+            :props="menuListTreeProps"
+            node-key="categoryId"
+            ref="menuListTree"
+            @current-change="menuListTreeCurrentChangeHandle"
+            :default-expand-all="true"
+            :highlight-current="true"
+            :expand-on-click-node="false">
+          </el-tree>
+        </el-popover>
+        <el-input v-model="typeForm.typeName" :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
         </el-input>
       </el-form-item>
       <el-form-item label="数量(件)：">
@@ -26,25 +41,25 @@
 
     <el-form :inline="true" label-width="150px">
       <el-form-item label="小区：">
-        <el-input v-model="dataForm.district" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.district" ></el-input>
       </el-form-item>
       <el-form-item label="单元：">
-        <el-input v-model="dataForm.adcode" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.adcode" ></el-input>
       </el-form-item>
       <el-form-item label="楼层：">
-        <el-input v-model="dataForm.street" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.street"></el-input>
       </el-form-item>
       <el-form-item label="楼道：">
-        <el-input v-model="dataForm.streetNumber" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.streetNumber"></el-input>
       </el-form-item>
       <el-form-item label="房间号">
-        <el-input v-model="dataForm.lat" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.lat" ></el-input>
       </el-form-item>
       <el-form-item label="管理员：">
-        <el-input v-model="dataForm.lng" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.lng" ></el-input>
       </el-form-item>
       <el-form-item label="联系电话：">
-        <el-input v-model="dataForm.lng" readonly="readonly"></el-input>
+        <el-input v-model="dataForm.lng" ></el-input>
       </el-form-item>
     </el-form>
     <el-form label-width="150px">
@@ -57,7 +72,7 @@
       </el-form-item>
     </el-form>
     <div >
-      <el-button type="primary" style="margin: 0 auto" @click="updateRemark()">确定</el-button>
+      <el-button type="primary"  @click="updateRemark()">新增设备</el-button>
     </div>
     <!-- 弹窗, 新增 / 修改 -->
   <!--  <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo" @refreshDataList="getDataList"></ShowLocationInfo>
@@ -67,6 +82,7 @@
 
 <script>
  // import ShowLocationInfo from  './location-info'
+ import { treeDataTranslate } from '@/utils'
   export default {
     data () {
       return {
@@ -104,13 +120,26 @@
         ],
         dataListLoading: false,
         addOrUpdateVisible: false,
-        showLocationInfo:false
+        showLocationInfo:false,
+        menuList: [],
+        menuListTreeProps: {
+          label: 'typeName',
+          children: 'children'
+        },
+        typeForm: {
+          categoryId: '',
+          typeName: '',
+          typePid: '',
+          typePname: '',
+          typeId: ''
+        },
       }
     },
     components: {
     },
     activated () {
       this.getDataList()
+      this.gettypelist()
     },
     methods: {
       // 获取数据列表
@@ -124,6 +153,22 @@
           this.dataList = data.page.list
           this.dataListLoading = false
         })
+      },
+      gettypelist () {
+        this.$http({
+          url: this.$http.adornUrl('/category/list'),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          this.menuList = treeDataTranslate(data.page.list, 'typeId' ,'typePid')
+        })
+      },
+      // 菜单树选中
+      menuListTreeCurrentChangeHandle (data, node) {
+        this.typeForm.categoryId = data.typeId
+        this.typeForm.typeName = data.typeName
+        console.log("选中的id = "+this.typeForm.categoryId )
+        console.log("选择的名称 = "+this.typeForm.typeName)
       },
       showinfor(locationId){
         this.dataListLoading = true
