@@ -13,6 +13,11 @@ public class RectCover_10 {
         if (target ==2){
             return before1;
         }
+        try {
+
+        }finally {
+
+        }
         for (int i =3;i <= target;i++){
             result = before2+before1;
             before2 = before1;
