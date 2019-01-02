@@ -5,7 +5,7 @@
     :visible.sync="visible">
     <el-form :inline="true" label-width="100px">
       <el-form-item label="省：">
-        <el-input v-model="dataForm.province" readonly="readonly"></el-input>
+        <el-input :model="dataForm.province" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item label="市：">
         <el-input v-model="dataForm.city" readonly="readonly"></el-input>

@@ -143,6 +143,7 @@
     activated () {
       this.getDataList()
       this.gettypelist()
+      this.getDistrictList();
     },
     methods: {
       // 获取数据列表
@@ -172,6 +173,18 @@
         this.typeForm.typeName = data.typeName
         console.log("选中的id = "+this.typeForm.categoryId )
         console.log("选择的名称 = "+this.typeForm.typeName)
+      },
+      getDistrictList(){
+        this.dataListLoading = true;
+        this.$http({
+          url:this.$http.adornUrl('/location/districtList'),
+          method: 'get',
+          params:this.$http.adornParams({
+            citycode:"028"
+          })
+        }).then( ({data}) =>{
+            console.log("date = "+data)
+          })
       },
       showinfor(locationId){
         this.dataListLoading = true

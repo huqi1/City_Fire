@@ -10,6 +10,7 @@ import com.hq.modules.operate.entity.LocationEntity;
 import com.hq.modules.operate.service.LocationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -35,6 +36,12 @@ public class LocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity
     @Override
     public void updateStatusByid(String locationid, String status) {
         baseMapper.updateStatusByid(locationid,status);
+    }
+
+    @Override
+    public List<String> selectDistrictBycityCode(String citycode) {
+        List<String> list = baseMapper.selectDistrictBycityCode(citycode);
+        return  list;
     }
 
 

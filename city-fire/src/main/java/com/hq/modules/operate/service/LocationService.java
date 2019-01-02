@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.hq.common.utils.PageUtils;
 import com.hq.modules.operate.entity.LocationEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +20,10 @@ public interface LocationService extends IService<LocationEntity> {
     public void updateRemarkByid(String locationid, String remark);
 
     public void updateStatusByid(String locationid, String status);
+
+    /**
+     *根据市(citycode)查询所有区
+     * */
+    public List<String> selectDistrictBycityCode(String citycode);
 }
 

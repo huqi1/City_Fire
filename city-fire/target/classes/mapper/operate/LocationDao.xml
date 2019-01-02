@@ -32,4 +32,10 @@
 		  set status = #{status}
 		where location_id = #{locationid}
     </update>
+    <select id="selectDistrictBycityCode" resultType="String">
+        SELECT DISTINCT(district) FROM cf_location
+        <where>
+            citycode = #{citycode}
+        </where>
+    </select>
 </mapper>

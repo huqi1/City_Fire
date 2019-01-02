@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -102,4 +103,15 @@ public class LocationController {
         return R.ok();
     }
 
+    /**
+     * 根据市(citycode)查询所有区
+     * */
+    @RequestMapping("/districtList")
+    @RequiresPermissions("operate:location:list")
+    public R districtList(@RequestParam Map<String, Object> params){
+        //区列表不参与分页
+        String citycode = params.get("citycode").toString();
+        List<String> list = locationService.selectDistrictBycityCode(citycode);
+        return R.ok().put("page", list);
+    }
 }
