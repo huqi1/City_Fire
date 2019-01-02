@@ -114,4 +114,11 @@ public class LocationController {
         List<String> list = locationService.selectDistrictBycityCode(citycode);
         return R.ok().put("page", list);
     }
+    @RequestMapping("/locationList")
+    @RequiresPermissions("operate:location:list")
+    public R locationList(@RequestParam Map<String, Object> params){
+        String district = params.get("district").toString();
+        List<LocationEntity> list = locationService.selectBydistrict(district);
+        return R.ok().put("page", list);
+    }
 }

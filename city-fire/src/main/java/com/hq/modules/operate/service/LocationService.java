@@ -25,5 +25,9 @@ public interface LocationService extends IService<LocationEntity> {
      *根据市(citycode)查询所有区
      * */
     public List<String> selectDistrictBycityCode(String citycode);
+    /**
+     *根据市(citycode)查询所有区
+     **/
+    public List<LocationEntity> selectBydistrict(String district);
 }
 

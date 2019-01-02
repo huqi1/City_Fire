@@ -22,6 +22,12 @@ public interface LocationDao extends BaseMapper<LocationEntity> {
     public void updateStatusByid(@Param("locationid") String locationid,@Param("status") String status);
 
     /**
-     *根据市(citycode)查询所有区*/
+     *
+     * 根据市(citycode)查询所有区*/
     public List<String> selectDistrictBycityCode(@Param("citycode") String citycode);
+
+    /**
+     *根据市(citycode)查询所有区
+     * */
+    public List<LocationEntity> selectBydistrict(@Param("district") String citycode);
 }

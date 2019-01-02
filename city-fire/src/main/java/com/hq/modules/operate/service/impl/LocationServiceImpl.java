@@ -44,5 +44,11 @@ public class LocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity
         return  list;
     }
 
+    @Override
+    public List<LocationEntity> selectBydistrict(String district) {
+        List<LocationEntity> list = baseMapper.selectBydistrict(district);
+        return  list;
+    }
+
 
 }

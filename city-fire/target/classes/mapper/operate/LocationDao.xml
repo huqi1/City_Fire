@@ -38,4 +38,10 @@
             citycode = #{citycode}
         </where>
     </select>
+    <select id="selectBydistrict" resultMap="cfLocationMap">
+        SELECT * FROM cf_location
+        <where>
+            district = #{district}
+        </where>
+    </select>
 </mapper>
