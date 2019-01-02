@@ -29,7 +29,16 @@
     </el-form>
     <el-form :inline="true" label-width="150px">
       <el-form-item label="所在区：">
-        <el-input v-model="dataForm.locationName" readonly="readonly"  style="width:185px"></el-input>
+        <el-select v-model="dataForm.district" placeholder="选择设备所在区" style="width:185px">
+          <el-option
+            v-for="item in districtList"
+            :key="item"
+            :label="item"
+            :
+            :value="item">
+          </el-option>
+        </el-select>
+
       </el-form-item>
       <el-form-item label="选择设备位置：">
         <el-input v-model="dataForm.locationName" readonly="readonly"  style="width:535px"></el-input>
@@ -66,7 +75,7 @@
       </el-form-item>
     </el-form>
     <el-form label-width="150px">
-      <el-form-item label="备注信息：">
+      <el-form-item label="备注信息：" style="width:1035px">
         <el-input
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 4}"
@@ -90,8 +99,8 @@
     data () {
       return {
         dataForm: {
-          locationId:'',
-          locationName:'',
+          locationId: '',
+          locationName: '',
           province: '',
           city: '',
           citycode: '',
@@ -99,15 +108,15 @@
           adcode: '',
           street: '',
           streetNumber: '',
-          lat:'',
-          lng:'',
-          status:'',
-          gmtCreate:''
+          lat: '',
+          lng: '',
+          status: '',
+          gmtCreate: ''
         },
         dataList: [
           {
-            locationId:'',
-            locationName:'',
+            locationId: '',
+            locationName: '',
             province: '',
             city: '',
             citycode: '',
@@ -115,15 +124,15 @@
             adcode: '',
             street: '',
             streetNumber: '',
-            lat:'',
-            lng:'',
-            status:'',
-            gmtCreate:''
+            lat: '',
+            lng: '',
+            status: '',
+            gmtCreate: ''
           }
         ],
         dataListLoading: false,
         addOrUpdateVisible: false,
-        showLocationInfo:false,
+        showLocationInfo: false,
         menuList: [],
         menuListTreeProps: {
           label: 'typeName',
@@ -136,6 +145,7 @@
           typePname: '',
           typeId: ''
         },
+        districtList: []
       }
     },
     components: {
@@ -183,7 +193,7 @@
             citycode:"028"
           })
         }).then( ({data}) =>{
-            console.log("date = "+data)
+          this.districtList = data.page
           })
       },
       showinfor(locationId){
