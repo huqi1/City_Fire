@@ -212,15 +212,30 @@
         })
       },
       setlocaltionInfor(){
-        var index = this.locationList.find(function(item){
+        let obj = {
+          locationId: '',
+          locationName: '',
+          province: '',
+          city: '',
+          citycode: '',
+          district: '',
+          adcode: '',
+          street: '',
+          streetNumber: '',
+          lat: '',
+          lng: '',
+          status: '',
+          gmtCreate: ''
+        }
+        var index = this.locationList.findIndex((item)=>{
         //根据item中的id属性来判断这个item是否是上面id中
         //对应的数据，如果是返回一个true ,否返回false,继续下面的一条数据的遍历，以此类推
-          return item.locationName === this.dataForm.locationName; //如果返回true，那么findIndex方法会将这个item对应的id返回到外面接受
+          return (item.locationName == this.dataForm.locationName); //如果返回true，那么findIndex方法会将这个item对应的id返回到外面接受
         });
-        console.log("选中的位置id："+ index.localtionId);
-        this.dataForm.localtionId = index.localtionId;
-        console.log("选中的位置id："+ this.dataForm.localtionId);
-        console.log("选中的位置name："+this.dataForm.locationName);
+        console.log("选中的位置id = "+this.locationList[index].locationId )
+        this.dataForm.localtionId = this.locationList[index].locationId;
+        console.log("选中的位置id = "+this.dataForm.localtionId )
+        console.log("选择的位置名称 = "+this.dataForm.locationName)
       },
       getequipmentId(){
         if (this.dataForm.belongTypeid == null || this.dataForm.belongTypeid ===''){
@@ -230,12 +245,12 @@
           this.$message.error("请选择设备所属位置")
           return;
         }else {
-          var id = 'EQ-'+this.dataForm.typeId+'-'+this.dataForm.localtionId+'-'+getUUID()
-          this.dataForm.equipmentId = id
+          var id = 'EQ-'+this.dataForm.belongTypeid+'-'+this.dataForm.localtionId+'-'+this.getUUID()
+          this.dataForm.equipmentId = (id.toUpperCase()).replace("\.","-")
         }
       },
       getUUID(){
-          return (((1 + Math.random()) * 0x10000) | 0).toString(10).substring(1);
+          return (((1 + Math.random()) * 1000000)).toString(16);
       },
       // 新增 / 修改
       addOrUpdateHandle (id) {
