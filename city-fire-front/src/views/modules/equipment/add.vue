@@ -13,14 +13,13 @@
             :data="menuList"
             :props="menuListTreeProps"
             node-key="categoryId"
-            ref="menuListTree"
             @current-change="menuListTreeCurrentChangeHandle"
             :default-expand-all="true"
             :highlight-current="true"
             :expand-on-click-node="false">
           </el-tree>
         </el-popover>
-        <el-input v-model="typeForm.typeName" :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
+        <el-input v-model="typeForm.typeName" v-popover:menuListPopover :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
         </el-input>
       </el-form-item>
       <el-form-item label="数量(件)：">
@@ -41,9 +40,12 @@
 
       </el-form-item>
       <el-form-item label="选择设备位置：">
-        <el-select v-model="dataForm.locationName" readonly="readonly"  style="width:535px">
+        <el-select v-model="dataForm.locationName"
+                    readonly="readonly"
+                   @change="setlocaltionInfor"
+                   style="width:535px">
           <el-option
-            v-for="item in locationList"
+            v-for="(item,index) in locationList"
             :key="item.locationId"
             :value="item.locationName">
           </el-option>
@@ -53,7 +55,7 @@
     <el-form label-width="150px">
       <el-form-item label="确认设备编码：">
         <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
-        <el-button type="primary">生成编码</el-button>
+        <el-button @click="getequipmentId" type="primary">生成编码</el-button>
       </el-form-item>
     </el-form>
 
@@ -181,7 +183,10 @@
         this.typeForm.typeName = data.typeName
         console.log("选中的id = "+this.typeForm.categoryId )
         console.log("选择的名称 = "+this.typeForm.typeName)
+        this.dataForm.belongTypeid = data.typeId
+        this.dataForm.belongTypename = data.typeName
       },
+
       getDistrictList(){
         this.dataListLoading = true;
         this.$http({
@@ -192,7 +197,7 @@
           })
         }).then( ({data}) =>{
           this.districtList = data.page
-          })
+        })
       },
       getlocationList(district){
         this.dataListLoading = true;
@@ -205,6 +210,32 @@
         }).then(({data}) => {
           this.locationList = data.page
         })
+      },
+      setlocaltionInfor(){
+        var index = this.locationList.find(function(item){
+        //根据item中的id属性来判断这个item是否是上面id中
+        //对应的数据，如果是返回一个true ,否返回false,继续下面的一条数据的遍历，以此类推
+          return item.locationName === this.dataForm.locationName; //如果返回true，那么findIndex方法会将这个item对应的id返回到外面接受
+        });
+        console.log("选中的位置id："+ index.localtionId);
+        this.dataForm.localtionId = index.localtionId;
+        console.log("选中的位置id："+ this.dataForm.localtionId);
+        console.log("选中的位置name："+this.dataForm.locationName);
+      },
+      getequipmentId(){
+        if (this.dataForm.belongTypeid == null || this.dataForm.belongTypeid ===''){
+          this.$message.error("请选择设备所属分类")
+          return;
+        }else if(this.dataForm.localtionId == null ||this.dataForm.localtionId === ''){
+          this.$message.error("请选择设备所属位置")
+          return;
+        }else {
+          var id = 'EQ-'+this.dataForm.typeId+'-'+this.dataForm.localtionId+'-'+getUUID()
+          this.dataForm.equipmentId = id
+        }
+      },
+      getUUID(){
+          return (((1 + Math.random()) * 0x10000) | 0).toString(10).substring(1);
       },
       // 新增 / 修改
       addOrUpdateHandle (id) {
