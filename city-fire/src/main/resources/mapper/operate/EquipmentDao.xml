@@ -15,6 +15,13 @@
         <result property="locationName" column="location_name"/>
         <result property="equipmentStatus" column="equipment_status"/>
         <result property="locationStatus" column="location_status"/>
+        <result property="community" column="community"/>
+        <result property="unit" column="unit"/>
+        <result property="floor" column="floor"/>
+        <result property="corridor" column="corridor"/>
+        <result property="roomNumber" column="room_number"/>
+        <result property="administrator" column="administrator"/>
+        <result property="phone" column="phone"/>
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
