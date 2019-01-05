@@ -252,36 +252,33 @@
       getUUID(){
           return (((1 + Math.random()) * 1000000)).toString(16);
       },
-      // 新增 / 修改
-      addOrUpdateHandle (id) {
-        this.addOrUpdateVisible = true
-      },
-      //禁用
-      stopUse(id,status){
-        let self = this
-        self.$http({
-          url:this.$http.adornUrl(`/location/updateStatus`),
+      save(){
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/equipment/save'),
           method:'post',
-          params:this.$http.adornParams({
-            locationid:id,
-            status:status
+          data:this.$http.adornData({
+            cfEquipment:this.dataForm
           })
-        }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
+        }).then(({data})=>{
+          if (data && data.code === 0) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.dataFormCancel()
+              }
+            })
+          } else {
+            this.$message.error(data.msg)
           }
-        )
+          })
       },
+      dataFormCancel(){
+        this.dataForm = {}
+      }
+
     }
   }
 </script>

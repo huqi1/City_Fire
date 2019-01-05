@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("sys/equipment")
+@RequestMapping("equipment")
 public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
