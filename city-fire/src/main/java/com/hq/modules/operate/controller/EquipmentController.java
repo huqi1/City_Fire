@@ -28,7 +28,7 @@ public class EquipmentController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:cfequipment:list")
+    //@RequiresPermissions("operate:equipment:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = equipmentService.queryPage(params);
 
@@ -40,7 +40,7 @@ public class EquipmentController {
      * 信息
      */
     @RequestMapping("/info/{equipmentId}")
-    @RequiresPermissions("sys:cfequipment:info")
+    @RequiresPermissions("operate:equipment:info")
     public R info(@PathVariable("equipmentId") String equipmentId){
         EquipmentEntity cfEquipment = equipmentService.selectById(equipmentId);
 
@@ -51,7 +51,7 @@ public class EquipmentController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:cfequipment:save")
+    @RequiresPermissions("operate:equipment:save")
     public R save(@RequestBody EquipmentEntity cfEquipment){
         cfEquipment.setEquipmentStatus(0);
         cfEquipment.setLocationStatus(0);
@@ -65,7 +65,7 @@ public class EquipmentController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:cfequipment:update")
+    @RequiresPermissions("operate:equipment:update")
     public R update(@RequestBody EquipmentEntity cfEquipment){
         ValidatorUtils.validateEntity(cfEquipment);
         equipmentService.updateAllColumnById(cfEquipment);//全部更新
@@ -77,7 +77,7 @@ public class EquipmentController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:cfequipment:delete")
+    @RequiresPermissions("operate:equipment:delete")
     public R delete(@RequestBody String[] equipmentIds){
         equipmentService.deleteBatchIds(Arrays.asList(equipmentIds));
 

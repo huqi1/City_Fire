@@ -1,6 +1,6 @@
 <template>
   <div class="mod-menu">
-    <el-form :inline="true" :model="dataForm"  :rules="dataRules" label-width="150px">
+    <el-form :inline="true" :model="dataForm"  ref="dataForm" :rules="dataRules" label-width="150px">
       <el-form-item label="设备名称：" prop="equipmentName">
         <el-input v-model="dataForm.equipmentName" placeholder="输入设备名称" ></el-input>
       </el-form-item>
@@ -26,7 +26,7 @@
         <el-input v-model="dataForm.equipmentNum" placeholder="输入设备数量"></el-input>
       </el-form-item>
     </el-form>
-    <el-form :inline="true" :rules="dataRules" :model="dataForm" label-width="150px">
+    <el-form :inline="true" :rules="dataRules"  ref="dataForm" :model="dataForm" label-width="150px">
       <el-form-item label="所在区：" prop="district">
         <el-select v-model="dataForm.district"
                    @change="getlocationList(dataForm.district)"
@@ -52,14 +52,14 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <el-form label-width="150px" :rules="dataRules" :model="dataForm">
+    <el-form label-width="150px" :rules="dataRules"  ref="dataForm" :model="dataForm">
       <el-form-item label="确认设备编码：" prop="equipmentId">
         <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
         <el-button @click="getequipmentId" type="primary">生成编码</el-button>
       </el-form-item>
     </el-form>
 
-    <el-form :inline="true" label-width="150px" :rules="dataRules" :model="dataForm">
+    <el-form :inline="true" label-width="150px" :rules="dataRules" ref="dataForm" :model="dataForm">
       <el-form-item label="小区：">
         <el-input v-model="dataForm.community" ></el-input>
       </el-form-item>
@@ -280,7 +280,7 @@
       },
       save(){
         this.$refs['dataForm'].validate((valid) => {
-          if(valid){
+          if (valid) {
             this.dataListLoading = true
             this.$http({
               url: this.$http.adornUrl('/equipment/save'),
@@ -293,6 +293,7 @@
                   'equipmentPrice': this.dataForm.equipmentPrice,
                   'equipmentNum': this.dataForm.equipmentNum,
                   'localtionId': this.dataForm.localtionId,
+                  'locationName':this.dataForm.locationName,
                   'community': this.dataForm.community,
                   'unit': this.dataForm.unit,
                   'floor': this.dataForm.floor,
