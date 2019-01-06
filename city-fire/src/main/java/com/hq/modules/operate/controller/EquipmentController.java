@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -52,7 +53,10 @@ public class EquipmentController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:cfequipment:save")
     public R save(@RequestBody EquipmentEntity cfEquipment){
-        equipmentService.insert(cfEquipment);
+        cfEquipment.setEquipmentStatus(0);
+        cfEquipment.setLocationStatus(0);
+        cfEquipment.setGmtCreate(new Date());
+        equipmentService.insertAllColumn(cfEquipment);
 
         return R.ok();
     }

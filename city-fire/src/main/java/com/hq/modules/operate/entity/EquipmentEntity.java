@@ -2,6 +2,7 @@ package com.hq.modules.operate.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class EquipmentEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
+	@TableId(value = "equipment_id",type = IdType.INPUT)
 	private String equipmentId;
 	/**
 	 * 设备名称

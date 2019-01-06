@@ -1,10 +1,10 @@
 <template>
   <div class="mod-menu">
-    <el-form :inline="true" label-width="150px">
-      <el-form-item label="设备名称：">
+    <el-form :inline="true" :model="dataForm"  :rules="dataRules" label-width="150px">
+      <el-form-item label="设备名称：" prop="equipmentName">
         <el-input v-model="dataForm.equipmentName" placeholder="输入设备名称" ></el-input>
       </el-form-item>
-      <el-form-item label="选择分类：">
+      <el-form-item label="选择分类：" prop="belongTypename">
         <el-popover
           ref="menuListPopover"
           placement="bottom-start"
@@ -19,15 +19,15 @@
             :expand-on-click-node="false">
           </el-tree>
         </el-popover>
-        <el-input v-model="typeForm.typeName" v-popover:menuListPopover :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
+        <el-input v-model="dataForm.belongTypename" v-popover:menuListPopover :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
         </el-input>
       </el-form-item>
-      <el-form-item label="数量(件)：">
+      <el-form-item label="数量(件)：" prop="equipmentNum">
         <el-input v-model="dataForm.equipmentNum" placeholder="输入设备数量"></el-input>
       </el-form-item>
     </el-form>
-    <el-form :inline="true" label-width="150px">
-      <el-form-item label="所在区：">
+    <el-form :inline="true" :rules="dataRules" :model="dataForm" label-width="150px">
+      <el-form-item label="所在区：" prop="district">
         <el-select v-model="dataForm.district"
                    @change="getlocationList(dataForm.district)"
                    placeholder="选择设备所在区" style="width:185px">
@@ -39,7 +39,7 @@
         </el-select>
 
       </el-form-item>
-      <el-form-item label="选择设备位置：">
+      <el-form-item label="选择设备位置：" prop="locationName">
         <el-select v-model="dataForm.locationName"
                     readonly="readonly"
                    @change="setlocaltionInfor"
@@ -52,14 +52,14 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <el-form label-width="150px">
-      <el-form-item label="确认设备编码：">
+    <el-form label-width="150px" :rules="dataRules" :model="dataForm">
+      <el-form-item label="确认设备编码：" prop="equipmentId">
         <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
         <el-button @click="getequipmentId" type="primary">生成编码</el-button>
       </el-form-item>
     </el-form>
 
-    <el-form :inline="true" label-width="150px">
+    <el-form :inline="true" label-width="150px" :rules="dataRules" :model="dataForm">
       <el-form-item label="小区：">
         <el-input v-model="dataForm.community" ></el-input>
       </el-form-item>
@@ -75,10 +75,10 @@
       <el-form-item label="房间号">
         <el-input v-model="dataForm.roomNumber" ></el-input>
       </el-form-item>
-      <el-form-item label="管理员：">
+      <el-form-item label="管理员：" prop="administrator">
         <el-input v-model="dataForm.administrator" ></el-input>
       </el-form-item>
-      <el-form-item label="联系电话：">
+      <el-form-item label="联系电话：" prop="phone">
         <el-input v-model="dataForm.phone" ></el-input>
       </el-form-item>
     </el-form>
@@ -92,7 +92,7 @@
       </el-form-item>
     </el-form>
     <div >
-      <el-button type="primary"  @click="updateRemark()">新增设备</el-button>
+      <el-button type="primary"  @click="save()">新增设备</el-button>
     </div>
     <!-- 弹窗, 新增 / 修改 -->
   <!--  <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo" @refreshDataList="getDataList"></ShowLocationInfo>
@@ -158,7 +158,33 @@
           typePname: '',
           typeId: ''
         },
-        districtList: []
+        districtList: [],
+        dataRules:{
+          equipmentName :[
+            {required: true, message: '设备名称不能为空', trigger: 'blur' }
+          ],
+          belongTypename :[
+            {required: true, message: '设备所属分类不能为空', trigger: 'blur' }
+          ],
+          equipmentNum :[
+            {required: true, message: '设备数量不能为空', trigger: 'blur' }
+          ],
+          district :[
+            {required: true, message: '设备所属区县不能为空', trigger: 'blur' }
+          ],
+          locationName :[
+            {required: true, message: '设备位置不能为空', trigger: 'blur' }
+          ],
+          equipmentId :[
+            {required: true, message: '设备编码不能为空', trigger: 'blur' }
+          ],
+          administrator :[
+            {required: true, message: '管理员姓名不能为空', trigger: 'blur' }
+          ],
+          phone :[
+            {required: true, message: '管理员电话不能为空', trigger: 'blur' }
+          ],
+        }
       }
     },
     components: {
@@ -253,27 +279,44 @@
           return (((1 + Math.random()) * 1000000)).toString(16);
       },
       save(){
-        this.dataListLoading = true
-        this.$http({
-          url: this.$http.adornUrl('/equipment/save'),
-          method:'post',
-          data:this.$http.adornData({
-            cfEquipment:this.dataForm
-          })
-        }).then(({data})=>{
-          if (data && data.code === 0) {
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.dataFormCancel()
+        this.$refs['dataForm'].validate((valid) => {
+          if(valid){
+            this.dataListLoading = true
+            this.$http({
+              url: this.$http.adornUrl('/equipment/save'),
+              method:'post',
+              data:this.$http.adornData({
+                  'equipmentId': this.dataForm.equipmentId,
+                  'equipmentName': this.dataForm.equipmentName,
+                  'belongTypeid': this.dataForm.belongTypeid,
+                  'belongTypename': this.dataForm.belongTypename,
+                  'equipmentPrice': this.dataForm.equipmentPrice,
+                  'equipmentNum': this.dataForm.equipmentNum,
+                  'localtionId': this.dataForm.localtionId,
+                  'community': this.dataForm.community,
+                  'unit': this.dataForm.unit,
+                  'floor': this.dataForm.floor,
+                  'corridor': this.dataForm.corridor,
+                  'roomNumber': this.dataForm.roomNumber,
+                  'administrator': this.dataForm.administrator,
+                  'phone':this.dataForm.phone}
+                ,false)
+            }).then(({data})=>{
+              if (data && data.code === 0) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 1500,
+                  onClose: () => {
+                    this.dataFormCancel()
+                  }
+                })
+              } else {
+                this.$message.error(data.msg)
               }
             })
-          } else {
-            this.$message.error(data.msg)
           }
-          })
+        })
       },
       dataFormCancel(){
         this.dataForm = {}
