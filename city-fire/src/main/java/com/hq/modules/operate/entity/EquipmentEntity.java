@@ -94,81 +94,84 @@ public class EquipmentEntity implements Serializable {
 	 */
 	private Date gmtCreate;
 
-	/**
-	 * 设置：
-	 */
+	public String getEquipmentId() {
+		return equipmentId;
+	}
+
 	public void setEquipmentId(String equipmentId) {
 		this.equipmentId = equipmentId;
 	}
 
-	/**
-	 * 设置：设备名称
-	 */
+	public String getEquipmentName() {
+		return equipmentName;
+	}
+
 	public void setEquipmentName(String equipmentName) {
 		this.equipmentName = equipmentName;
 	}
 
-	/**
-	 * 设置：所属分类id
-	 */
+	public String getBelongTypeid() {
+		return belongTypeid;
+	}
+
 	public void setBelongTypeid(String belongTypeid) {
 		this.belongTypeid = belongTypeid;
 	}
 
-	/**
-	 * 设置：所属分类名称
-	 */
+	public String getBelongTypename() {
+		return belongTypename;
+	}
+
 	public void setBelongTypename(String belongTypename) {
 		this.belongTypename = belongTypename;
 	}
 
-	/**
-	 * 设置：设备价格
-	 */
+	public Integer getEquipmentPrice() {
+		return equipmentPrice;
+	}
+
 	public void setEquipmentPrice(Integer equipmentPrice) {
 		this.equipmentPrice = equipmentPrice;
 	}
 
-	/**
-	 * 设置：设备数量
-	 */
+	public Integer getEquipmentNum() {
+		return equipmentNum;
+	}
+
 	public void setEquipmentNum(Integer equipmentNum) {
 		this.equipmentNum = equipmentNum;
 	}
 
-	/**
-	 * 设置：设备所在位置id
-	 */
+	public String getLocaltionId() {
+		return localtionId;
+	}
+
 	public void setLocaltionId(String localtionId) {
 		this.localtionId = localtionId;
 	}
 
-	/**
-	 * 设置：设备所在位置名称
-	 */
+	public String getLocationName() {
+		return locationName;
+	}
+
 	public void setLocationName(String locationName) {
 		this.locationName = locationName;
 	}
 
-	/**
-	 * 设置：设备状态0:正常 1：报修 2：检修 3：报废
-	 */
+	public Integer getEquipmentStatus() {
+		return equipmentStatus;
+	}
+
 	public void setEquipmentStatus(Integer equipmentStatus) {
 		this.equipmentStatus = equipmentStatus;
 	}
 
-	/**
-	 * 设置：设备状态: 0:在库 1：检修 2：在用
-	 */
-	public void setLocationStatus(Integer locationStatus) {
-		this.locationStatus = locationStatus;
+	public Integer getLocationStatus() {
+		return locationStatus;
 	}
 
-	/**
-	 * 设置：创建时间
-	 */
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
+	public void setLocationStatus(Integer locationStatus) {
+		this.locationStatus = locationStatus;
 	}
 
 	public String getCommunity() {
@@ -225,5 +228,13 @@ public class EquipmentEntity implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
 	}
 }

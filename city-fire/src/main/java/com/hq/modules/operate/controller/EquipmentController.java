@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -32,7 +33,9 @@ public class EquipmentController {
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = equipmentService.queryPage(params);
 
-        return R.ok().put("page", page);
+        Map<String,Object> map = new HashMap<>();
+        map.put("page", page);
+        return R.ok(map);
     }
 
 
