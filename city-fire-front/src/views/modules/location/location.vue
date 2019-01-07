@@ -59,6 +59,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle"
+      :current-page="pageIndex"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
+      :total="totalPage"
+      layout="total, sizes, prev, pager, next, jumper">
+    </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <ShowLocationInfo v-if="showLocationInfo" ref="showLocationInfo" @refreshDataList="getDataList"></ShowLocationInfo>
   </div>
@@ -103,7 +112,10 @@
         ],
         dataListLoading: false,
         addOrUpdateVisible: false,
-        showLocationInfo:false
+        showLocationInfo:false,
+        pageIndex: 1,
+        pageSize: 10,
+        totalPage: 0
       }
     },
     components: {
@@ -119,10 +131,14 @@
         this.$http({
           url: this.$http.adornUrl('/location/list'),
           method: 'get',
-          params: this.$http.adornParams()
+          params: this.$http.adornParams({
+            'page': this.pageIndex,
+            'limit': this.pageSize
+          })
         }).then(({data}) => {
           this.dataList = data.page.list
           this.dataListLoading = false
+          this.totalPage = data.page.totalCount
         })
       },
       showinfor(locationId){
@@ -139,6 +155,17 @@
             this.$refs.showLocationInfo.init(this.dataForm)
           })
         })
+      },
+      // 每页数
+      sizeChangeHandle (val) {
+        this.pageSize = val
+        this.pageIndex = 1
+        this.getDataList()
+      },
+      // 当前页
+      currentChangeHandle (val) {
+        this.pageIndex = val
+        this.getDataList()
       },
       // 新增 / 修改
       addOrUpdateHandle (id) {

@@ -65,6 +65,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="sizeChangeHandle"
+      @current-change="currentChangeHandle"
+      :current-page="pageIndex"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
+      :total="totalPage"
+      layout="total, sizes, prev, pager, next, jumper">
+    </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <ShowEquipmentInfo v-if="showEquipmentInfo" ref="showEquipmentInfo" @refreshDataList="getDataList"></ShowEquipmentInfo>
   </div>
@@ -121,7 +130,10 @@
         ],
         dataListLoading: false,
         addOrUpdateVisible: false,
-        showEquipmentInfo:false
+        showEquipmentInfo:false,
+        pageIndex: 1,
+        pageSize: 10,
+        totalPage: 0
       }
     },
     components: {
@@ -141,6 +153,7 @@
         }).then(({data}) => {
           this.dataList = data.page.list
           this.dataListLoading = false
+          this.totalPage = data.page.totalCount
         })
       },
       showinfor(locationId){
@@ -187,6 +200,17 @@
             }
           }
         )
+      },
+      // 每页数
+      sizeChangeHandle (val) {
+        this.pageSize = val
+        this.pageIndex = 1
+        this.getDataList()
+      },
+      // 当前页
+      currentChangeHandle (val) {
+        this.pageIndex = val
+        this.getDataList()
       },
       // 删除
       deleteHandle (id) {
