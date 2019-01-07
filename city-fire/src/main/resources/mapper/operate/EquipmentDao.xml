@@ -25,5 +25,28 @@
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
 
-
+    <update id="updateAllByid" >
+        update cf_equipment
+        <set>
+            equipment_id =  #{equipment.equipmentId},
+            equipment_name =  #{equipment.equipmentName},
+            belong_typeid =  #{equipment.belongTypeid},
+            belong_typename =  #{equipment.belongTypename},
+            equipment_price =  #{equipment.equipmentPrice},
+            equipment_num =  #{equipment.equipmentNum},
+            localtion_id =  #{equipment.localtionId},
+            location_name =  #{equipment.locationName},
+            equipment_status =  #{equipment.equipmentStatus},
+            location_status =  #{equipment.locationStatus},
+            community =  #{equipment.community},
+            unit =  #{equipment.unit},
+            floor =  #{equipment.floor},
+            corridor =  #{equipment.corridor},
+            room_number =  #{equipment.roomNumber},
+            administrator =  #{equipment.administrator},
+            phone =  #{equipment.phone},
+            gmt_create =  #{equipment.gmtCreate}
+        </set>
+        where equipment_id = #{id}
+    </update>
 </mapper>

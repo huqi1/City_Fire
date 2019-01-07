@@ -26,4 +26,9 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentDao, EquipmentEnt
         return new PageUtils(page);
     }
 
+    @Override
+    public void updateAllByid(EquipmentEntity equipmentEntity, String id) {
+       baseMapper.updateAllByid(equipmentEntity,id);
+    }
+
 }

@@ -15,5 +15,8 @@ import java.util.Map;
 public interface EquipmentService extends IService<EquipmentEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    public void updateAllByid( EquipmentEntity equipmentEntity,String id);
+
 }
 
