@@ -26,14 +26,14 @@
         prop="district"
         header-align="center"
         align="center"
-        min-width="40%"
+        min-width="35%"
         label="所属区县">
       </el-table-column>
       <el-table-column
         prop="status"
         header-align="center"
         align="center"
-        min-width="40%"
+        min-width="35%"
         label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status == 0" size="medium" type="success">正常</el-tag>
@@ -44,7 +44,7 @@
         prop="gmtCreate"
         header-align="center"
         align="center"
-        min-width="70%"
+        min-width="65%"
         label="创建时间">
       </el-table-column>
       <el-table-column

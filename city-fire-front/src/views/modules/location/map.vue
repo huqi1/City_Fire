@@ -213,7 +213,20 @@
               self.locationinfor =result.regeocode.formattedAddress
               self.choesLocation = result.regeocode.formattedAddress
               self.dataForm = JSON.parse(JSON.stringify(result.regeocode.addressComponent, null, 4));
-
+              if (self.dataForm.businessAreas.length == 0){
+                let supply = {
+                  name: '',
+                  id: '',
+                  location: {
+                    P: '',
+                    O: '',
+                    lng: lat,
+                    lat: lng
+                  }
+                }
+                self.dataForm.businessAreas.push(supply)
+              }
+              console.log("修改搜索详情:" + JSON.stringify(self.dataForm, null, 4))
               tself.showWindows()
             }
           }

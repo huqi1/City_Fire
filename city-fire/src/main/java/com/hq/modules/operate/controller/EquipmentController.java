@@ -33,6 +33,8 @@ public class EquipmentController {
     @RequestMapping("/list")
     //@RequiresPermissions("operate:equipment:list")
     public R list(@RequestParam Map<String, Object> params){
+        params.put("sidx","gmt_create");
+        params.put("order","DESC");
         PageUtils page = equipmentService.queryPage(params);
 
         Map<String,Object> map = new HashMap<>();

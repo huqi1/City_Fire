@@ -35,6 +35,8 @@ public class LocationController {
     @RequestMapping("/list")
     @RequiresPermissions("operate:location:list")
     public R list(@RequestParam Map<String, Object> params){
+        params.put("sidx","gmt_create");
+        params.put("order","DESC");
         PageUtils page = locationService.queryPage(params);
 
         return R.ok().put("page", page);
