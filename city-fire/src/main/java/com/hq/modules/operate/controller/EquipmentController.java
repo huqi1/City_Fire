@@ -1,5 +1,7 @@
 package com.hq.modules.operate.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.hq.common.utils.PageUtils;
 import com.hq.common.utils.R;
 import com.hq.common.validator.ValidatorUtils;
@@ -76,6 +78,18 @@ public class EquipmentController {
         return R.ok();
     }
 
+    /**
+     * 修改by oldid
+     */
+    @RequestMapping("/updatebyid")
+    @RequiresPermissions("operate:equipment:update")
+    public R update(@RequestParam Map<String,Object> map){
+        EquipmentEntity equipment  = JSON.parseObject((String) map.get("equipment"),new TypeReference<EquipmentEntity>(){});
+        String id = (String) map.get("id");
+        //ValidatorUtils.validateEntity(cfEquipment);
+        equipmentService.updateAllByid(equipment,id);//全部更新
+        return R.ok();
+    }
     /**
      * 删除
      */

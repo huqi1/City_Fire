@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     title="详情查看"
+    width="900px"
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :inline="true" :model="dataForm"  ref="dataForm" :rules="dataRules" label-width="150px">
@@ -28,8 +29,6 @@
       <el-form-item label="数量(件)：" prop="equipmentNum">
         <el-input v-model="dataForm.equipmentNum" placeholder="输入设备数量"></el-input>
       </el-form-item>
-    </el-form>
-    <el-form :inline="true" :rules="dataRules"  ref="dataForm" :model="dataForm" label-width="150px">
       <el-form-item label="所在区：" prop="district">
         <el-select v-model="dataForm.district"
                    @change="getlocationList(dataForm.district)"
@@ -42,6 +41,8 @@
         </el-select>
 
       </el-form-item>
+    </el-form>
+    <el-form :inline="true" :rules="dataRules"  ref="dataForm" :model="dataForm" label-width="150px">
       <el-form-item label="选择设备位置：" prop="locationName">
         <el-select v-model="dataForm.locationName"
                    readonly="readonly"
@@ -85,7 +86,7 @@
         <el-input v-model="dataForm.phone" ></el-input>
       </el-form-item>
     </el-form>
-    <el-form label-width="150px">
+   <!-- <el-form label-width="150px">
       <el-form-item label="备注信息：" style="width:750px">
         <el-input
           type="textarea"
@@ -93,10 +94,10 @@
           placeholder="请输入内容"
           v-model="dataForm.remark" ></el-input>
       </el-form-item>
-    </el-form>
+    </el-form>-->
     <span slot="footer" class="dialog-footer">
       <el-button @click="dataFormCancel()">取消</el-button>
-      <el-button type="primary" @click="updateRemark()">确定</el-button>
+      <el-button type="primary" @click="updateall()">确定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -108,6 +109,7 @@
       return {
         visible: false,
         choesLocation: '',
+        oldequipmentId:'',
         dataForm: {
           equipmentId: '',
           equipmentName: '',
@@ -193,6 +195,7 @@
         this.gettypelist()
         this.getDistrictList()
         this.dataForm = dataForm
+        this.oldequipmentId = dataForm.equipmentId
         this.visible = true
       },
       gettypelist () {
@@ -281,19 +284,20 @@
       },
       dataFormClear () {
         this.dataForm = {}
+        this.oldequipmentId =''
       },
       dataFormCancel () {
         this.dataFormClear()
         this.visible = false
       },
-      updateRemark(){
+      updateall(){
         let self = this
         this.$http({
-          url:this.$http.adornUrl(`/location/updateRemark`),
+          url:this.$http.adornUrl(`/equipment/updatebyid`),
           method: 'post',
           params:this.$http.adornParams({
-            locationid:self.dataForm.locationId,
-            remark:self.dataForm.remark
+            equipment:self.dataForm,
+            id:self.oldequipmentId
           })
         }).then( ({data}) => {
           if (data && data.code === 0) {
