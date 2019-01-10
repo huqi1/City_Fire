@@ -1,6 +1,17 @@
 package wangdao;
 
+import com.baomidou.mybatisplus.toolkit.ArrayUtils;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ReverseList_15 {
+
+    static final Map<String, Object> paramNameValuePairs = new HashMap();
+    static  AtomicInteger paramNameSeq = new AtomicInteger(0);
+    static String paramAlias = null;
     public static ListNode ReverseList(ListNode head) {
         if (head == null) return null;
         ListNode newhead  = head;
@@ -15,19 +26,27 @@ public class ReverseList_15 {
         }
         return newhead;
     }
+    static String formatSqlIfNeed(boolean need, String sqlStr, Object... params) {
+        if (need && !StringUtils.isEmpty(sqlStr)) {
+            if (ArrayUtils.isNotEmpty(params)) {
+                for(int i = 0; i < params.length; ++i) {
+                    String genParamName = "MPGENVAL" + paramNameSeq.incrementAndGet();
+                    sqlStr = sqlStr.replace(String.format("{%s}", i), String.format("#{%s.paramNameValuePairs.%s}", getParamAlias(), genParamName));
+                    paramNameValuePairs.put(genParamName, params[i]);
+                }
+            }
+
+            return sqlStr;
+        } else {
+            return null;
+        }
+    }
+    static String getParamAlias() {
+        return StringUtils.isEmpty(paramAlias) ? "ew" : paramAlias;
+    }
 
     public static void main(String[] args) {
-        ListNode listNode1 = new ListNode(1);
-        ListNode listNode2 = new ListNode(2);
-        ListNode listNode3 = new ListNode(3);
-        ListNode listNode4 = new ListNode(4);
-        ListNode listNode5 = new ListNode(5);
-        listNode5.next = null;
-        listNode4.next = listNode5;
-        listNode3.next = listNode4;
-        listNode2.next = listNode3;
-        listNode1.next = listNode2;
-
-        ReverseList(listNode1);
+        String name = "name";
+       System.out.println(formatSqlIfNeed(true,"district = {%s}",name));
     }
 }
