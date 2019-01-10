@@ -6,7 +6,8 @@
       </el-form-item>
       <el-form-item>
       <el-select v-model="searchData.belongTypeName"
-                 placeholder="可选择设备所属分类" style="width:185px">
+                 placeholder="可选择设备所属分类"
+                 style="width:185px">
         <el-option
           v-for="item in BelongTypeList"
           :key="item"
@@ -163,7 +164,7 @@
         searchData:{
           equipmentName:'',
           belongTypeName:'',
-
+          community:''
         },
         BelongTypeList:[],
         communityList:[],
@@ -180,6 +181,8 @@
     },
     activated () {
       this.getDataList()
+      this.getTypelistList()
+      this.getCommunitylistList()
     },
     methods: {
       // 获取数据列表
@@ -190,7 +193,10 @@
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
-            'limit': this.pageSize
+            'limit': this.pageSize,
+            'equipmentName':this.searchData.equipmentName,
+            'belongTypeName':this.searchData.belongTypeName,
+            'community':this.searchData.community
           })
         }).then(({data}) => {
           this.dataList = data.page.list
@@ -211,6 +217,30 @@
           this.$nextTick(() => {
             this.$refs.showEquipmentInfo.init(this.dataForm)
           })
+        })
+      },
+      //获取所有存在的类型信息
+      getTypelistList(){
+        this.dataListLoading = true;
+        this.$http({
+          url:this.$http.adornUrl('/equipment/typelist'),
+          method: 'get',
+          params:this.$http.adornParams({
+          })
+        }).then( ({data}) =>{
+          this.BelongTypeList = data.page
+        })
+      },
+      //获取所有存在的类型信息
+      getCommunitylistList(){
+        this.dataListLoading = true;
+        this.$http({
+          url:this.$http.adornUrl('/equipment/communitylist'),
+          method: 'get',
+          params:this.$http.adornParams({
+          })
+        }).then( ({data}) =>{
+          this.communityList = data.page
         })
       },
       // 新增 / 修改

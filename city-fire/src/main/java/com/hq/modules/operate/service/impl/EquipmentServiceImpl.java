@@ -8,6 +8,7 @@ import com.hq.common.utils.Query;
 import com.hq.modules.operate.dao.EquipmentDao;
 import com.hq.modules.operate.entity.EquipmentEntity;
 import com.hq.modules.operate.service.EquipmentService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +20,15 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentDao, EquipmentEnt
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String equipmentName = (String) params.get("equipmentName");
+        String belongTypeName = (String) params.get("belongTypeName");
+        String community = (String) params.get("community");
         Page<EquipmentEntity> page = this.selectPage(
                 new Query<EquipmentEntity>(params).getPage(),
                 new EntityWrapper<EquipmentEntity>()
+                        .where(StringUtils.isNotBlank(belongTypeName),"belong_typename = {0}",belongTypeName)
+                .and(StringUtils.isNotBlank(community),"community = {0}",community)
+                .like(StringUtils.isNotBlank(equipmentName),"equipment_name = {0}",equipmentName)
         );
 
         return new PageUtils(page);
