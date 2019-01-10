@@ -11,14 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-
-
-
+import java.util.*;
 
 
 @RestController
@@ -31,7 +24,7 @@ public class EquipmentController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("operate:equipment:list")
+    @RequiresPermissions("operate:equipment:list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("sidx","gmt_create");
         params.put("order","DESC");
@@ -42,7 +35,31 @@ public class EquipmentController {
         return R.ok(map);
     }
 
+    /**
+     * 查询所有已存在的类型
+     */
+    @RequestMapping("/typelist")
+    @RequiresPermissions("operate:equipment:list")
+    public R typelist(@RequestParam Map<String, Object> params){
 
+        List<String> typelist = equipmentService.selectAllType();
+        Map<String,Object> map = new HashMap<>();
+        map.put("page", typelist);
+        return R.ok(map);
+    }
+
+    /**
+     * 查询所有已存在的小区
+     */
+    @RequestMapping("/communitylist")
+    @RequiresPermissions("operate:equipment:list")
+    public R communitylist(@RequestParam Map<String, Object> params){
+
+        List<String> typelist = equipmentService.selectAllCommunity();
+        Map<String,Object> map = new HashMap<>();
+        map.put("page", typelist);
+        return R.ok(map);
+    }
     /**
      * 信息
      */

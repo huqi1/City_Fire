@@ -49,4 +49,12 @@
         </set>
         where equipment_id = #{id}
     </update>
+
+    <select id="selectAllType" resultType="String">
+        select  DISTINCT belong_typename from cf_equipment
+    </select>
+
+    <select id="selectAllCommunity"  resultType="String">
+       select  DISTINCT community from cf_equipment
+    </select>
 </mapper>

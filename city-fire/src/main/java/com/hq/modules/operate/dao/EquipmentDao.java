@@ -6,6 +6,8 @@ import com.hq.modules.operate.entity.EquipmentEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  *
  *
@@ -16,4 +18,8 @@ import org.apache.ibatis.annotations.Param;
 public interface EquipmentDao extends BaseMapper<EquipmentEntity> {
 
     public void updateAllByid(@Param("equipment") EquipmentEntity equipmentEntity,@Param("id") String id);
+
+    List<String> selectAllType();
+
+    List<String> selectAllCommunity();
 }

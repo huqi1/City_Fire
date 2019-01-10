@@ -5,6 +5,26 @@
         <el-input v-model="searchData.equipmentName" placeholder="设备名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
+      <el-select v-model="searchData.belongTypeName"
+                 placeholder="可选择设备所属分类" style="width:185px">
+        <el-option
+          v-for="item in BelongTypeList"
+          :key="item"
+          :value="item">
+        </el-option>
+      </el-select>
+    </el-form-item>
+      <el-form-item>
+        <el-select v-model="searchData.community"
+                   placeholder="可选择设备所属小区" style="width:185px">
+          <el-option
+            v-for="item in communityList"
+            :key="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
         <el-button @click="getDataList()" type="primary">搜索</el-button>
       </el-form-item>
       <el-form-item>
@@ -141,8 +161,12 @@
           }
         ],
         searchData:{
-          equipmentName:''
+          equipmentName:'',
+          belongTypeName:'',
+
         },
+        BelongTypeList:[],
+        communityList:[],
         dataListLoading: false,
         addOrUpdateVisible: false,
         showEquipmentInfo:false,

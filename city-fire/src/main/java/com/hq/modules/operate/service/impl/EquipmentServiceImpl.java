@@ -10,6 +10,7 @@ import com.hq.modules.operate.entity.EquipmentEntity;
 import com.hq.modules.operate.service.EquipmentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,6 +30,16 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentDao, EquipmentEnt
     @Override
     public void updateAllByid(EquipmentEntity equipmentEntity, String id) {
        baseMapper.updateAllByid(equipmentEntity,id);
+    }
+
+    @Override
+    public List<String> selectAllType() {
+        return baseMapper.selectAllType();
+    }
+
+    @Override
+    public List<String> selectAllCommunity() {
+        return baseMapper.selectAllCommunity();
     }
 
 }
