@@ -1,6 +1,28 @@
 <template>
   <div class="mod-menu">
-    <el-form :inline="true" :model="dataForm">
+    <el-form :inline="true" :model="searchData" @keyup.enter.native="getDataList()">
+      <el-form-item>
+        <el-input v-model="searchData.locationName" placeholder="设备名称" clearable></el-input>
+      </el-form-item>
+      <el-form-item prop="district">
+        <el-select v-model="searchData.district"
+                   placeholder="可选择位置所在区" style="width:185px">
+          <el-option
+            v-for="item in districtList"
+            :key="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="getDataList()" type="primary">搜索</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="getDataList()" type="primary">导出本页</el-button>
+      </el-form-item>
+      <el-form-item style="padding-right: 0px">
+        <el-button @click="getDataList()" type="primary">导出所有</el-button>
+      </el-form-item>
     </el-form>
     <el-table
       :data="dataList"
@@ -78,6 +100,10 @@
   export default {
     data () {
       return {
+        searchData:{
+          locationName:'',
+          district:''
+        },
         dataForm: {
           locationId:'',
           locationName:'',
@@ -110,6 +136,7 @@
             gmtCreate:''
           }
         ],
+        districtList: [],
         dataListLoading: false,
         addOrUpdateVisible: false,
         showLocationInfo:false,
@@ -123,6 +150,7 @@
     },
     activated () {
       this.getDataList()
+      this.getDistrictList()
     },
     methods: {
       // 获取数据列表
@@ -133,7 +161,8 @@
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
-            'limit': this.pageSize
+            'limit': this.pageSize,
+            'district': this.searchData.district
           })
         }).then(({data}) => {
           this.dataList = data.page.list
@@ -154,6 +183,19 @@
           this.$nextTick(() => {
             this.$refs.showLocationInfo.init(this.dataForm)
           })
+        })
+      },
+      //获取所有区信息
+      getDistrictList(){
+        this.dataListLoading = true;
+        this.$http({
+          url:this.$http.adornUrl('/location/districtList'),
+          method: 'get',
+          params:this.$http.adornParams({
+            citycode:"028"
+          })
+        }).then( ({data}) =>{
+          this.districtList = data.page
         })
       },
       // 每页数

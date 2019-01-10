@@ -8,6 +8,7 @@ import com.hq.common.utils.Query;
 import com.hq.modules.operate.dao.LocationDao;
 import com.hq.modules.operate.entity.LocationEntity;
 import com.hq.modules.operate.service.LocationService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +21,10 @@ public class LocationServiceImpl extends ServiceImpl<LocationDao, LocationEntity
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String district = (String) params.get("district");
         Page<LocationEntity> page = this.selectPage(
                 new Query<LocationEntity>(params).getPage(),
-                new EntityWrapper<LocationEntity>()
+                new EntityWrapper<LocationEntity>().where(StringUtils.isNotBlank(district),"district = {0}",district)
         );
 
         return new PageUtils(page);

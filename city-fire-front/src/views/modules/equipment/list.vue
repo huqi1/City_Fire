@@ -1,6 +1,18 @@
 <template>
   <div class="mod-menu">
-    <el-form :inline="true" :model="dataForm">
+    <el-form :inline="true" :model="searchData" @keyup.enter.native="getDataList()">
+      <el-form-item>
+        <el-input v-model="searchData.equipmentName" placeholder="设备名称" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="getDataList()" type="primary">搜索</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="getDataList()" type="primary">导出本页</el-button>
+      </el-form-item>
+      <el-form-item style="padding-right: 0px">
+        <el-button @click="getDataList()" type="primary">导出所有</el-button>
+      </el-form-item>
     </el-form>
     <el-table
       :data="dataList"
@@ -128,6 +140,9 @@
             gmtCreate:''
           }
         ],
+        searchData:{
+          equipmentName:''
+        },
         dataListLoading: false,
         addOrUpdateVisible: false,
         showEquipmentInfo:false,
@@ -149,7 +164,10 @@
         this.$http({
           url: this.$http.adornUrl('/equipment/list'),
           method: 'get',
-          params: this.$http.adornParams()
+          params: this.$http.adornParams({
+            'page': this.pageIndex,
+            'limit': this.pageSize
+          })
         }).then(({data}) => {
           this.dataList = data.page.list
           this.dataListLoading = false
