@@ -162,7 +162,8 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'district': this.searchData.district
+            'district': this.searchData.district,
+            'locationName':this.searchData.locationName
           })
         }).then(({data}) => {
           this.dataList = data.page.list
