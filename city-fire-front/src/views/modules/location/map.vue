@@ -1,17 +1,19 @@
 <template>
   <div>
-    <div>
       <el-form :inline="true">
+        <el-form-item label-width="30px">
+          <el-amap-search-box class="search-box"
+
+                              :search-option="searchOption"
+                              :on-search-result="onSearchResult">
+          </el-amap-search-box>
+        </el-form-item>
         <el-form-item>
           <el-button v-if="isAuth('operate:map:save')" type="primary" @click="AddLocation()">新增</el-button>
         </el-form-item>
       </el-form>
-    </div>
+
       <div class="amap-wrapper">
-        <el-amap-search-box class="search-box"
-                            :search-option="searchOption"
-                            :on-search-result="onSearchResult">
-        </el-amap-search-box>
         <el-amap vid="amap" :plugin="plugin"  :center="center" :zoom ="zoom">
           <div v-if=" markersflag == true ">
               <el-amap-marker  v-for="(marker,idx) in markers" :key= "idx" :position="marker.marker" :events="marker.events"></el-amap-marker>
@@ -241,13 +243,14 @@
 <style>
   .amap-wrapper {
     position:absolute;
-    top:55px;
+    top:75px;
     left:25px;
     width:96%;
     height:81%;
   }
   .search-box {
     position:absolute;
+    height: 55px;
   }
   .prompt {
     background: white;
