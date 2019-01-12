@@ -18,8 +18,8 @@
       <file leaf-file-name="EquipmentController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/EquipmentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="26" column="48" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="48" />
+            <state relative-caret-position="23">
+              <caret line="26" column="48" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -27,8 +27,8 @@
       <file leaf-file-name="LocationController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/LocationController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="35" column="26" lean-forward="true" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="47" />
+            <state relative-caret-position="529">
+              <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -54,7 +54,7 @@
       <file leaf-file-name="LocationServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/LocationServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
+            <state relative-caret-position="368">
               <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
             </state>
           </provider>
@@ -177,7 +177,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="132" />
     <option name="y" value="195" />
     <option name="width" value="1026" />
@@ -189,6 +189,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -315,7 +316,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -522,12 +522,13 @@
       <workItem from="1547023725157" duration="4370000" />
       <workItem from="1547092039777" duration="7396000" />
       <workItem from="1547129154041" duration="5868000" />
-      <workItem from="1547177274063" duration="2835000" />
+      <workItem from="1547177274063" duration="3248000" />
+      <workItem from="1547272527426" duration="620000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="200786000" />
+    <option name="totallyTimeSpent" value="201819000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -540,6 +541,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50075644" side_tool="true" weight="0.4738562" />
@@ -552,9 +554,8 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" visible="true" weight="0.49673203" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.49673203" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32843137" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Java Enterprise" order="7" weight="0.32843137" />
@@ -571,6 +572,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32843137" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -927,22 +929,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/LocationServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
+        <state relative-caret-position="368">
           <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/LocationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="35" column="26" lean-forward="true" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="47" />
+        <state relative-caret-position="529">
+          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/EquipmentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="26" column="48" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="48" />
+        <state relative-caret-position="23">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="48" />
         </state>
       </provider>
     </entry>
