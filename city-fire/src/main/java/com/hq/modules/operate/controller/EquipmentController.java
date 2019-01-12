@@ -51,6 +51,7 @@ public class EquipmentController {
     /**
      * 查询所有已存在的小区
      */
+
     @RequestMapping("/communitylist")
     @RequiresPermissions("operate:equipment:list")
     public R communitylist(@RequestParam Map<String, Object> params){

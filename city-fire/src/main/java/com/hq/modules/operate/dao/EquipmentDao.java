@@ -3,8 +3,10 @@ package com.hq.modules.operate.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.hq.modules.operate.entity.EquipmentEntity;
+import com.hq.modules.operate.entity.EquipmentStatistics;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * @date 2018-12-17 09:25:46
  */
 @Mapper
+@Repository
 public interface EquipmentDao extends BaseMapper<EquipmentEntity> {
 
     public void updateAllByid(@Param("equipment") EquipmentEntity equipmentEntity,@Param("id") String id);
@@ -22,4 +25,6 @@ public interface EquipmentDao extends BaseMapper<EquipmentEntity> {
     List<String> selectAllType();
 
     List<String> selectAllCommunity();
+
+    List<EquipmentStatistics> statisticsbydate(@Param("startDate")String startDate,@Param("endDate")String endDate);
 }

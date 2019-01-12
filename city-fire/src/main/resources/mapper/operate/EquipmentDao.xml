@@ -24,6 +24,11 @@
         <result property="phone" column="phone"/>
         <result property="gmtCreate" column="gmt_create"/>
     </resultMap>
+    <resultMap id="equipmentStatistics" type="com.hq.modules.operate.entity.EquipmentStatistics">
+        <result property="community" column="community"/>
+        <result property="date" column="gmt_create"/>
+        <result property="addEqunum" column="equipment_num"/>
+    </resultMap>
 
     <update id="updateAllByid" >
         update cf_equipment
@@ -56,5 +61,18 @@
 
     <select id="selectAllCommunity"  resultType="String">
        select  DISTINCT community from cf_equipment
+    </select>
+
+    <select id="statisticsbydate" resultMap="equipmentStatistics">
+        SELECT
+        community,
+        DATE_FORMAT(gmt_create,'%Y-%m-%d')AS date,
+        SUM(equipment_num) as addEqunum
+        FROM `cf_equipment`
+        WHERE
+        gmt_create &gt;= #{startDate}
+        AND
+        gmt_create &lt; #{endDate}
+        GROUP BY DATE_FORMAT(gmt_create,'%Y-%m-%d'),community
     </select>
 </mapper>

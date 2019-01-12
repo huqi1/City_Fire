@@ -66,6 +66,7 @@
     },
     mounted () {
       this.initChartLine()
+
     },
     activated () {
       // 由于给echart添加了resize事件, 在组件激活时需要重新resize绘画一次, 否则出现空白bug
@@ -76,8 +77,24 @@
       const start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
       this.chosedate = [start, end]
+      this.getDataList()
     },
     methods: {
+      getDataList () {
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/statistics/equipment'),
+          method: 'get',
+          params: this.$http.adornParams({
+            'startDate': this.chosedate[0],
+            'endDate': this.chosedate[1]
+          })
+        }).then(({data}) => {
+          this.dataList = data.page.list
+          this.dataListLoading = false
+          this.totalPage = data.page.totalCount
+        })
+      },
       // 折线图
       initChartLine () {
         var option = {
