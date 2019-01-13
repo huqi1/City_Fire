@@ -102,7 +102,6 @@
       },
       // 折线图
       initChartLine () {
-        console.log("option = test")
         var option = {
           'title': {
             'text': '设备数量统计图'
@@ -134,7 +133,6 @@
           },
           'series': []
         }
-        console.log("option = ", JSON.stringify(option,null,4))
         var  communityLength = this.community.length
         for(var i =0;i<communityLength; i++){
           var  series = {
@@ -143,16 +141,18 @@
               'stack': '总量',
               'data': [ ]
             }
-          console.log("test = "+this.pageData.get("江安花园"))
-          var communityData = JSON.parse(JSON.stringify(this.pageData.get(this.community[i]), null, 4))
+           var key = this.community[i]
+          var communityData = JSON.parse(JSON.stringify(this.pageData[key], null, 4))
           console.log("communityData = ",communityData)
           var dateLength = this.date.length
             for (var j =0;j<dateLength;j++){
-              series.data.push(communityData.get(this.date.get(j)+""))
+              var  key2 = this.date[j]
+              series.data.push(communityData[key2].sumEqunum)
             }
          option.series.push(series)
         }
         this.chartLine = echarts.init(document.getElementById('J_chartLineBox'))
+        console.log("option = ", JSON.stringify(option,null,4))
         this.chartLine.setOption(option)
         window.addEventListener('resize', () => {
           this.chartLine.resize()
