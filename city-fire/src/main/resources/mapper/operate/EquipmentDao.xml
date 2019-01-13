@@ -63,7 +63,7 @@
        select  DISTINCT community from cf_equipment
     </select>
 
-    <select id="statisticsbydate" resultMap="equipmentStatistics">
+    <select id="statisticsbydate" resultType="com.hq.modules.operate.entity.EquipmentStatistics">
         SELECT
         community,
         DATE_FORMAT(gmt_create,'%Y-%m-%d')AS date,

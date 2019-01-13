@@ -58,14 +58,20 @@
             }
           }]
         },
-        value4: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-        value5: '',
-        chosedate:[]
+        chosedate:[],
+        date:[],
+        community:[],
+        pageData:{}
+
 
       }
     },
     mounted () {
-      this.initChartLine()
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      this.chosedate = [start, end]
+      this.getDataList()
 
     },
     activated () {
@@ -73,11 +79,6 @@
       if (this.chartLine) {
         this.chartLine.resize()
       }
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-      this.chosedate = [start, end]
-      this.getDataList()
     },
     methods: {
       getDataList () {
@@ -90,13 +91,18 @@
             'endDate': this.chosedate[1]
           })
         }).then(({data}) => {
-          this.dataList = data.page.list
-          this.dataListLoading = false
-          this.totalPage = data.page.totalCount
+          this.pageData =JSON.parse(JSON.stringify(data.page, null, 4));
+          this.date = data.date
+          this.community = data.community
+          console.log("pageData = ", this.pageData)
+          console.log("date = ", this.date)
+          console.log("community = ", this.community)
+          this.initChartLine()
         })
       },
       // 折线图
       initChartLine () {
+        console.log("option = test")
         var option = {
           'title': {
             'text': '设备数量统计图'
@@ -105,7 +111,7 @@
             'trigger': 'axis'
           },
           'legend': {
-            'data': [ '小区1', '小区2', '小区3', '小区4', '小区5' ]
+            'data': this.community
           },
           'grid': {
             'left': '3%',
@@ -121,43 +127,30 @@
           'xAxis': {
             'type': 'category',
             'boundaryGap': false,
-            'data': [ '周一', '周二', '周三', '周四', '周五', '周六', '周日' ]
+            'data':  this.date
           },
           'yAxis': {
             'type': 'value'
           },
-          'series': [
-            {
-              'name': '小区1',
+          'series': []
+        }
+        console.log("option = ", JSON.stringify(option,null,4))
+        var  communityLength = this.community.length
+        for(var i =0;i<communityLength; i++){
+          var  series = {
+              'name': this.community[i],
               'type': 'line',
               'stack': '总量',
-              'data': [ 120, 132, 101, 134, 90, 230, 210 ]
-            },
-            {
-              'name': '小区2',
-              'type': 'line',
-              'stack': '总量',
-              'data': [ 220, 182, 191, 234, 290, 330, 310 ]
-            },
-            {
-              'name': '小区3',
-              'type': 'line',
-              'stack': '总量',
-              'data': [ 150, 232, 201, 154, 190, 330, 410 ]
-            },
-            {
-              'name': '小区4',
-              'type': 'line',
-              'stack': '总量',
-              'data': [ 320, 332, 301, 334, 390, 330, 320 ]
-            },
-            {
-              'name': '小区5',
-              'type': 'line',
-              'stack': '总量',
-              'data': [ 820, 932, 901, 934, 1290, 1330, 1320 ]
+              'data': [ ]
             }
-          ]
+          console.log("test = "+this.pageData.get("江安花园"))
+          var communityData = JSON.parse(JSON.stringify(this.pageData.get(this.community[i]), null, 4))
+          console.log("communityData = ",communityData)
+          var dateLength = this.date.length
+            for (var j =0;j<dateLength;j++){
+              series.data.push(communityData.get(this.date.get(j)+""))
+            }
+         option.series.push(series)
         }
         this.chartLine = echarts.init(document.getElementById('J_chartLineBox'))
         this.chartLine.setOption(option)
