@@ -138,7 +138,6 @@
           var  series = {
               'name': this.community[i],
               'type': 'line',
-              'stack': '总量',
               'data': [ ]
             }
            var key = this.community[i]
@@ -147,7 +146,7 @@
           var dateLength = this.date.length
             for (var j =0;j<dateLength;j++){
               var  key2 = this.date[j]
-              series.data.push(communityData[key2].sumEqunum)
+              series.data.push(parseInt(communityData[key2].sumEqunum))
             }
          option.series.push(series)
         }
