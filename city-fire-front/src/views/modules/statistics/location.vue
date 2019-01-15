@@ -17,11 +17,21 @@
   export default {
     data () {
       return {
-        chartPie: null
+        chartPie: null,
+        pageData:[{
+          district:'',
+          num:''
+        }],
+        nameFrom:[],
+        numFrom:[],
+        seriesData:[{
+          value:'',
+          name:''
+        }]
       }
     },
     mounted () {
-      this.initChartPie()
+      this.getDataList()
     },
     activated () {
       // 由于给echart添加了resize事件, 在组件激活时需要重新resize绘画一次, 否则出现空白bug
@@ -31,6 +41,27 @@
 
     },
     methods: {
+      getDataList () {
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/statistics/location'),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          this.pageData =data.page;
+          var length =  this.pageData.length
+          for(var i = 0;i<length;i++){
+            this.nameFrom.push(this.pageData[i].district)
+            this.numFrom.push(this.pageData[i].num)
+            var item = {
+                value:this.pageData[i].num,
+                name:this.pageData[i].district
+            }
+            this.seriesData.push(item)
+          }
+          this.initChartPie()
+        })
+      },
       // 饼状图
       initChartPie () {
         var option = {
@@ -65,8 +96,8 @@
             left: 0,
             top: 20,
             bottom: 20,
-            data: ['锦江区','金牛区','双流区','温江','高新区'],
-            selected: ['锦江区','金牛区','双流区','温江','高新区']
+            data: this.nameFrom,
+            selected: this.nameFrom
           },
           series: [
             {
@@ -74,13 +105,7 @@
               type: 'pie',
               radius: '55%',
               center: ['50%', '50%'],
-              data: [
-                { value: 335, name: '锦江区' },
-                { value: 310, name: '金牛区' },
-                { value: 274, name: '双流区' },
-                { value: 235, name: '温江' },
-                { value: 400, name: '高新区' }
-              ].sort(function (a, b) { return a.value - b.value }),
+              data:  this.seriesData.sort(function (a, b) { return a.value - b.value }),
               //设置指示线
               /*label: {
                 normal: {
@@ -114,6 +139,7 @@
             }
           ]
         }
+
         this.chartPie = echarts.init(document.getElementById('J_chartPieBox'))
         this.chartPie.setOption(option)
         window.addEventListener('resize', () => {

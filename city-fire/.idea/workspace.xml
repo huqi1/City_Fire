@@ -15,45 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EquipmentService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/EquipmentService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EquipmentServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/EquipmentServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="759">
-              <caret line="47" column="24" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="24" />
-              <folding>
-                <element signature="e#1825#1826#0" expanded="true" />
-                <element signature="e#1879#1880#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatisticsServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/StatisticsServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="StatisticsController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/StatisticsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="26" column="64" lean-forward="true" selection-start-line="26" selection-start-column="64" selection-end-line="26" selection-end-column="64" />
+            <state relative-caret-position="526">
+              <caret line="88" column="30" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#equipment#0;class#StatisticsController#0" />
@@ -62,15 +28,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HashSet.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/util/HashSet.java">
+      <file leaf-file-name="LocationController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/LocationController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1840">
-              <caret line="104" column="11" selection-start-line="104" selection-start-column="11" selection-end-line="104" selection-end-column="11" />
-              <folding>
-                <element signature="e#3740#3741#0" expanded="true" />
-                <element signature="e#3777#3778#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="322">
+              <caret line="35" selection-start-line="35" selection-end-line="35" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocationDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/LocationDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocationDao.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/operate/LocationDao.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="47" column="57" lean-forward="true" selection-start-line="47" selection-start-column="57" selection-end-line="47" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -87,8 +67,8 @@
       <file leaf-file-name="StatisticsService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/StatisticsService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="7" column="56" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="56" />
+            <state relative-caret-position="184">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -156,7 +136,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/TransferrecordDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/WarningrecordDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/WarningrecordServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/TransferrecordServiceImpl.java" />
@@ -182,8 +161,6 @@
         <option value="$PROJECT_DIR$/src/main/java/wangdao/RectCover_10.java" />
         <option value="$PROJECT_DIR$/src/main/java/wangdao/Power_12.java" />
         <option value="$PROJECT_DIR$/src/main/java/wangdao/NumberOf1_11.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/mapper/operate/LocationDao.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/LocationDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/LocationService.java" />
         <option value="$PROJECT_DIR$/src/main/java/wangdao/reOrderArray_13.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/entity/EquipmentEntity.java" />
@@ -202,10 +179,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/EquipmentServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/EquipmentController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/entity/EquipmentStatistics.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/StatisticsService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/EquipmentDao.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/StatisticsServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/operate/EquipmentDao.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/entity/LocationStatistics.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapper/operate/LocationDao.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/StatisticsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/StatisticsServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/LocationDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/StatisticsController.java" />
       </list>
     </option>
@@ -236,8 +216,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="132" />
-    <option name="y" value="195" />
+    <option name="x" value="-1740" />
+    <option name="y" value="114" />
     <option name="width" value="1026" />
     <option name="height" value="546" />
   </component>
@@ -594,12 +574,12 @@
       <workItem from="1547177274063" duration="3248000" />
       <workItem from="1547272527426" duration="6329000" />
       <workItem from="1547378329874" duration="8527000" />
-      <workItem from="1547535255262" duration="954000" />
+      <workItem from="1547535255262" duration="3289000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="217009000" />
+    <option name="totallyTimeSpent" value="219344000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -611,7 +591,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-1928" y="-134" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -625,7 +605,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" visible="true" weight="0.5669935" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.5669935" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32843137" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
@@ -636,7 +616,7 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.3529412" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32843137" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16414523" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16257995" />
       <window_info anchor="right" id="Bean Validation" order="9" weight="0.32980332" />
       <window_info id="Web" order="2" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="8" />
@@ -672,20 +652,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="1104" column="35" selection-start-line="1104" selection-start-column="19" selection-end-line="1104" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wangdao/FindKthToTail_14.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="29" lean-forward="true" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/wangdao/ListNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -868,13 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/operate/LocationDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-368">
-          <caret line="8" column="61" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.m2/repository/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE.jar!/org/springframework/aop/framework/CglibAopProxy.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -893,13 +852,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
           <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/LocationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -949,16 +901,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
           <caret line="22" selection-start-line="22" selection-end-line="35" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/StatisticsServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1022,16 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/StatisticsService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="7" column="56" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/CategoryController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -1039,10 +971,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/operate/LocationDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="47" column="57" lean-forward="true" selection-start-line="47" selection-start-column="57" selection-end-line="47" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/StatisticsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/service/impl/StatisticsServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#805#806#0" expanded="true" />
+            <element signature="e#832#833#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/dao/LocationDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/entity/LocationStatistics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="22" />
+          <folding>
+            <element signature="e#220#221#0" expanded="true" />
+            <element signature="e#251#252#0" expanded="true" />
+            <element signature="e#299#300#0" expanded="true" />
+            <element signature="e#339#340#0" expanded="true" />
+            <element signature="e#369#370#0" expanded="true" />
+            <element signature="e#395#396#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
+            <element signature="e#463#464#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/LocationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="35" selection-start-line="35" selection-end-line="35" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/hq/modules/operate/controller/StatisticsController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="26" column="64" lean-forward="true" selection-start-line="26" selection-start-column="64" selection-end-line="26" selection-end-column="64" />
+        <state relative-caret-position="526">
+          <caret line="88" column="30" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#equipment#0;class#StatisticsController#0" />

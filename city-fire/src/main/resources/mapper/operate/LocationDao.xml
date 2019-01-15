@@ -44,4 +44,8 @@
             district = #{district}
         </where>
     </select>
+    <select id="getLocationStatistics" resultType="com.hq.modules.operate.entity.LocationStatistics">
+         SELECT district ,COUNT(*)as num FROM cf_location
+          GROUP BY district;
+    </select>
 </mapper>
