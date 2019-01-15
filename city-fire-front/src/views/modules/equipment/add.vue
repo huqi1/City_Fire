@@ -164,7 +164,7 @@
             {required: true, message: '设备名称不能为空', trigger: 'blur' }
           ],
           belongTypename :[
-            {required: true, message: '设备所属分类不能为空', trigger: 'blur' }
+            {required: true, message: '设备所属分类不能为空', trigger: 'change' }
           ],
           equipmentNum :[
             {required: true, message: '设备数量不能为空', trigger: 'blur' }
