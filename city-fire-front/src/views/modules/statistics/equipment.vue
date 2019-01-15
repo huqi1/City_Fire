@@ -12,6 +12,7 @@
         end-placeholder="结束日期"
         align="right">
       </el-date-picker>
+      <el-button type="primary" @click="getDataList()">搜索</el-button>
     </div>
   <div class="mod-demo-echarts">
     <el-row :gutter="20">
