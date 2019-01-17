@@ -12,9 +12,6 @@
         </el-radio-group>
       </el-form-item>
       <template v-if="dataForm.type === 1">
-        <el-form-item size="mini">
-          <a href="http://www.renren.io/open/qiniu.html" target="_blank">免费申请(七牛)10GB储存空间</a>
-        </el-form-item>
         <el-form-item label="域名">
           <el-input v-model="dataForm.qiniuDomain" placeholder="七牛绑定的域名"></el-input>
         </el-form-item>

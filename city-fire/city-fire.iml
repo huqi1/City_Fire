@@ -6,7 +6,9 @@
     </facet>
     <facet type="web" name="Web">
       <configuration>
-        <webroots />
+        <webroots>
+          <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+        </webroots>
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
@@ -93,6 +95,7 @@
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.25.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.25.Final" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-configuration-processor:2.0.3.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatisplus-spring-boot-starter:1.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.0.3.RELEASE" level="project" />
@@ -152,9 +155,9 @@
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.7.0" level="project" />
-    <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.2.17" level="project" />
-    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.9.1" level="project" />
-    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.2.18" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.11.0" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.14.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.5" level="project" />
     <orderEntry type="library" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.5" level="project" />
