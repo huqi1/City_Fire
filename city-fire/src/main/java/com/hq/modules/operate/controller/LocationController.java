@@ -7,14 +7,12 @@ import com.hq.modules.operate.entity.LocationEntity;
 import com.hq.modules.operate.service.LocationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.util.*;
 
 
 /**
@@ -23,7 +21,7 @@ import java.util.Map;
  * @author hq
  * @date 2018-12-17 09:25:46
  */
-@RestController
+@Controller
 @RequestMapping("location")
 public class LocationController {
     @Autowired
@@ -33,6 +31,7 @@ public class LocationController {
      * 列表
      */
     @RequestMapping("/list")
+    @ResponseBody
     @RequiresPermissions("operate:location:list")
     public R list(@RequestParam Map<String, Object> params){
         params.put("sidx","gmt_create");
@@ -42,11 +41,48 @@ public class LocationController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 列表
+     */
+    @RequestMapping("/export")
+    @ResponseBody
+    @RequiresPermissions("operate:location:list")
+    public void list(@RequestParam Map<String, Object> params, HttpServletResponse response){
+        params.put("sidx","gmt_create");
+        params.put("order","DESC");
+        PageUtils page = locationService.queryPage(params);
+        List<LocationEntity> locations = (List<LocationEntity>) page.getList();
+        String sheetName = "";
+        if(params.get("page") != null){
+           sheetName = "当前页位置数据"+DateUtils.getHHmmssTime();
+        }else {
+           sheetName = "所有页位置数据"+DateUtils.getHHmmssTime();
+        }
+         String sheetTitle  = "位置数据";
+        List<String> columnNames = new LinkedList<>();
+        columnNames.add("日期-String");
+        columnNames.add("日期-Date");
+        columnNames.add("时间戳-Long");
+        columnNames.add("客户编码");
+        columnNames.add("整数");
+        columnNames.add("带小数的正数");
+        
+        response.setContentType("octets/stream");
+        String excelName = "文件名";
+        try {
+            response.addHeader("Content-Disposition", "attachment;filename="+new String(excelName.getBytes("gb2312"), "ISO8859-1" )+".xls");
+            OutputStream out = response.getOutputStream();
+            aService.export(sblsh,excelName ,out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 信息
      */
     @RequestMapping("/info/{locationId}")
+    @ResponseBody
     @RequiresPermissions("operate:location:info")
     public R info(@PathVariable("locationId") String locationId){
         LocationEntity cfLocation = locationService.selectById(locationId);
@@ -58,6 +94,7 @@ public class LocationController {
      * 保存
      */
     @RequestMapping("/save")
+    @ResponseBody
     @RequiresPermissions("operate:location:save")
     public R save(@RequestBody LocationEntity cfLocation){
         int lat = cfLocation.getLat().intValue();
@@ -73,6 +110,7 @@ public class LocationController {
      * 修改备注
      */
     @RequestMapping("/updateRemark")
+    @ResponseBody
     @RequiresPermissions("operate:location:updateRemark")
     public R updateRemark(@RequestParam Map<String,Object> params){
         String locationid = params.get("locationid").toString();
@@ -87,6 +125,7 @@ public class LocationController {
      * 修改状态
      */
     @RequestMapping("/updateStatus")
+    @ResponseBody
     @RequiresPermissions("operate:location:updateStatus")
     public R updateStatus(@RequestParam Map<String,Object> params){
         String locationid = params.get("locationid").toString();
@@ -99,6 +138,7 @@ public class LocationController {
      * 删除
      */
     @RequestMapping("/delete")
+    @ResponseBody
     @RequiresPermissions("operate:location:delete")
     public R delete(@RequestBody String[] locationIds){
         locationService.deleteBatchIds(Arrays.asList(locationIds));
@@ -109,6 +149,7 @@ public class LocationController {
      * 根据市(citycode)查询所有区
      * */
     @RequestMapping("/districtList")
+    @ResponseBody
     @RequiresPermissions("operate:location:list")
     public R districtList(@RequestParam Map<String, Object> params){
         //区列表不参与分页
@@ -117,6 +158,7 @@ public class LocationController {
         return R.ok().put("page", list);
     }
     @RequestMapping("/locationList")
+    @ResponseBody
     @RequiresPermissions("operate:location:list")
     public R locationList(@RequestParam Map<String, Object> params){
         String district = params.get("district").toString();

@@ -76,7 +76,8 @@
         label="操作">
         <template slot-scope="scope">
           <el-button round v-if="isAuth('operate:category:update')" type="primary" size="mini" @click="showinfor(scope.row.locationId)">备注</el-button>
-          <el-button round v-if="isAuth('operate:category:delete')" type="warning" size="mini" @click="stopUse(scope.row.locationId,1)">禁用</el-button>
+          <el-button round v-if="isAuth('operate:location:updateRemark') && scope.row.status == 0" type="warning" size="mini" @click="stopUse(scope.row.locationId,1)">禁用</el-button>
+          <el-button round v-if="isAuth('operate:location:updateRemark') && scope.row.status == 1" type="success" size="mini" @click="stopUse(scope.row.locationId,0)">恢复</el-button>
           <el-button round v-if="isAuth('operate:category:delete')" type="danger" size="mini" @click="deleteHandle(scope.row.locationId)">删除</el-button>
         </template>
       </el-table-column>
