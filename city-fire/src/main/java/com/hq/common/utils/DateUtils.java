@@ -36,7 +36,13 @@ public class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         System.out.println(format.format(calendar.getTime()));
-        return calendar.getTime().toString();
+        return format.format(calendar.getTime());
+    }
+    public static String getNowTimetohm() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        Calendar calendar = Calendar.getInstance();
+        System.out.println(format.format(calendar.getTime()));
+        return format.format(calendar.getTime());
     }
     /**
      * 日期格式化 日期格式为：yyyy-MM-dd

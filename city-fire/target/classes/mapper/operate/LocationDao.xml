@@ -22,13 +22,13 @@
     </resultMap>
 
     <update id="updateRemarkByid">
-        update cf_Location
+        update cf_location
 		  set remark = #{remark}
 		where location_id = #{locationid}
     </update>
 
     <update id="updateStatusByid">
-        update cf_Location
+        update cf_location
 		  set status = #{status}
 		where location_id = #{locationid}
     </update>

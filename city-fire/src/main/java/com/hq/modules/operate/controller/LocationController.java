@@ -2,16 +2,25 @@ package com.hq.modules.operate.controller;
 
 import com.hq.common.utils.DateUtils;
 import com.hq.common.utils.PageUtils;
+import com.hq.common.utils.PoiUtils;
 import com.hq.common.utils.R;
 import com.hq.modules.operate.entity.LocationEntity;
 import com.hq.modules.operate.service.LocationService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
 
 
@@ -26,6 +35,9 @@ import java.util.*;
 public class LocationController {
     @Autowired
     private LocationService locationService;
+
+    @Value("${spring.file.basefileroot}")
+    private  String  FILEROOTBASE;
 
     /**
      * 列表
@@ -45,39 +57,132 @@ public class LocationController {
      * 列表
      */
     @RequestMapping("/export")
-    @ResponseBody
     @RequiresPermissions("operate:location:list")
-    public void list(@RequestParam Map<String, Object> params, HttpServletResponse response){
+    public void export(@RequestParam Map<String, Object> params, HttpServletRequest request,HttpServletResponse response) throws IOException {
         params.put("sidx","gmt_create");
         params.put("order","DESC");
         PageUtils page = locationService.queryPage(params);
         List<LocationEntity> locations = (List<LocationEntity>) page.getList();
         String sheetName = "";
+        String fileName = "";
         if(params.get("page") != null){
-           sheetName = "当前页位置数据"+DateUtils.getHHmmssTime();
+           sheetName = "当前页位置数据"+DateUtils.getNowTimetohm();
         }else {
-           sheetName = "所有页位置数据"+DateUtils.getHHmmssTime();
+           sheetName = "所有页位置数据"+DateUtils.getNowTimetohm();
         }
          String sheetTitle  = "位置数据";
+        fileName = sheetName;
         List<String> columnNames = new LinkedList<>();
-        columnNames.add("日期-String");
-        columnNames.add("日期-Date");
-        columnNames.add("时间戳-Long");
-        columnNames.add("客户编码");
-        columnNames.add("整数");
-        columnNames.add("带小数的正数");
-        
-        response.setContentType("octets/stream");
+        columnNames.add("位置id");
+        columnNames.add("所属省份");
+        columnNames.add("所属市");
+        columnNames.add("市级编码");
+        columnNames.add("所属区");
+        columnNames.add("区级编码");
+        columnNames.add("街道");
+        columnNames.add("街道编码");
+        columnNames.add("位置名称");
+        columnNames.add("纬度");
+        columnNames.add("经度");
+        columnNames.add("状态");
+        columnNames.add("备注");
+        columnNames.add("创建时间");
+
         String excelName = "文件名";
+        //写入标题--第二种方式
         try {
-            response.addHeader("Content-Disposition", "attachment;filename="+new String(excelName.getBytes("gb2312"), "ISO8859-1" )+".xls");
-            OutputStream out = response.getOutputStream();
-            aService.export(sblsh,excelName ,out);
-        } catch (Exception e) {
+            PoiUtils.writeExcelTitle(FILEROOTBASE, fileName, sheetName, columnNames, sheetTitle, false);
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        List<List<Object>> data = new LinkedList<>();
+        int size = locations.size();
+        for (int i = 0; i < size; i++) {
+            List<Object> dataA = new LinkedList<>();
+            dataA.add(locations.get(i).getLocationId());
+            dataA.add(locations.get(i).getProvince());
+            dataA.add(locations.get(i).getCity());
+            dataA.add(locations.get(i).getAdcode());
+            dataA.add(locations.get(i).getDistrict());
+            dataA.add(locations.get(i).getAdcode());
+            dataA.add(locations.get(i).getStreet());
+            dataA.add(locations.get(i).getStreetNumber());
+            dataA.add(locations.get(i).getLocationName());
+            dataA.add(locations.get(i).getLat());
+            dataA.add(locations.get(i).getLng());
+            dataA.add(locations.get(i).getStatus());
+            dataA.add(locations.get(i).getRemark());
+            dataA.add(locations.get(i).getGmtCreate());
+            data.add(dataA);
+        }
+        try {
+            //写入数据--第二种方式
+         File file = PoiUtils.writeExcelData(FILEROOTBASE, fileName, sheetName, data);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            fileName = URLDecoder.decode(fileName,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        File file=new File(FILEROOTBASE+"/"+fileName+".xls");
+        if (file.exists()) {
+            // 设置response的头部信息，指定导出的是excel
+            //response.setContentType("application/octet-stream");
+            /*try {
+                fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");// 处理中文
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }*/
+            // 为了使下载框中显示中文文件名称不出乱码！必须对文件名进行编码
+            String filepath = FILEROOTBASE+"/"+fileName+".xls";
+            String filename = getFilename(request,fileName);
+            String contentDisposition = "attachment;filename=" + filename;
+            // 一个流
+            FileInputStream input = new FileInputStream(filepath);
+            //设置头
+            response.setHeader("Content-Type", "application/octet-stream");
+            response.setHeader("Content-Disposition", contentDisposition);
+            response.setContentType("application/octet-stream");
+            response.setContentLength((int) file.length());
+
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+                byte[] buffer = new byte[128];
+                int count = 0;
+                while ((count = fis.read(buffer)) > 0) {
+                    response.getOutputStream().write(buffer, 0, count);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                response.getOutputStream().flush();
+                response.getOutputStream().close();
+                fis.close();
+            }
+        }else {
+            response.setStatus(404);
         }
     }
 
+    // 根据不同的浏览器进行编码设置，返回编码后的文件名
+    public String getFilename(HttpServletRequest request, String filename) throws UnsupportedEncodingException {
+        String agent = request.getHeader("User-Agent"); //获取浏览器
+        if (agent.contains("Firefox")) {
+            BASE64Encoder base64Encoder = new BASE64Encoder();
+            filename = "=?utf-8?B?"
+                    + base64Encoder.encode(filename.getBytes("utf-8"))
+                    + "?=";
+        } else if(agent.contains("MSIE")) {
+            filename = URLEncoder.encode(filename, "utf-8");
+        } else {
+            filename = URLEncoder.encode(filename, "utf-8");
+        }
+        return filename;
+    }
     /**
      * 信息
      */
@@ -165,4 +270,5 @@ public class LocationController {
         List<LocationEntity> list = locationService.selectBydistrict(district);
         return R.ok().put("page", list);
     }
+
 }
