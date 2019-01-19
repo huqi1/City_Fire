@@ -30,17 +30,18 @@ public class StatisticsController {
         String endDate = (String) params.get("endDate");
         if(startDate == null){
             Calendar now  = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             endDate = format.format(now);
             now.add(Calendar.DAY_OF_MONTH,-7);
             startDate = format.format(now);
         }
         List<EquipmentStatistics> equipmentStatisticsList = statisticsService.EquipmentStatistics(startDate,endDate);
-        Set<String> Xlist = new LinkedHashSet<>();
+        TreeSet<String> Xlist = new TreeSet<>();
         Set<String> Communitylist = new LinkedHashSet<>();
         Boolean aBoolean = getXYData(equipmentStatisticsList,Xlist,Communitylist);
         Iterator communityiterator = Communitylist.iterator();
         int j = 0;
+        int size = equipmentStatisticsList.size();
         JSONObject communityObject = new JSONObject();
         while (communityiterator.hasNext()){
             String community = (String) communityiterator.next();
@@ -51,12 +52,17 @@ public class StatisticsController {
                 while (dateiterator.hasNext()){
                     Map<String,String> map = new HashMap<>();
                     String date = new String((String)dateiterator.next());
-                    if (community.equals(equipmentStatisticsList.get(j).getCommunity()) && date.equals(equipmentStatisticsList.get(j).getDate())){
-                        map.put("addEqunum",equipmentStatisticsList.get(j).getAddEqunum());
-                        EquSum = EquSum+ Integer.parseInt(equipmentStatisticsList.get(j).getAddEqunum());
-                        j++;
-                    }else {
+                    // 如果已经是最后一个元素了，仍然对所有横轴数据填0补充完整
+                    if (j ==size ){
                         map.put("addEqunum","0");
+                    }else{
+                        if (community.equals(equipmentStatisticsList.get(j).getCommunity()) && date.equals(equipmentStatisticsList.get(j).getDate())){
+                            map.put("addEqunum",equipmentStatisticsList.get(j).getAddEqunum());
+                            EquSum = EquSum+ Integer.parseInt(equipmentStatisticsList.get(j).getAddEqunum());
+                            j++;
+                        }else {
+                            map.put("addEqunum","0");
+                        }
                     }
                     map.put("sumEqunum",EquSum+"");
                     dateJson.put(date,map);
@@ -72,7 +78,7 @@ public class StatisticsController {
         return R.ok(map);
     }
 
-    private Boolean getXYData(List<EquipmentStatistics> equipmentStatisticsList, Set<String> xlist, Set<String> communitylist) {
+    private Boolean getXYData(List<EquipmentStatistics> equipmentStatisticsList, TreeSet<String> xlist, Set<String> communitylist) {
         if (equipmentStatisticsList == null)
             return false;
         int  size = equipmentStatisticsList.size();
@@ -80,6 +86,7 @@ public class StatisticsController {
             xlist.add(equipmentStatisticsList.get(i).getDate());
             communitylist.add(equipmentStatisticsList.get(i).getCommunity());
         }
+        xlist.comparator();
         return true;
     }
 

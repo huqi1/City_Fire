@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PoiUtils {
-    private static final int DEFAULT_COLUMN_SIZE = 30;
+    private static final int DEFAULT_COLUMN_SIZE = 17;
 
     /**
      * 断言Excel文件写入之前的条件
@@ -367,7 +367,7 @@ public class PoiUtils {
         Font font = workbook.createFont();
         // 表头样式
         style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        style.setFillForegroundColor(HSSFColor.SEA_GREEN.index);
         font.setFontHeightInPoints((short) 12);
         font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         // 把字体应用到当前的样式

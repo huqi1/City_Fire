@@ -65,10 +65,10 @@ public class LocationController {
         List<LocationEntity> locations = (List<LocationEntity>) page.getList();
         String sheetName = "";
         String fileName = "";
-        if(params.get("page") != null){
-           sheetName = "当前页位置数据"+DateUtils.getNowTimetohm();
+        if(params.get("page").equals("1") && params.get("limit").equals("2000")){
+            sheetName = "所有页位置数据"+DateUtils.getNowTimetohm();
         }else {
-           sheetName = "所有页位置数据"+DateUtils.getNowTimetohm();
+            sheetName = "当前页位置数据"+DateUtils.getNowTimetohm();
         }
          String sheetTitle  = "位置数据";
         fileName = sheetName;
@@ -111,7 +111,11 @@ public class LocationController {
             dataA.add(locations.get(i).getLocationName());
             dataA.add(locations.get(i).getLat());
             dataA.add(locations.get(i).getLng());
-            dataA.add(locations.get(i).getStatus());
+            if(locations.get(i).getStatus() == 1) {
+                dataA.add("禁用");
+            }else{
+                dataA.add("正常");
+            }
             dataA.add(locations.get(i).getRemark());
             dataA.add(locations.get(i).getGmtCreate());
             data.add(dataA);
@@ -129,15 +133,8 @@ public class LocationController {
         }
         File file=new File(FILEROOTBASE+"/"+fileName+".xls");
         if (file.exists()) {
-            // 设置response的头部信息，指定导出的是excel
-            //response.setContentType("application/octet-stream");
-            /*try {
-                fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");// 处理中文
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }*/
-            // 为了使下载框中显示中文文件名称不出乱码！必须对文件名进行编码
             String filepath = FILEROOTBASE+"/"+fileName+".xls";
+            // 为了使下载框中显示中文文件名称不出乱码！必须对文件名进行编码
             String filename = getFilename(request,fileName);
             String contentDisposition = "attachment;filename=" + filename;
             // 一个流
@@ -162,6 +159,7 @@ public class LocationController {
                 response.getOutputStream().flush();
                 response.getOutputStream().close();
                 fis.close();
+                file.delete();
             }
         }else {
             response.setStatus(404);
