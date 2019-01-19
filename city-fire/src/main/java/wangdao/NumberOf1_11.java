@@ -1,5 +1,8 @@
 package wangdao;
 
+import java.util.Iterator;
+import java.util.TreeSet;
+
 public class NumberOf1_11 {
     /** 求n的二进制补码 1的个数
      *  首先明白 java int 是 4字节
@@ -31,12 +34,25 @@ public class NumberOf1_11 {
      return  count;
     }
     public static void main(String[] args){
-        int i = 5;
+        /*int i = 5;
         int b = -5;
         System.out.println(i>>1);
         System.out.println(i>>>1);
 
         System.out.println(b>>1);
-        System.out.println(b>>>1);
+        System.out.println(b>>>1);*/
+        TreeSet<String> treeSet = new TreeSet<>();
+        treeSet.add("2019-01-10");
+        treeSet.add("2019-01-06");
+        treeSet.add("2019-01-18");
+        treeSet.add("2019-01-10");
+        treeSet.add("2019-01-11");
+        treeSet.add("2019-01-13");
+        treeSet.add("2019-01-07");
+        treeSet.comparator();
+        Iterator iterator = treeSet.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
     }
 }

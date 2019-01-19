@@ -18,10 +18,10 @@
         <el-button @click="getDataList()" type="primary">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button @click="exportdata ()" type="primary">导出本页</el-button>
+        <el-button @click="exportdata ('','','当前页')" type="primary">导出本页</el-button>
       </el-form-item>
       <el-form-item style="padding-right: 0px">
-        <el-button @click="getDataList()" type="primary">导出所有</el-button>
+        <el-button @click="exportdata (1,2000,'所有页')" type="primary">导出所有</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -173,14 +173,23 @@
         })
       },
       // 获取数据列表
-      exportdata () {
+      exportdata (page,limit,exportFlag) {
         this.dataListLoading = true
+        var FileName = ""
+        if(exportFlag =='所有页'){
+          FileName = "所有地区信息-";
+        }else{
+          FileName = "已选地区信息-"
+          page = this.pageIndex
+          limit = this.pageSize
+        }
+        FileName = FileName+new Date().getTime()+".xlsx"
         this.$http({
           url: this.$http.adornUrl('/location/export'),
           method: 'get',
           params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
+            'page': page,
+            'limit': limit,
             'district': this.searchData.district,
             'locationName':this.searchData.locationName
           }),
@@ -195,7 +204,7 @@
           link.href = url
 
           // download 属性定义了下载链接的地址而不是跳转路径
-          link.setAttribute('download', 'excel.xlsx')
+          link.setAttribute('download', FileName)
           document.body.appendChild(link)
           link.click()
         })

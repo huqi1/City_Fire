@@ -7,6 +7,7 @@
         type="datetimerange"
         :picker-options="pickerOptions2"
         format="yyyy-MM-dd"
+        value-format="yyyy-MM-dd HH:mm:ss"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -68,10 +69,12 @@
       }
     },
     mounted () {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-      this.chosedate = [start, end]
+      var end = new Date()
+      var start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      var startdate = this.formatDate(start,"yyyy-MM-dd HH:mm:ss")
+      var enddate =  this.formatDate(end,"yyyy-MM-dd HH:mm:ss")
+      this.chosedate = [startdate, enddate]
       this.getDataList()
 
     },
@@ -157,7 +160,29 @@
         window.addEventListener('resize', () => {
           this.chartLine.resize()
         })
-      }
+      },
+      formatDate(date,fmt){
+        if(/(y+)/.test(fmt)){
+          fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4-RegExp.$1.length));
+        }
+        let o = {
+          'M+': date.getMonth()+1,
+          'd+': date.getDate(),
+          'h+': date.getHours(),
+          'm+': date.getMinutes(),
+          's+': date.getSeconds()
+        }
+        for(let k in o){
+          let str = o[k]+'';
+          if(new RegExp(`(${k})`).test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length===1)?str:this.padLeftZero(str));
+          }
+        }
+        return fmt;
+      },
+    padLeftZero(str){
+      return ('00'+str).substr(str.length);
+    }
     }
   }
 </script>
