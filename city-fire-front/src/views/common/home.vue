@@ -23,7 +23,7 @@
     </ul>
     <ul>部署
       <li>Nginx：      待定</li>
-      <li>Redies：     待定</li>
+      <li>Redis：     待定</li>
     </ul>
   </div>
 </template>

@@ -7,7 +7,7 @@
         type="datetimerange"
         :picker-options="pickerOptions2"
         format="yyyy-MM-dd"
-        value-format="yyyy-MM-dd HH:mm:ss"
+        value-format="yyyy-MM-dd"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -72,8 +72,9 @@
       var end = new Date()
       var start = new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-      var startdate = this.formatDate(start,"yyyy-MM-dd HH:mm:ss")
-      var enddate =  this.formatDate(end,"yyyy-MM-dd HH:mm:ss")
+      var startdate = this.formatDate(start,"yyyy-MM-dd")
+      var enddate =  this.formatDate(end,"yyyy-MM-dd")
+
       this.chosedate = [startdate, enddate]
       this.getDataList()
 
@@ -91,8 +92,8 @@
           url: this.$http.adornUrl('/statistics/equipment'),
           method: 'get',
           params: this.$http.adornParams({
-            'startDate': this.chosedate[0],
-            'endDate': this.chosedate[1]
+            'startDate': this.chosedate[0]+" 00:00:00",
+            'endDate': this.chosedate[1]+" 23:59:59"
           })
         }).then(({data}) => {
           this.pageData =JSON.parse(JSON.stringify(data.page, null, 4));
