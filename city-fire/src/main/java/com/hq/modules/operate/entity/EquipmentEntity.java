@@ -52,7 +52,7 @@ public class EquipmentEntity implements Serializable {
 	 */
 	private String locationName;
 	/**
-	 * 设备状态0:正常 1：报修 2：检修 3：报废
+	 * 设备状态0:正常 1：报修 2：报废
 	 */
 	private Integer equipmentStatus;
 	/**

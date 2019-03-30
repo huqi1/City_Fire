@@ -77,4 +77,12 @@
         GROUP BY DATE_FORMAT(gmt_create,'%Y-%m-%d'),community
         order BY community,gmt_create ASC
     </select>
+
+    <update id="updateStatusByid">
+        update cf_equipment
+        <set>
+            equipment_status =  #{equipmentStatus},
+        </set>
+        where equipment_id = #{equipmentId}
+    </update>
 </mapper>

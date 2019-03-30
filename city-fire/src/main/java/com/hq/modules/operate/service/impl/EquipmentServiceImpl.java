@@ -49,4 +49,9 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentDao, EquipmentEnt
         return baseMapper.selectAllCommunity();
     }
 
+    @Override
+    public void updateStatusByid(int equipmentStatus, String id) {
+        baseMapper.updateStatusByid(equipmentStatus,id);
+    }
+
 }

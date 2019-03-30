@@ -8,6 +8,7 @@
         <result property="recordId" column="record_id"/>
         <result property="equipmentId" column="equipment_id"/>
         <result property="equipmentName" column="equipment_name"/>
+        <result property="operatorStatus" column="operator_status"/>
         <result property="warningOperator" column="warning_operator"/>
         <result property="warningTime" column="warning_time"/>
         <result property="warningReason" column="warning_reason"/>

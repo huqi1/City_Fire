@@ -52,7 +52,7 @@
         prop="equipmentId"
         header-align="center"
         align="center"
-        min-width="120%"
+        min-width="110%"
         label="设备编码">
       </el-table-column>
       <el-table-column
@@ -95,6 +95,7 @@
         <template slot-scope="scope">
           <el-button round v-if="isAuth('operate:equipment:update')" type="primary" size="mini" @click="showinfor(scope.row.equipmentId)">修改</el-button>
           <el-button round v-if="isAuth('operate:equipment:delete')" type="danger" size="mini" @click="deleteHandle(scope.row.equipmentId)">删除</el-button>
+          <el-button round v-if="isAuth('operate:equipment:update')" type="warning" size="mini" @click="changeState(scope.row.equipmentId)">状态</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -109,11 +110,13 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <ShowEquipmentInfo v-if="showEquipmentInfo" ref="showEquipmentInfo" @refreshDataList="getDataList"></ShowEquipmentInfo>
+    <ChangeState v-if="ChangeState" ref="ChangeState" @refreshDataList="getDataList"></ChangeState>
   </div>
 </template>
 
 <script>
   import ShowEquipmentInfo from  './equipment-info'
+  import ChangeState from  './equipment-change-state'
   export default {
     data () {
       return {
@@ -171,13 +174,15 @@
         dataListLoading: false,
         addOrUpdateVisible: false,
         showEquipmentInfo:false,
+        ChangeState:false,
         pageIndex: 1,
         pageSize: 10,
         totalPage: 0
       }
     },
     components: {
-      ShowEquipmentInfo
+      ShowEquipmentInfo,
+      ChangeState
     },
     activated () {
       this.getDataList()
@@ -204,10 +209,10 @@
           this.totalPage = data.page.totalCount
         })
       },
-      showinfor(locationId){
+      showinfor(equipmentId){
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl(`/equipment/info/${locationId}`),
+          url: this.$http.adornUrl(`/equipment/info/${equipmentId}`),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
@@ -216,6 +221,21 @@
           this.showEquipmentInfo = true
           this.$nextTick(() => {
             this.$refs.showEquipmentInfo.init(this.dataForm)
+          })
+        })
+      },
+      changeState(equipmentId){
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl(`/equipment/info/${equipmentId}`),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          this.dataForm = data.cfEquipment
+          this.dataListLoading = false
+          this.ChangeState = true
+          this.$nextTick(() => {
+            this.$refs.ChangeState.init(this.dataForm)
           })
         })
       },
