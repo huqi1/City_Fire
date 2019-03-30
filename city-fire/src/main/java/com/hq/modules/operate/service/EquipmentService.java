@@ -17,10 +17,12 @@ public interface EquipmentService extends IService<EquipmentEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    public void updateAllByid( EquipmentEntity equipmentEntity,String id);
+    void updateAllByid( EquipmentEntity equipmentEntity,String id);
 
     List<String> selectAllType();
 
     List<String> selectAllCommunity();
+
+    void updateStatusByid( int equipmentStatus,String id);
 }
 

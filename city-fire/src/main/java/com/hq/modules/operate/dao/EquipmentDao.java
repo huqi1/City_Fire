@@ -26,5 +26,7 @@ public interface EquipmentDao extends BaseMapper<EquipmentEntity> {
 
     List<String> selectAllCommunity();
 
+    void updateStatusByid(@Param("equipmentStatus") int equipmentStatus,@Param("equipmentId")String equipmentId);
+
     List<EquipmentStatistics> statisticsbydate(@Param("startDate")String startDate,@Param("endDate")String endDate);
 }

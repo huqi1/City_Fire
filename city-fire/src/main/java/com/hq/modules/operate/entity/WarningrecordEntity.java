@@ -20,7 +20,7 @@ public class WarningrecordEntity implements Serializable {
 	 * 
 	 */
 	@TableId
-	private String recordId;
+	private Long recordId;
 	/**
 	 * 报警设备id
 	 */
@@ -33,6 +33,13 @@ public class WarningrecordEntity implements Serializable {
 	 * 报警人
 	 */
 	private String warningOperator;
+	/**
+	 * 操作项
+	 * 0 ：正常
+	 * 1 ：报修
+	 * 2 ：报废
+	 */
+	private int operatorStatus;
 	/**
 	 * 报警时间
 	 */
@@ -61,13 +68,13 @@ public class WarningrecordEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setRecordId(String recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 	/**
 	 * 获取：
 	 */
-	public String getRecordId() {
+	public Long getRecordId() {
 		return recordId;
 	}
 	/**
@@ -177,5 +184,13 @@ public class WarningrecordEntity implements Serializable {
 	 */
 	public Integer getStatus() {
 		return status;
+	}
+
+	public int getOperatorStatus() {
+		return operatorStatus;
+	}
+
+	public void setOperatorStatus(int operatorStatus) {
+		this.operatorStatus = operatorStatus;
 	}
 }

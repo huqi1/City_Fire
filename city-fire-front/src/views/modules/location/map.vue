@@ -74,6 +74,11 @@
         lng: 0,
         lat: 0,
         loaded: false,
+        // 地图搜索
+        searchOption: {
+          city: '成都',
+          citylimit: true
+        },
         plugin: [{
           pName: 'Geolocation',
           events: {
@@ -86,6 +91,7 @@
                   self.locationinfor = result.formattedAddress;
                   self.choesLocation = result.formattedAddress;
                   self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4));
+                  self.searchOption.city = self.dataForm.city;
                   //businessAreas可能为null
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
@@ -105,11 +111,6 @@
 
           }
         }],
-        // 地图搜索
-        searchOption: {
-          city: '成都',
-          citylimit: true
-        },
         markersflag: false,
         markers: [],
         //地图窗口
