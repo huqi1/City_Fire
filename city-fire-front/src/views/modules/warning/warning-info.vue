@@ -1,115 +1,134 @@
 <template>
   <el-dialog
-    title="详情查看"
+    title="报警详情查看"
     width="900px"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :inline="true" :model="dataForm"  ref="dataForm" :rules="dataRules" label-width="150px">
-      <el-form-item label="设备名称：" prop="equipmentName">
-        <el-input v-model="dataForm.equipmentName" placeholder="输入设备名称" ></el-input>
+    <el-form :inline="true" label-width="150px"  ref="WarningFrom" :model="WarningFrom">
+      <el-form-item label="操作人：" >
+        <el-input v-model="WarningFrom.warningOperator" readonly="readonly" ></el-input>
       </el-form-item>
-      <el-form-item label="选择分类：" prop="belongTypename">
-        <el-popover
-          ref="menuListPopover"
-          placement="bottom-start"
-          trigger="click">
-          <el-tree
-            :data="menuList"
-            :props="menuListTreeProps"
-            node-key="categoryId"
-            @current-change="menuListTreeCurrentChangeHandle"
-            :default-expand-all="true"
-            :highlight-current="true"
-            :expand-on-click-node="false">
-          </el-tree>
-        </el-popover>
-        <el-input v-model="dataForm.belongTypename" v-popover:menuListPopover :readonly="true" placeholder="点击选择所属分类" class="menu-list__input">
-        </el-input>
+      <el-form-item label="时间：">
+        <el-input v-model="WarningFrom.warningTime" readonly="readonly" ></el-input>
       </el-form-item>
-      <el-form-item label="数量(件)：" prop="equipmentNum">
-        <el-input v-model="dataForm.equipmentNum" placeholder="输入设备数量"></el-input>
-      </el-form-item>
-      <el-form-item label="所在区：" prop="district">
-        <el-select v-model="dataForm.district"
-                   @change="getlocationList(dataForm.district)"
-                   placeholder="选择设备所在区" style="width:185px">
-          <el-option
-            v-for="item in districtList"
-            :key="item"
-            :value="item">
-          </el-option>
-        </el-select>
-
+      <el-form-item label="报警项：">
+        <el-input v-if="WarningFrom.operatorStatus == 0" value="正常" readonly="readonly" ></el-input>
+        <el-input v-if="WarningFrom.operatorStatus == 1" value="报修" readonly="readonly" ></el-input>
+        <el-input v-if="WarningFrom.operatorStatus == 2" value="报废" readonly="readonly" ></el-input>
       </el-form-item>
     </el-form>
-    <el-form :inline="true" :rules="dataRules"  ref="dataForm" :model="dataForm" label-width="150px">
-      <el-form-item label="选择设备位置：" prop="locationName">
-        <el-select v-model="dataForm.locationName"
-                   readonly="readonly"
-                   @change="setlocaltionInfor"
-                   style="width:535px">
-          <el-option
-            v-for="(item,index) in locationList"
-            :key="item.locationId"
-            :value="item.locationName">
-          </el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <el-form label-width="150px" :rules="dataRules"  ref="dataForm" :model="dataForm">
-      <el-form-item label="确认设备编码：" prop="equipmentId">
-        <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
-        <el-button @click="getequipmentId" type="primary">生成编码</el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-form :inline="true" label-width="150px" :rules="dataRules" ref="dataForm" :model="dataForm">
-      <el-form-item label="小区：">
-        <el-input v-model="dataForm.community" ></el-input>
-      </el-form-item>
-      <el-form-item label="单元：">
-        <el-input v-model="dataForm.unit" ></el-input>
-      </el-form-item>
-      <el-form-item label="楼层：">
-        <el-input v-model="dataForm.floor"></el-input>
-      </el-form-item>
-      <el-form-item label="楼道：">
-        <el-input v-model="dataForm.corridor"></el-input>
-      </el-form-item>
-      <el-form-item label="房间号">
-        <el-input v-model="dataForm.roomNumber" ></el-input>
-      </el-form-item>
-      <el-form-item label="管理员：" prop="administrator">
-        <el-input v-model="dataForm.administrator" ></el-input>
-      </el-form-item>
-      <el-form-item label="联系电话：" prop="phone">
-        <el-input v-model="dataForm.phone" ></el-input>
-      </el-form-item>
-    </el-form>
-   <!-- <el-form label-width="150px">
-      <el-form-item label="备注信息：" style="width:750px">
+    <el-form label-width="150px"  ref="WarningFrom" :model="WarningFrom">
+      <el-form-item label="报警原因：" prop="warningReason">
         <el-input
           type="textarea"
-          :autosize="{ minRows: 2, maxRows: 4}"
-          placeholder="请输入内容"
-          v-model="dataForm.remark" ></el-input>
+          :autosize="{ minRows: 2, maxRows: 3}"
+          v-model="WarningFrom.warningReason"readonly="readonly"  style="width:535px" ></el-input>
       </el-form-item>
-    </el-form>-->
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dataFormCancel()">取消</el-button>
-      <el-button type="primary" @click="updateall()">确定</el-button>
-    </span>
+    </el-form>
+    <div class="demonstration">
+      <el-slider range
+                 :step="10"
+                 show-stops v-model="slidervalue"></el-slider>
+    </div>
+    <div style="text-align: left; margin-bottom: 20px">
+      <font size="4" color="#17b3a3">设备报警处理</font>
+    </div>
+    <el-form label-width="150px" :rules="dataRules"  ref="WarningFrom" :model="WarningFrom">
+      <el-form-item label="处理方案：" prop="dealPlan">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 4}"
+          placeholder="请输入内容"
+          v-model="WarningFrom.dealPlan" style="width:535px" ></el-input>
+      </el-form-item>
+    </el-form>
+    <el-form :inline="true" label-width="150px" :rules="dataRules"  ref="WarningFrom" :model="WarningFrom">
+      <el-form-item label="处理结果：" prop="status">
+        <el-select v-model="WarningFrom.status"  readonly="readonly" style="width:150px">
+          <el-option
+            v-for="item in dealStatusList"
+            :value="item.key"
+            :label="item.value"
+            :key="item.key">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="处理人：" prop="dealOperator">
+        <el-input v-model="WarningFrom.dealOperator" style="width:150px"></el-input>
+      </el-form-item>
+      <el-form-item v-if="isDeal == true" label="处理时间：" prop="dealTime">
+        <el-input v-model="WarningFrom.dealTime" style="width:150px"></el-input>
+      </el-form-item>
+    </el-form>
+    <div style="text-align: right">
+      <span v-if="isDeal == false" style="margin-right: 100px" >
+        <el-button @click="dataFormCancel()">取消</el-button>
+        <el-button type="primary" @click="updateWarning()">确定</el-button>
+      </span>
+    </div>
+    <div class="demonstration">
+      <el-slider range
+                 :step="10"
+                 show-stops v-model="slidervalue"></el-slider>
+    </div>
+    <div style="text-align: left">
+      <font size="4" color="#17b3a3">设备详细信息</font>
+    </div>
+    <el-form :inline="true" :model="dataForm"  ref="dataForm"  label-width="150px">
+      <el-form-item label="设备名称：" >
+        <el-input v-model="dataForm.equipmentName" readonly="readonly" placeholder="输入设备名称" ></el-input>
+      </el-form-item>
+      <el-form-item label="选择分类：" >
+        <el-input v-model="dataForm.belongTypename"  :readonly="true" class="menu-list__input">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="数量(件)：" >
+        <el-input v-model="dataForm.equipmentNum" readonly="readonly"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-form :inline="true"  ref="dataForm" :model="dataForm" label-width="150px">
+      <el-form-item label="设备位置：" >
+        <el-input v-model="dataForm.locationName" readonly="readonly" style="width:535px"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-form label-width="150px" ref="dataForm" :model="dataForm">
+      <el-form-item label="设备编码：">
+        <el-input v-model="dataForm.equipmentId" readonly="readonly" style="width:535px"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-form :inline="true" label-width="150px"  ref="dataForm" :model="dataForm">
+      <el-form-item label="小区：">
+        <el-input v-model="dataForm.community" readonly="readonly" ></el-input>
+      </el-form-item>
+      <el-form-item label="单元：">
+        <el-input v-model="dataForm.unit" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="楼层：">
+        <el-input v-model="dataForm.floor" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="楼道：">
+        <el-input v-model="dataForm.corridor" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="房间号">
+        <el-input v-model="dataForm.roomNumber" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="管理员：" >
+        <el-input v-model="dataForm.administrator" readonly="readonly"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话：">
+        <el-input v-model="dataForm.phone" readonly="readonly"></el-input>
+      </el-form-item>
+    </el-form>
   </el-dialog>
 </template>
 
 <script>
-  import { treeDataTranslate } from '@/utils'
   export default {
     data () {
       return {
         visible: false,
-        choesLocation: '',
-        oldequipmentId:'',
+        isDeal:false,
+        slidervalue:[50,50],
         dataForm: {
           equipmentId: '',
           equipmentName: '',
@@ -131,190 +150,77 @@
           remark:'',
           gmtCreate:''
         },
-        locationList: [
-          {
-            locationId: '',
-            locationName: '',
-            province: '',
-            city: '',
-            citycode: '',
-            district: '',
-            adcode: '',
-            street: '',
-            streetNumber: '',
-            lat: '',
-            lng: '',
-            status: '',
-            gmtCreate: ''
-          }
-        ],
-        dataListLoading: false,
-        menuList: [],
-        menuListTreeProps: {
-          label: 'typeName',
-          children: 'children'
+        WarningFrom:{
+          recordId:'',
+          equipmentId:'',
+          equipmentName:'',
+          warningOperator:'', //报修人
+          warningReason:'', //报修原因
+          operatorStatus:'',//操作项
+          warningTime:'',
+          status:'',
+          dealOperator:'', //处理人
+          dealTime:'', //处理时间
+          dealPlan:'' //处理方案
         },
-        typeForm: {
-          categoryId: '',
-          typeName: '',
-          typePid: '',
-          typePname: '',
-          typeId: ''
-        },
-        districtList: [],
         dataRules:{
-          equipmentName :[
-            {required: true, message: '设备名称不能为空', trigger: 'blur' }
+          dealPlan :[
+            {required: true, message: '处理方案不能为空', trigger: 'blur' }
           ],
-          belongTypename :[
-            {required: true, message: '设备所属分类不能为空', trigger: 'blur' }
-          ],
-          equipmentNum :[
-            {required: true, message: '设备数量不能为空', trigger: 'blur' }
-          ],
-          district :[
-            {required: true, message: '设备所属区县不能为空', trigger: 'blur' }
-          ],
-          locationName :[
-            {required: true, message: '设备位置不能为空', trigger: 'blur' }
-          ],
-          equipmentId :[
-            {required: true, message: '设备编码不能为空', trigger: 'blur' }
-          ],
-          administrator :[
-            {required: true, message: '管理员姓名不能为空', trigger: 'blur' }
-          ],
-          phone :[
-            {required: true, message: '管理员电话不能为空', trigger: 'blur' }
-          ],
+          dealOperator :[
+            {required: true, message: '处理人不能为空', trigger: 'change' }
+          ]
         }
       }
     },
     methods: {
-      init (dataForm) {
-        this.gettypelist()
-        this.getDistrictList()
-        this.dataForm = dataForm
-        this.oldequipmentId = dataForm.equipmentId
-        this.visible = true
-      },
-      gettypelist () {
+      init (dataForm,equipmentId,isDeal) {
+        this.WarningFrom = dataForm
+        this.isDeal = isDeal
         this.$http({
-          url: this.$http.adornUrl('/category/list'),
+          url: this.$http.adornUrl(`/equipment/info/${equipmentId}`),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          this.menuList = treeDataTranslate(data.page.list, 'typeId' ,'typePid')
+          this.dataForm = data.cfEquipment
+          this.visible = true
         })
-      },
-      // 菜单树选中
-      menuListTreeCurrentChangeHandle (data, node) {
-        this.typeForm.categoryId = data.typeId
-        this.typeForm.typeName = data.typeName
-        console.log("选中的id = "+this.typeForm.categoryId )
-        console.log("选择的名称 = "+this.typeForm.typeName)
-        this.dataForm.belongTypeid = data.typeId
-        this.dataForm.belongTypename = data.typeName
-      },
-
-      getDistrictList(){
-        this.dataListLoading = true;
-        this.$http({
-          url:this.$http.adornUrl('/location/districtList'),
-          method: 'get',
-          params:this.$http.adornParams({
-            citycode:"028"
-          })
-        }).then( ({data}) =>{
-          this.districtList = data.page
-        })
-      },
-      getlocationList(district){
-        this.dataListLoading = true;
-        this.$http({
-          url:this.$http.adornUrl('/location/locationList'),
-          method: 'get',
-          params:this.$http.adornParams({
-            district:district
-          })
-        }).then(({data}) => {
-          this.locationList = data.page
-        })
-      },
-      setlocaltionInfor(){
-        let obj = {
-          locationId: '',
-          locationName: '',
-          province: '',
-          city: '',
-          citycode: '',
-          district: '',
-          adcode: '',
-          street: '',
-          streetNumber: '',
-          lat: '',
-          lng: '',
-          status: '',
-          gmtCreate: ''
-        }
-        var index = this.locationList.findIndex((item)=>{
-          //根据item中的id属性来判断这个item是否是上面id中
-          //对应的数据，如果是返回一个true ,否返回false,继续下面的一条数据的遍历，以此类推
-          return (item.locationName == this.dataForm.locationName); //如果返回true，那么findIndex方法会将这个item对应的id返回到外面接受
-        });
-        console.log("选中的位置id = "+this.locationList[index].locationId )
-        this.dataForm.localtionId = this.locationList[index].locationId;
-        console.log("选中的位置id = "+this.dataForm.localtionId )
-        console.log("选择的位置名称 = "+this.dataForm.locationName)
-      },
-      getequipmentId(){
-        if (this.dataForm.belongTypeid == null || this.dataForm.belongTypeid ===''){
-          this.$message.error("请选择设备所属分类")
-          return;
-        }else if(this.dataForm.localtionId == null ||this.dataForm.localtionId === ''){
-          this.$message.error("请选择设备所属位置")
-          return;
-        }else {
-          var id = 'EQ-'+this.dataForm.belongTypeid+'-'+this.dataForm.localtionId+'-'+this.getUUID()
-          this.dataForm.equipmentId = (id.toUpperCase()).replace("\.","-")
-        }
-      },
-      getUUID(){
-        return (((1 + Math.random()) * 1000000)).toString(16);
       },
       dataFormClear () {
         this.dataForm = {}
-        this.oldequipmentId =''
       },
       dataFormCancel () {
         this.dataFormClear()
         this.visible = false
       },
-      updateall(){
-        let self = this
-        this.$http({
-          url:this.$http.adornUrl(`/equipment/updatebyid`),
-          method: 'post',
-          params:this.$http.adornParams({
-            equipment:self.dataForm,
-            id:self.oldequipmentId
-          })
-        }).then( ({data}) => {
-          if (data && data.code === 0) {
-            self.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                self.visible = false
-                self.dataFormCancel()
-                self.$emit('refreshDataList')
-              }
-            })
-          } else {
-            this.$message.error(data.msg)
+      updateWarning(){
+        this.$refs['WarningFrom'].validate((valid)=>{
+          if (valid) {
+              this.$http({
+                url: this.$http.adornUrl('/report/dealwarning'),
+                method:'post',
+                data: this.$http.adornData({
+                  recordId:this.WarningFrom.recordId,
+                  dealOperator:this.WarningFrom.dealOperator,
+                  dealPlan:this.WarningFrom.dealPlan,
+                  status:this.WarningFrom.status
+                })
+              }).then(({data})=>{
+                if (data && data.code === 0) {
+                  this.$message({
+                    message: '操作成功',
+                    type: 'success',
+                    duration: 1500,
+                    onClose: () => {
+                      this.dataFormCancel()
+                      this.$emit('refreshDataList')
+                    }
+                  })
+                } else {
+                  this.$message.error(data.msg)
+                }
+              })
           }
-
         })
       }
     }

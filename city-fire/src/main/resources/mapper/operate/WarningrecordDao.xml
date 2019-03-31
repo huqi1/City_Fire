@@ -19,4 +19,16 @@
     </resultMap>
 
 
+    <update id="dealWarning">
+      update cf_warningrecord
+       <set>
+           deal_operator = #{warningrecord.dealOperator},
+           deal_time = #{warningrecord.dealTime},
+           deal_plan = #{warningrecord.dealPlan},
+           status = #{warningrecord.status}
+      </set>
+        <where>
+            record_id = #{warningrecord.recordId}
+        </where>
+    </update>
 </mapper>

@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 public interface EquipmentDao extends BaseMapper<EquipmentEntity> {
 
-    public void updateAllByid(@Param("equipment") EquipmentEntity equipmentEntity,@Param("id") String id);
+    void updateAllByid(@Param("equipment") EquipmentEntity equipmentEntity, @Param("id") String id);
 
     List<String> selectAllType();
 

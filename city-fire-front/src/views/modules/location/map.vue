@@ -55,6 +55,11 @@
               lat:''
             }
           }],
+          // 地图搜索
+          searchOption: {
+            city: '成都',
+            citylimit: true
+          },
           neighborhoodType:'',
           neighborhood:'',
           building:'',
@@ -74,11 +79,6 @@
         lng: 0,
         lat: 0,
         loaded: false,
-        // 地图搜索
-        searchOption: {
-          city: '成都',
-          citylimit: true
-        },
         plugin: [{
           pName: 'Geolocation',
           events: {
@@ -91,10 +91,10 @@
                   self.locationinfor = result.formattedAddress;
                   self.choesLocation = result.formattedAddress;
                   self.dataForm = JSON.parse(JSON.stringify(result.addressComponent, null, 4));
-                  self.searchOption.city = self.dataForm.city;
                   //businessAreas可能为null
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
+                  self.searchOption.city = self.dataForm.city
                   self.center = [self.lng, self.lat];
                   let marker = [self.lng, self.lat];
                   self.markers = [{

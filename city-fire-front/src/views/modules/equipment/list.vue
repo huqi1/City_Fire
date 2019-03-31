@@ -76,8 +76,7 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.equipmentStatus == 0" size="medium" type="success">正常</el-tag>
           <el-tag v-if="scope.row.equipmentStatus == 1" size="medium" type="warning">报修</el-tag>
-          <el-tag v-if="scope.row.equipmentStatus == 2" size="medium" type="warning">检修</el-tag>
-          <el-tag v-if="scope.row.equipmentStatus == 3" size="medium" type="danger">报废</el-tag>
+          <el-tag v-if="scope.row.equipmentStatus == 2" size="medium" type="danger">报废</el-tag>
         </template>
       </el-table-column>
       <el-table-column

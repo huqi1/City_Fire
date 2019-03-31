@@ -15,5 +15,6 @@ import java.util.Map;
 public interface WarningrecordService extends IService<WarningrecordEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    void dealWarning(WarningrecordEntity warningrecordEntity);
 }
 

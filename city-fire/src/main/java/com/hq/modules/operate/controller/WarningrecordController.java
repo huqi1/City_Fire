@@ -33,6 +33,8 @@ public class WarningrecordController {
     @RequestMapping("/list")
     @RequiresPermissions("operate:warningrecord:list")
     public R list(@RequestParam Map<String, Object> params){
+        params.put("sidx","warning_time");
+        params.put("order","DESC");
         PageUtils page = warningrecordService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -57,6 +59,7 @@ public class WarningrecordController {
     @RequiresPermissions("operate:warningrecord:save")
     public R save(@RequestBody WarningrecordEntity cfWarningrecord){
         cfWarningrecord.setWarningTime(new Date());
+        cfWarningrecord.setStatus(1);
         warningrecordService.insert(cfWarningrecord);
         equipmentService.updateStatusByid(cfWarningrecord.getOperatorStatus(),cfWarningrecord.getEquipmentId());
         return R.ok();
@@ -69,11 +72,23 @@ public class WarningrecordController {
     @RequiresPermissions("operate:warningrecord:update")
     public R update(@RequestBody WarningrecordEntity cfWarningrecord){
         ValidatorUtils.validateEntity(cfWarningrecord);
+        cfWarningrecord.setDealTime(new Date());
         warningrecordService.updateAllColumnById(cfWarningrecord);//全部更新
-        
+
         return R.ok();
     }
 
+    /**
+     * 处理报警
+     */
+    @RequestMapping("/dealwarning")
+    @RequiresPermissions("operate:warningrecord:update")
+    public R dealwarning(@RequestBody WarningrecordEntity cfWarningrecord){
+        ValidatorUtils.validateEntity(cfWarningrecord);
+        cfWarningrecord.setDealTime(new Date());
+        warningrecordService.dealWarning(cfWarningrecord);
+        return R.ok();
+    }
     /**
      * 删除
      */

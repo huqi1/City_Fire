@@ -25,10 +25,10 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentDao, EquipmentEnt
         String community = (String) params.get("community");
         Page<EquipmentEntity> page = this.selectPage(
                 new Query<EquipmentEntity>(params).getPage(),
-                new EntityWrapper<EquipmentEntity>()
-                        .where(StringUtils.isNotBlank(belongTypeName),"belong_typename = {0}",belongTypeName)
+                new EntityWrapper<EquipmentEntity>().where("1 = 1")
+                        .and(StringUtils.isNotBlank(belongTypeName),"belong_typename = {0}",belongTypeName)
                 .and(StringUtils.isNotBlank(community),"community = {0}",community)
-                .like(StringUtils.isNotBlank(equipmentName),"equipment_name = {0}",equipmentName)
+                .like(StringUtils.isNotBlank(equipmentName),"equipment_name ",equipmentName)
         );
 
         return new PageUtils(page);
