@@ -54,7 +54,7 @@ public class LocationController {
     }
 
     /**
-     * 列表
+     * 导出
      */
     @RequestMapping("/export")
     @RequiresPermissions("operate:location:list")

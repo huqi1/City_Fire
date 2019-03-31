@@ -29,10 +29,10 @@
         <el-button @click="getDataList()" type="primary">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()" type="primary">导出本页</el-button>
+        <el-button @click="exportdata('','','当前页')" type="primary">导出本页</el-button>
       </el-form-item>
       <el-form-item style="padding-right: 0px">
-        <el-button @click="getDataList()" type="primary">导出所有</el-button>
+        <el-button @click="exportdata(1,20,'所有页')" type="primary">导出所有</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -206,6 +206,44 @@
           this.dataList = data.page.list
           this.dataListLoading = false
           this.totalPage = data.page.totalCount
+        })
+      },
+      // 获取数据列表
+      exportdata (page,limit,exportFlag) {
+        this.dataListLoading = true
+        var FileName = ""
+        if(exportFlag =='所有页'){
+          FileName = "所有设备信息-";
+        }else{
+          FileName = "当前页设备信息-"
+          page = this.pageIndex
+          limit = this.pageSize
+        }
+        FileName = FileName+new Date().getTime()+".xlsx"
+        this.$http({
+          url: this.$http.adornUrl('/equipment/export'),
+          method: 'get',
+          params: this.$http.adornParams({
+            'page': page,
+            'limit': limit,
+            'equipmentName':this.searchData.equipmentName,
+            'belongTypeName':this.searchData.belongTypeName,
+            'community':this.searchData.community
+          }),
+          responseType: 'blob' // 这一步也很关键，一定要加上 responseType 值为 blob
+        }).then(({data}) => {
+          if (!data) {
+            return
+          }
+          let url = window.URL.createObjectURL(new Blob([data]))
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+
+          // download 属性定义了下载链接的地址而不是跳转路径
+          link.setAttribute('download', FileName)
+          document.body.appendChild(link)
+          link.click()
         })
       },
       showinfor(equipmentId){

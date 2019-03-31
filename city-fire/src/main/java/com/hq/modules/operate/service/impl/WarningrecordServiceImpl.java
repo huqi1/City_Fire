@@ -26,7 +26,7 @@ public class WarningrecordServiceImpl extends ServiceImpl<WarningrecordDao, Warn
         Page<WarningrecordEntity> page = this.selectPage(
                 new Query<WarningrecordEntity>(params).getPage(),
                 new EntityWrapper<WarningrecordEntity>().where("1 = 1")
-                            .and(StringUtils.isNotBlank(status),"status = {0}",status)
+                            .and(StringUtils.isNotBlank(operatorStatus),"operator_status = {0}",operatorStatus)
                          .and(StringUtils.isNotBlank(status),"status = {0}",status)
                         .like(StringUtils.isNotBlank(equipmentName),"equipment_name",equipmentName)
             );
