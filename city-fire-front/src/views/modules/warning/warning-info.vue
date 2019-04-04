@@ -150,6 +150,14 @@
           remark:'',
           gmtCreate:''
         },
+        dealStatusList:[{
+          key:0,
+          value:"已解决"
+        },
+          {
+            key:1,
+            value:"未解决"
+          }],
         WarningFrom:{
           recordId:'',
           equipmentId:'',

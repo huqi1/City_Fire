@@ -55,11 +55,6 @@
               lat:''
             }
           }],
-          // 地图搜索
-          searchOption: {
-            city: '成都',
-            citylimit: true
-          },
           neighborhoodType:'',
           neighborhood:'',
           building:'',
@@ -70,6 +65,11 @@
           district:'',
           street:'',
           streetNumber:''
+        },
+        // 地图搜索
+        searchOption: {
+          city: '成都',
+          citylimit: true
         },
         addLocationVisible: false,
         //地图
