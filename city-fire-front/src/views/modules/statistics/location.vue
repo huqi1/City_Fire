@@ -64,13 +64,13 @@
       },
       // 饼状图
       initChartPie () {
-        var option = {
-          title: {
-            text: '覆盖小区统计',
-            subtext: '按成都市已覆盖区统计',
-            left: 'center',
-            top: 20
-          },
+  var option = {
+    title: {
+      text: '覆盖小区统计',
+      subtext: '按成都市已覆盖区统计',
+      left: 'center',
+      top: 20
+    },
           //提示主键框
           tooltip: {
             trigger: 'item',
