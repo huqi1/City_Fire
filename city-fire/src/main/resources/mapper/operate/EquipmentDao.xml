@@ -75,7 +75,7 @@
         AND
         gmt_create &lt;= #{endDate}
         GROUP BY DATE_FORMAT(gmt_create,'%Y-%m-%d'),community
-        order BY community,gmt_create ASC
+        order BY community,date ASC
     </select>
 
     <update id="updateStatusByid">

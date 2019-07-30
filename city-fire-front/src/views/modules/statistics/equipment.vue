@@ -71,7 +71,7 @@
     mounted () {
       var end = new Date()
       var start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 365)
       var startdate = this.formatDate(start,"yyyy-MM-dd")
       var enddate =  this.formatDate(end,"yyyy-MM-dd")
 
