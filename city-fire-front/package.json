@@ -23,7 +23,7 @@
     "gulp-replace": "0.6.1",
     "gulp-shell": "0.6.5",
     "lodash": "4.17.5",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "svg-sprite-loader": "3.7.3",
     "vue": "2.5.2",
     "vue-amap": "^0.5.8",
