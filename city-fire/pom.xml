@@ -40,7 +40,7 @@
 		<joda.time.version>2.9.9</joda.time.version>
 		<fastjson.version>1.2.47</fastjson.version>
 		<hutool.version>4.1.1</hutool.version>
-		<poi.version>3.9</poi.version>
+		<poi.version>4.1.1</poi.version>
 
 		<!--wagon plugin 配置-->
 		<service-path>/work/cityfire</service-path>
